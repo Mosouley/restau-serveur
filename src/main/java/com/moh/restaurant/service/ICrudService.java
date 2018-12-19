@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.moh.restaurant.service;
 
 import java.util.List;
 

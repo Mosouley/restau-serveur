@@ -1,7 +1,7 @@
 package com.moh.restaurant.service.impl;
 
 
-import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.entities.Client;
 import com.moh.restaurant.service.ICrudService;
 import org.springframework.stereotype.Service;
 
@@ -10,47 +10,49 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class ProduitMockServiceImpl implements ICrudService<Produit, Long> {
+public class ClientMockServiceImpl implements ICrudService<Client, Long> {
 
-	private List<Produit> produits;
-	
-	public ProduitMockServiceImpl(){
-		produits = new ArrayList<Produit>();
+	private List<Client> clients;
+
+	public ClientMockServiceImpl(){
+		clients = new ArrayList<Client>();
 		
-		produits.add(new Produit("Beaufort", 20,100.5f,150.5f));
-		produits.add(new Produit("Beaufort", 20,100.0f,160.0f));
+		clients.add(new Client("client 1", "blabal2", "blabla"));
+		clients.add(new Client("client 2", "blabal2", "blabla"));
+		clients.add(new Client("client 3", "blabal2", "blabla"));
+		clients.add(new Client("client 4", "blabal2", "blabla"));
 	}
 	
 	
 	@Override
-	public List<Produit> getAll() {
-		return produits;
+	public List<Client> getAll() {
+		return clients;
 	}
 
 	@Override
-	public void add(Produit produit) {
-		produits.add(produit);
+	public void add(Client client) {
+		clients.add(client);
 	}
 
 	@Override
-	public void update(Produit produit) {
-		produits.remove(produit);
-		produits.add(produit);
+	public void update(Client client) {
+		clients.remove(client);
+		clients.add(client);
 	}
 
 	@Override
 	public void delete(Long id) {
-		Produit produit = new Produit();
-		produit.setId(id);
-		produits.remove(produit);
+		Client client = new Client();
+		client.setId(id);
+		clients.remove(client);
 	}
 
 
 	@Override
-	public void saveAll(Iterable<Produit> iterable) {
-		Iterator<Produit> iterator = iterable.iterator();
+	public void saveAll(Iterable<Client> iterable) {
+		Iterator<Client> iterator = iterable.iterator();
 		if(iterator.hasNext()) {
-			produits.add(iterator.next());
+			clients.add(iterator.next());
 		}
 	}
 

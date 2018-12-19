@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Primary
-public class ProduitService implements ICrudService<Produit, Long> {
+public class ClientService implements ICrudService<Produit, Long> {
 
 	@Autowired
 	private ProduitRepository produitRepository;

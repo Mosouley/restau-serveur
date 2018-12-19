@@ -1,7 +1,7 @@
 package com.moh.restaurant.service.impl;
 
 
-import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.entities.Fournisseur;
 import com.moh.restaurant.service.ICrudService;
 import org.springframework.stereotype.Service;
 
@@ -10,47 +10,49 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class ProduitMockServiceImpl implements ICrudService<Produit, Long> {
+public class FournisseurMockServiceImpl implements ICrudService<Fournisseur, Long> {
 
-	private List<Produit> produits;
-	
-	public ProduitMockServiceImpl(){
-		produits = new ArrayList<Produit>();
+	private List<Fournisseur> fournisseurs;
+
+	public FournisseurMockServiceImpl(){
+		fournisseurs = new ArrayList<Fournisseur>();
 		
-		produits.add(new Produit("Beaufort", 20,100.5f,150.5f));
-		produits.add(new Produit("Beaufort", 20,100.0f,160.0f));
+		fournisseurs.add(new Fournisseur("Fournisseur 1", "blabal2", "blabla"));
+		fournisseurs.add(new Fournisseur("Fournisseur 2", "blabal2", "blabla"));
+		fournisseurs.add(new Fournisseur("Fournisseur 3", "blabal2", "blabla"));
+		fournisseurs.add(new Fournisseur("Fournisseur 4", "blabal2", "blabla"));
 	}
 	
 	
 	@Override
-	public List<Produit> getAll() {
-		return produits;
+	public List<Fournisseur> getAll() {
+		return fournisseurs;
 	}
 
 	@Override
-	public void add(Produit produit) {
-		produits.add(produit);
+	public void add(Fournisseur Fournisseur) {
+		fournisseurs.add(Fournisseur);
 	}
 
 	@Override
-	public void update(Produit produit) {
-		produits.remove(produit);
-		produits.add(produit);
+	public void update(Fournisseur Fournisseur) {
+		fournisseurs.remove(Fournisseur);
+		fournisseurs.add(Fournisseur);
 	}
 
 	@Override
 	public void delete(Long id) {
-		Produit produit = new Produit();
-		produit.setId(id);
-		produits.remove(produit);
+		Fournisseur fournisseur = new Fournisseur();
+		fournisseur.setId(id);
+		fournisseurs.remove(fournisseur);
 	}
 
 
 	@Override
-	public void saveAll(Iterable<Produit> iterable) {
-		Iterator<Produit> iterator = iterable.iterator();
+	public void saveAll(Iterable<Fournisseur> iterable) {
+		Iterator<Fournisseur> iterator = iterable.iterator();
 		if(iterator.hasNext()) {
-			produits.add(iterator.next());
+			fournisseurs.add(iterator.next());
 		}
 	}
 

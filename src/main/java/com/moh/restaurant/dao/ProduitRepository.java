@@ -1,11 +1,11 @@
-package com.example.demo.repository;
+package com.moh.restaurant.dao;
 
+
+import com.moh.restaurant.entities.Produit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.Produit;
-
 @Repository
-public interface ProduitRepository extends JpaRepository<Produit, Long>{
+public interface ProduitRepository extends JpaRepository<Produit, Long> {
 
 }

@@ -1,18 +1,18 @@
-package com.example.demo.service.impl;
+package com.moh.restaurant.service.impl;
 
-import java.util.List;
 
+import com.moh.restaurant.dao.ProduitRepository;
+import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.service.ICrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Produit;
-import com.example.demo.repository.ProduitRepository;
-import com.example.demo.service.ICrudService;
+import java.util.List;
 
 @Service
 @Primary
-public class ProduitService implements ICrudService<Produit, Long>{
+public class ProduitService implements ICrudService<Produit, Long> {
 
 	@Autowired
 	private ProduitRepository produitRepository;

@@ -1,56 +1,58 @@
 package com.moh.restaurant.service.impl;
 
-
-import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.entities.Transaction;
 import com.moh.restaurant.service.ICrudService;
+import com.moh.restaurant.util.TransactType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class ProduitMockServiceImpl implements ICrudService<Produit, Long> {
+public class TransactionMockServiceImpl implements ICrudService<Transaction, Long> {
 
-	private List<Produit> produits;
-	
-	public ProduitMockServiceImpl(){
-		produits = new ArrayList<Produit>();
+	private List<Transaction> transactions;
+
+	public TransactionMockServiceImpl(){
+		transactions = new ArrayList<Transaction>();
 		
-		produits.add(new Produit("Beaufort", 20,100.5f,150.5f));
-		produits.add(new Produit("Beaufort", 20,100.0f,160.0f));
+		transactions.add(new Transaction(LocalDate.now(),"Description",TransactType.TYPE_IN,160.0f));
+		transactions.add(new Transaction(LocalDate.now(),"Description1",TransactType.TYPE_OUT,160.0f));
+		transactions.add(new Transaction(LocalDate.now(),"Description2",TransactType.TYPE_DEVIS,150.0f));
 	}
 	
 	
 	@Override
-	public List<Produit> getAll() {
-		return produits;
+	public List<Transaction> getAll() {
+		return transactions;
 	}
 
 	@Override
-	public void add(Produit produit) {
-		produits.add(produit);
+	public void add(Transaction transaction) {
+		transactions.add(transaction);
 	}
 
 	@Override
-	public void update(Produit produit) {
-		produits.remove(produit);
-		produits.add(produit);
+	public void update(Transaction transaction) {
+		transactions.remove(transaction);
+		transactions.add(transaction);
 	}
 
 	@Override
 	public void delete(Long id) {
-		Produit produit = new Produit();
-		produit.setId(id);
-		produits.remove(produit);
+		Transaction transaction = new Transaction();
+		transaction.setId(id);
+		transactions.remove(transaction);
 	}
 
 
 	@Override
-	public void saveAll(Iterable<Produit> iterable) {
-		Iterator<Produit> iterator = iterable.iterator();
+	public void saveAll(Iterable<Transaction> iterable) {
+		Iterator<Transaction> iterator = iterable.iterator();
 		if(iterator.hasNext()) {
-			produits.add(iterator.next());
+			transactions.add(iterator.next());
 		}
 	}
 
