@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    Transaction findByType(String transactType);
+    Transaction findByTransactType(String transactType);
 }

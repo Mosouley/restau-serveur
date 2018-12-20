@@ -1,8 +1,8 @@
 package com.moh.restaurant.service.impl;
 
 
-import com.moh.restaurant.dao.ProduitRepository;
-import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.dao.TransactionRepository;
+import com.moh.restaurant.entities.Transaction;
 import com.moh.restaurant.service.ICrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -10,38 +10,41 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
-@Primary
-public class TransactionService implements ICrudService<Produit, Long> {
+// @Primary
+@Transactional
+public class TransactionService implements ICrudService<Transaction, Long> {
 
 	@Autowired
-	private ProduitRepository produitRepository;
+	private TransactionRepository transactionRepository;
 	
 	@Override
-	public List<Produit> getAll() {
-		return produitRepository.findAll();
+	public List<Transaction> getAll() {
+		return transactionRepository.findAll();
 	}
 
 	@Override
-	public void add(Produit produit) {
-		produitRepository.save(produit);
+	public void add(Transaction transaction) {
+		transactionRepository.save(transaction);
 	}
 
 	@Override
-	public void update(Produit produit) {
-		produitRepository.save(produit);
+	public void update(Transaction transaction) {
+		transactionRepository.save(transaction);
 	}
 
 	@Override
 	public void delete(Long id) {
-		Produit produit = new Produit();
-		produit.setId(id);
-		produitRepository.delete(produit);
+		Transaction transaction = new Transaction();
+		transaction.setId(id);
+		transactionRepository.delete(transaction);
 	}
 	
 	@Override
-	public void saveAll(Iterable<Produit> iterable) {
-		produitRepository.saveAll(iterable);	
+	public void saveAll(Iterable<Transaction> iterable) {
+		transactionRepository.saveAll(iterable);	
 	}
 
 }

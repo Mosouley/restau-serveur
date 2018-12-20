@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/produit")
-public class ProduitContoller<Produit> extends CrudUserController<Produit, Long>{
+public class ProduitContoller<Produit> extends CrudController<Produit, Long>{
 
 }

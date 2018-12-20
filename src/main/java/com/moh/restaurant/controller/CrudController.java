@@ -1,6 +1,10 @@
-package com.example.demo.controller;
+package com.moh.restaurant.controller;
 
 import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.moh.restaurant.service.ICrudService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.example.demo.service.ICrudService;
+
 
 public class CrudController<T, ID> {
 

@@ -3,13 +3,19 @@ package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.entities.Fournisseur;
 import com.moh.restaurant.service.ICrudService;
+
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
+// @Primary
+@Transactional
 public class FournisseurMockServiceImpl implements ICrudService<Fournisseur, Long> {
 
 	private List<Fournisseur> fournisseurs;

@@ -3,6 +3,8 @@ package com.moh.restaurant.service.impl;
 import com.moh.restaurant.entities.Transaction;
 import com.moh.restaurant.service.ICrudService;
 import com.moh.restaurant.util.TransactType;
+
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -10,7 +12,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
+// @Primary
+@Transactional
 public class TransactionMockServiceImpl implements ICrudService<Transaction, Long> {
 
 	private List<Transaction> transactions;

@@ -1,31 +1,57 @@
 package com.moh.restaurant.entities;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 
-import com.moh.restaurant.util.RoleEnum;
 
 @Entity
 public class Role {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ROLE_ID")
+	@Column(name="role_id")
 	private Long id;
 	
 	private String name;
+	@ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
+ 
+    @ManyToMany
+    @JoinTable(
+        name = "roles_privileges", 
+        joinColumns = @JoinColumn(
+          name = "role_id"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "privilege_id"))
+    private Collection<Privilege> privileges;
 
 	public Role() {
-		super();
-		// TODO Auto-generated constructor stub
+		
+	}
+	/**
+	 * @return the privileges
+	 */
+	public Collection<Privilege> getPrivileges() {
+		return privileges;
+	}
+	/**
+	 * @param privileges the privileges to set
+	 */
+	public void setPrivileges(Collection<Privilege> privileges) {
+		this.privileges = privileges;
 	}
 
-	public Role(RoleEnum role) {
+	public Role(String name) {
 		super();
-		this.name = role.getName();
+		this.name = name;
 	}
 
 	@Override

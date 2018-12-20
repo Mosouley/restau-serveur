@@ -3,6 +3,8 @@ package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.entities.Produit;
 import com.moh.restaurant.service.ICrudService;
+
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@Primary
 public class ProduitMockServiceImpl implements ICrudService<Produit, Long> {
 
 	private List<Produit> produits;

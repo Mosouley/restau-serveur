@@ -3,6 +3,7 @@ package com.moh.restaurant.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import com.moh.restaurant.dao.RoleRepository;
 import com.moh.restaurant.entities.Role;
 import com.moh.restaurant.entities.User;
 
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CrudUserController extends CrudController<User, Long> {
 		
 	@Autowired
-	private Repository roleRepository;
+	private RoleRepository roleRepository;
 	
 	public List<User> getAll() {
 		List<User> users = super.getAll();
@@ -27,7 +28,7 @@ public class CrudUserController extends CrudController<User, Long> {
 	}
 	
 	public void add(@RequestBody User user) {
-		Role role = roleRepository.findByName(RoleEnum.ROLE_USER.getName());
+		Role role = roleRepository.findByName("ROLE_USER");
 		user.setRoles(Arrays.asList(role));
 		user.setEnable(true);
 		super.add(user);

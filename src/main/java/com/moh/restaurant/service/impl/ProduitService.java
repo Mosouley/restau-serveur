@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
-@Primary
+// @Primary
+@Transactional
 public class ProduitService implements ICrudService<Produit, Long> {
 
 	@Autowired
