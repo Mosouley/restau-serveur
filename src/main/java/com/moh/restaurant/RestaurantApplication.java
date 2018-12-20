@@ -21,6 +21,7 @@ import com.moh.restaurant.entities.Produit;
 import com.moh.restaurant.entities.Role;
 import com.moh.restaurant.entities.Transaction;
 import com.moh.restaurant.entities.User;
+import com.moh.restaurant.service.impl.UserService;
 import com.moh.restaurant.util.TransactType;
 
 import org.slf4j.Logger;
@@ -109,6 +110,9 @@ public class RestaurantApplication {
   
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserService service;
   
     @Override
     @Transactional
@@ -127,6 +131,8 @@ public class RestaurantApplication {
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
  
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+       
+       
         User user = new User();
         user.setUsername("Admin");
         user.setLastName("System");
@@ -134,7 +140,11 @@ public class RestaurantApplication {
         user.setEmail("test@test.com");
         user.setRoles(Arrays.asList(adminRole));
         user.setEnable(true);
-        userRepository.save(user);
+
+         if (userNameExist(user.getUsername())) {
+            return;
+        }
+         userRepository.save(user);
  
         alreadySetup = true;
     }
@@ -162,7 +172,13 @@ public class RestaurantApplication {
         }
         return role;
     }
+
+
+    private boolean userNameExist(final String userName) {
+        return userRepository.findByUsername(userName) != null;
+	}
 }
+
 
 
 }
