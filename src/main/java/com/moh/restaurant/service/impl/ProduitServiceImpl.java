@@ -13,15 +13,15 @@ import java.util.List;
 
 @Service
 @Primary
-public class ProduitMockServiceImpl implements ICrudService<Produit, Long> {
+public class ProduitServiceImpl implements ICrudService<Produit, Long> {
 
 	private List<Produit> produits;
 	
-	public ProduitMockServiceImpl(){
-		produits = new ArrayList<Produit>();
-		
-		produits.add(new Produit("Beaufort", 20,100.5f,150.5f));
-		produits.add(new Produit("Beaufort", 20,100.0f,160.0f));
+	public ProduitServiceImpl(){
+//		produits = new ArrayList<Produit>();
+//
+//		produits.add(new Produit("Beaufort", 20,100.5f,150.5f));
+//		produits.add(new Produit("Beaufort", 20,100.0f,160.0f));
 	}
 	
 	

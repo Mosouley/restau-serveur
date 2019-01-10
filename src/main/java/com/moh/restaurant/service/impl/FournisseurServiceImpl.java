@@ -16,17 +16,17 @@ import javax.transaction.Transactional;
 @Service
 // @Primary
 @Transactional
-public class FournisseurMockServiceImpl implements ICrudService<Fournisseur, Long> {
+public class FournisseurServiceImpl implements ICrudService<Fournisseur, Long> {
 
 	private List<Fournisseur> fournisseurs;
 
-	public FournisseurMockServiceImpl(){
-		fournisseurs = new ArrayList<Fournisseur>();
-		
-		fournisseurs.add(new Fournisseur("Fournisseur 1", "blabal2", "blabla"));
-		fournisseurs.add(new Fournisseur("Fournisseur 2", "blabal2", "blabla"));
-		fournisseurs.add(new Fournisseur("Fournisseur 3", "blabal2", "blabla"));
-		fournisseurs.add(new Fournisseur("Fournisseur 4", "blabal2", "blabla"));
+	public FournisseurServiceImpl(){
+//		fournisseurs = new ArrayList<Fournisseur>();
+//
+//		fournisseurs.add(new Fournisseur("Fournisseur 1", "blabal2", "blabla"));
+//		fournisseurs.add(new Fournisseur("Fournisseur 2", "blabal2", "blabla"));
+//		fournisseurs.add(new Fournisseur("Fournisseur 3", "blabal2", "blabla"));
+//		fournisseurs.add(new Fournisseur("Fournisseur 4", "blabal2", "blabla"));
 	}
 	
 	

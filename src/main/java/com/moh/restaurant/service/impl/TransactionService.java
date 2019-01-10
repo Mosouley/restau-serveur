@@ -37,9 +37,7 @@ public class TransactionService implements ICrudService<Transaction, Long> {
 
 	@Override
 	public void delete(Long id) {
-		Transaction transaction = new Transaction();
-		transaction.setId(id);
-		transactionRepository.delete(transaction);
+		transactionRepository.deleteById(id);
 	}
 	
 	@Override

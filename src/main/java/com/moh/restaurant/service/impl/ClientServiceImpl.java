@@ -10,17 +10,17 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class ClientMockServiceImpl implements ICrudService<Client, Long> {
+public class ClientServiceImpl implements ICrudService<Client, Long> {
 
 	private List<Client> clients;
 
-	public ClientMockServiceImpl(){
-		clients = new ArrayList<Client>();
-		
-		clients.add(new Client("client 1", "blabal2", "blabla"));
-		clients.add(new Client("client 2", "blabal2", "blabla"));
-		clients.add(new Client("client 3", "blabal2", "blabla"));
-		clients.add(new Client("client 4", "blabal2", "blabla"));
+	public ClientServiceImpl(){
+//		clients = new ArrayList<Client>();
+//
+//		clients.add(new Client("client 1", "blabal2", "blabla"));
+//		clients.add(new Client("client 2", "blabal2", "blabla"));
+//		clients.add(new Client("client 3", "blabal2", "blabla"));
+//		clients.add(new Client("client 4", "blabal2", "blabla"));
 	}
 	
 	

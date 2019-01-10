@@ -7,7 +7,6 @@ import com.moh.restaurant.entities.User;
 import com.moh.restaurant.error.UserAlreadyExistException;
 import com.moh.restaurant.service.ICrudService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 @Service
-// @Primary
+//@Primary
 @Transactional
 public class UserService implements ICrudService<User, Long> {
 
@@ -62,9 +61,7 @@ public class UserService implements ICrudService<User, Long> {
 
 	@Override
 	public void delete(Long id) {
-		User user = new User();
-		user.setId(id);
-		userRepository.delete(user);
+		userRepository.deleteById(id);
 	}
 
 	@Override

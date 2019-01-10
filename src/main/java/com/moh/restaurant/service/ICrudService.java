@@ -2,6 +2,7 @@ package com.moh.restaurant.service;
 
 import java.util.List;
 
+
 public interface ICrudService<T, ID> {
 
 	List<T> getAll();

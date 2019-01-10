@@ -1,6 +1,4 @@
 package com.moh.restaurant.security;
-
-
 import com.moh.restaurant.dao.RoleRepository;
 import com.moh.restaurant.dao.UserRepository;
 import com.moh.restaurant.entities.Privilege;
@@ -39,23 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		User user = userRepository.findByUsername(username);
-		
-		boolean accountNonExpired = true; 
-		boolean credentialsNonExpired = true; 
-		boolean accountNonLocked = true;
-		
-		// UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-		// 		username, 
-		// 		user.getPassword(), 
-		// 		user.isEnable(), 
-		// 		accountNonExpired, 
-		// 		credentialsNonExpired, 
-		// 		accountNonLocked, 
-		// 		getAuthorities(Arrays.asList(
-		// 			roleRepository.findByName("ROLE_USER")
-		// 		)));
-		
-		// return userDetails;
+
 		if (user == null) {
             return new org.springframework.security.core.userdetails.User(
               " ", " ", true, true, true, true, 
@@ -68,14 +50,6 @@ public class CustomUserDetailsService implements UserDetailsService {
           true, getAuthorities(user.getRoles()));
 	}
 	
-	// private Collection<? extends GrantedAuthority> getAuthorities(List<Role> roles) {
-	// 	Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-	// 	for (Role role: roles) {
-	// 		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
-	// 		grantedAuthorities.add(grantedAuthority);
-	// 	}
-	// 	return grantedAuthorities;
-	// }
 
 	private Collection<? extends GrantedAuthority> getAuthorities(
       Collection<Role> roles) {

@@ -1,11 +1,7 @@
 package com.moh.restaurant.controller;
 
 import java.util.List;
-
-import javax.annotation.Resource;
-
 import com.moh.restaurant.service.ICrudService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class CrudController<T, ID> {
 
+
 	@Autowired
 	private ICrudService<T, ID> service;
-	
+
 	@GetMapping
 	public List<T> getAll(){
 		return service.getAll();

@@ -29,8 +29,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.SecurityDataConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -72,27 +75,7 @@ public class RestaurantApplication {
 		produitRepository.save(new Produit("Beaufort", 20,100.5f,150.5f));
 		produitRepository.save(new Produit("Beaufort", 20,100.0f,160.0f));
 
-	// 	Role roleUser = new Role(RoleEnum.ROLE_USER);
-	// 	Role roleAdmin = new Role(RoleEnum.ROLE_ADMIN);
-	// 	// if(!roleRepository.findByName(roleUser.getName()).equals(roleUser)){
-	// 			roleRepository.save(roleUser);
-	// 			// log.debug("role found", roleUser.getName());
-	// 	// }
-	// 	// if(!roleRepository.findByName(roleAdmin.getName()).equals(roleAdmin)){
-			
-	// 			roleRepository.save(roleAdmin);
-	// // }
-	
 
-	// 	User user = new User("user", "password1", true);
-	// 	user.setRoles(Arrays.asList(roleUser));
-		
-	// 	userRepository.save(user);
-		
-	// 	User admin = new User("admin", "password2", true);
-	// 	admin.setRoles(Arrays.asList(roleUser, roleAdmin));
-		
-	// 	userRepository.save(admin);
 	}
 	@Component
 	public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -140,15 +123,16 @@ public class RestaurantApplication {
         user.setEmail("test@test.com");
         user.setRoles(Arrays.asList(adminRole));
         user.setEnable(true);
+        user.setTokenExpired(false);
 
          if (userNameExist(user.getUsername())) {
             return;
-        }
-         userRepository.save(user);
- 
-        alreadySetup = true;
-    }
- 
+                }
+                 userRepository.save(user);
+
+                alreadySetup = true;
+            }
+
     @Transactional
     private Privilege createPrivilegeIfNotFound(String name) {
   

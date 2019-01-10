@@ -1,6 +1,5 @@
 package com.moh.restaurant.entities;
 
-import com.moh.restaurant.util.CategorieProduit;
 
 import javax.persistence.*;
 
@@ -19,8 +18,8 @@ public class Produit {
 	@Column
 	private float coutUnitaire;
 
-	@Column
-	private CategorieProduit categorieProd;
+//	@Column
+//	private CategorieProduit categorieProd;
 
 	@Column
 	private float prixUnitaire;
@@ -106,11 +105,5 @@ public class Produit {
 		this.stockMini = stockMini;
 	}
 
-	public CategorieProduit getCategorieProd() {
-		return categorieProd;
-	}
 
-	public void setCategorieProd(CategorieProduit categorieProd) {
-		this.categorieProd = categorieProd;
-	}
 }
