@@ -1,13 +1,13 @@
 package com.moh.restaurant.dao;
 
 
+import com.moh.restaurant.entities.Client;
 import com.moh.restaurant.entities.Produit;
-import com.moh.restaurant.entities.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    Transaction findByTransactType(String transactType);
+    Client findByNameClient(String nameClient);
 }

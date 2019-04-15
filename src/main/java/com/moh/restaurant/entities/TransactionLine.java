@@ -1,6 +1,7 @@
 package com.moh.restaurant.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,23 +15,31 @@ public class Transaction{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-    @Column
+    private String codeTransaction;
+
     private String transactDesc;
-    @Column
+
 	private TransactType transactType;
 
-    @Column
+
 	private LocalDate transDate;
-	@Column
+
 	private float transactAmount;
+
+	@ManyToMany
+	private List<Produit> produits;
+
+	@ManyToOne
+    private User user;
+
 
 
     public Transaction(){
         super();
     }
 
-    public Transaction(LocalDate transDate, String transactDesc, TransactType transactType, float transactAmount){
-
+    public Transaction(String codeTransaction, LocalDate transDate, String transactDesc, TransactType transactType, float transactAmount){
+        this.codeTransaction = codeTransaction;
         this.transDate = transDate;
         this.transactDesc = transactDesc;
         this.transactType = transactType;
@@ -99,5 +108,13 @@ public class Transaction{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCodeTransaction() {
+        return codeTransaction;
+    }
+
+    public void setCodeTransaction(String codeTransaction) {
+        this.codeTransaction = codeTransaction;
     }
 }
