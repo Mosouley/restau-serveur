@@ -1,51 +1,66 @@
 package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.dao.CategoryRepository;
+import com.moh.restaurant.dao.TransactionsRepository;
 import com.moh.restaurant.entities.Category;
+import com.moh.restaurant.entities.Transactions;
 import com.moh.restaurant.service.CategoryService;
+import com.moh.restaurant.service.TransactionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceImpl implements CategoryService {
+import javax.transaction.Transactional;
+import java.util.List;
 
-    private final Logger log = LoggerFactory.getLogger(CategoryService.class);
+@Service
+@Transactional
+public class TransactionsServiceImpl implements TransactionsService {
+
+    private final Logger log = LoggerFactory.getLogger(TransactionsService.class);
 
 
-    private CategoryRepository categoryRepository;
+    private TransactionsRepository transactionsRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
+    public TransactionsServiceImpl(TransactionsRepository transactionsRepository){
+        this.transactionsRepository = transactionsRepository;
 
     }
 
     @Override
-    public Iterable<Category> getAll() {
-        log.debug("Request to retrieve all the category  : { categoryRepository.findAll()}");
-        return categoryRepository.findAll();
+    public List<Transactions> getAll() {
+        log.debug("Request to retrieve all the transactions  : { transactionsRepository.findAll()}");
+        return transactionsRepository.findAll();
     }
 
     @Override
-    public void add(Category category) {
-        log.debug("Request to add the category  : { category }");
-        categoryRepository.save(category);
+    public void add(Transactions transactions) {
+        log.debug("Request to add the product  : { transactions }");
+        transactionsRepository.save(transactions);
     }
 
     @Override
-    public void update(Category category) {
-        log.debug("Request to update the category  : { category }");
-        categoryRepository.save(category);
+    public void update(Transactions transactions) {
+        log.debug("Request to update the product  : { transactions }");
+        transactionsRepository.save(transactions);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete the category of id  : { id }");
-        categoryRepository.deleteById(id);
+        log.debug("Request to delete the product of id  : { id }");
+        transactionsRepository.deleteById(id);
     }
 
     @Override
-    public void saveAll(Iterable<Category> iterable) {
+    public void saveAll(Iterable<Transactions> iterable) {
 
-        log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
-        categoryRepository.saveAll(iterable);
+        log.debug("Request to add an interable of the transactions  : { transactionsRepository.findAll()}");
+        transactionsRepository.saveAll(iterable);
     }
+
+    @Override
+    public Transactions get(Long id) {
+        return null;
+    }
+
 }

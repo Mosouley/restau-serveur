@@ -1,65 +1,68 @@
 package com.moh.restaurant.service.impl;
 
 
+import com.moh.restaurant.dao.FournisseurRepository;
 import com.moh.restaurant.entities.Fournisseur;
-import com.moh.restaurant.service.ICrudService;
+import com.moh.restaurant.service.FournisseurService;
 
-import org.springframework.context.annotation.Primary;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import javax.transaction.Transactional;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 @Service
-// @Primary
 @Transactional
-public class FournisseurServiceImpl implements ICrudService<Fournisseur, Long> {
+public class FournisseurServiceImpl implements FournisseurService {
 
-	private List<Fournisseur> fournisseurs;
-
-	public FournisseurServiceImpl(){
-//		fournisseurs = new ArrayList<Fournisseur>();
-//
-//		fournisseurs.add(new Fournisseur("Fournisseur 1", "blabal2", "blabla"));
-//		fournisseurs.add(new Fournisseur("Fournisseur 2", "blabal2", "blabla"));
-//		fournisseurs.add(new Fournisseur("Fournisseur 3", "blabal2", "blabla"));
-//		fournisseurs.add(new Fournisseur("Fournisseur 4", "blabal2", "blabla"));
-	}
-	
-	
-	@Override
-	public List<Fournisseur> getAll() {
-		return fournisseurs;
-	}
-
-	@Override
-	public void add(Fournisseur Fournisseur) {
-		fournisseurs.add(Fournisseur);
-	}
-
-	@Override
-	public void update(Fournisseur Fournisseur) {
-		fournisseurs.remove(Fournisseur);
-		fournisseurs.add(Fournisseur);
-	}
-
-	@Override
-	public void delete(Long id) {
-		Fournisseur fournisseur = new Fournisseur();
-		fournisseur.setId(id);
-		fournisseurs.remove(fournisseur);
-	}
+    private final Logger log = LoggerFactory.getLogger(FournisseurService.class);
 
 
-	@Override
-	public void saveAll(Iterable<Fournisseur> iterable) {
-		Iterator<Fournisseur> iterator = iterable.iterator();
-		if(iterator.hasNext()) {
-			fournisseurs.add(iterator.next());
-		}
-	}
+    private FournisseurRepository fournisseurRepository;
+
+    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository){
+        this.fournisseurRepository = fournisseurRepository;
+
+    }
+
+    @Override
+    public List<Fournisseur> getAll() {
+        log.debug("Request to retrieve all the fournisseurs  : { fournisseurRepository.findAll()}");
+        return fournisseurRepository.findAll();
+    }
+
+    @Override
+    public void add(Fournisseur fournisseur) {
+        log.debug("Request to add the fournisseur  : { fournisseur }");
+        fournisseurRepository.save(fournisseur);
+    }
+
+    @Override
+    public void update(Fournisseur fournisseur) {
+        log.debug("Request to update the fournisseur  : { fournisseur }");
+        fournisseurRepository.save(fournisseur);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.debug("Request to delete the fournisseur of id  : { id }");
+        fournisseurRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAll(Iterable<Fournisseur> iterable) {
+
+        log.debug("Request to add an interable of the fournisseurs  : { fournisseurRepository.findAll()}");
+        fournisseurRepository.saveAll(iterable);
+    }
+
+    @Override
+    public Fournisseur get(Long id) {
+        return null;
+    }
+
 
 }

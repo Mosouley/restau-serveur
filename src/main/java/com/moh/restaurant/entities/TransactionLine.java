@@ -1,120 +1,68 @@
 package com.moh.restaurant.entities;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import javax.persistence.*;
 
-import com.moh.restaurant.util.TransactType;
-
 @Entity
-public class Transaction{
+public class TransactionLine{
 
 
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
-    private String codeTransaction;
-
-    private String transactDesc;
-
-	private TransactType transactType;
-
-
-	private LocalDate transDate;
-
-	private float transactAmount;
-
-	@ManyToMany
-	private List<Produit> produits;
-
+	private float transAmount;
+	private float quantity;
+	private float sellPrice;
 	@ManyToOne
-    private User user;
+    private Produit produit;
+	@ManyToOne
+	private  Transactions transactions;
 
 
+	public Long getId() {
+		return id;
+	}
 
-    public Transaction(){
-        super();
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Transaction(String codeTransaction, LocalDate transDate, String transactDesc, TransactType transactType, float transactAmount){
-        this.codeTransaction = codeTransaction;
-        this.transDate = transDate;
-        this.transactDesc = transactDesc;
-        this.transactType = transactType;
-        this.transactAmount = transactAmount;
-    }
+	public float getTransAmount() {
+		return transAmount;
+	}
 
-    /**
-     * @return the transactDesc
-     */
-    public String getTransactDesc() {
-        return transactDesc;
-    }
+	public void setTransAmount(float transAmount) {
+		this.transAmount = transAmount;
+	}
 
-    /**
-     * @return the transactAmount
-     */
-    public float getTransactAmount() {
-        return transactAmount;
-    }
+	public float getQuantity() {
+		return quantity;
+	}
 
-    /**
-     * @param transactAmount the transactAmount to set
-     */
-    public void setTransactAmount(float transactAmount) {
-        this.transactAmount = transactAmount;
-    }
+	public void setQuantity(float quantity) {
+		this.quantity = quantity;
+	}
 
-    /**
-     * @return the transDate
-     */
-    public LocalDate getTransDate() {
-        return transDate;
-    }
+	public float getSellPrice() {
+		return sellPrice;
+	}
 
-    /**
-     * @param transDate the transDate to set
-     */
-    public void setTransDate(LocalDate transDate) {
-        this.transDate = transDate;
-    }
+	public void setSellPrice(float sellPrice) {
+		this.sellPrice = sellPrice;
+	}
 
-    /**
-     * @return the transactType
-     */
-    public TransactType getTransactType() {
-        return transactType;
-    }
+	public Produit getProduit() {
+		return produit;
+	}
 
-    /**
-     * @param transactType the transactType to set
-     */
-    public void setTransactType(TransactType transactType) {
-        this.transactType = transactType;
-    }
+	public void setProduit(Produit produit) {
+		this.produit = produit;
+	}
 
-    /**
-     * @param transactDesc the transactDesc to set
-     */
-    public void setTransactDesc(String transactDesc) {
-        this.transactDesc = transactDesc;
-    }
+	public Transactions getTransactions() {
+		return transactions;
+	}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCodeTransaction() {
-        return codeTransaction;
-    }
-
-    public void setCodeTransaction(String codeTransaction) {
-        this.codeTransaction = codeTransaction;
-    }
+	public void setTransactions(Transactions transactions) {
+		this.transactions = transactions;
+	}
 }

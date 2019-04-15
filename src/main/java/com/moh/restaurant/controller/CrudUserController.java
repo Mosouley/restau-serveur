@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.moh.restaurant.dao.RoleRepository;
+import com.moh.restaurant.dao.UserRepository;
 import com.moh.restaurant.entities.Role;
 import com.moh.restaurant.entities.User;
 
@@ -16,13 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/crud_user")
-public class CrudUserController extends CrudController<User, Long> {
+public class CrudUserController extends CrudController<User> {
 		
 	@Autowired
 	private RoleRepository roleRepository;
+	private UserRepository userRepository;
+
+	public CrudUserController(UserRepository userRepository){
+		this.userRepository = userRepository;
+	}
 	
 	public List<User> getAll() {
-		List<User> users = super.getAll();
+		// List<User> users = super.getAll();
+		List<User> users= userRepository.findAll();
 		users.forEach(user -> user.setPassword(null));
 		return users;
 	}

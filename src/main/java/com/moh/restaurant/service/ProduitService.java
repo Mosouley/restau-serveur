@@ -1,9 +1,11 @@
-package com.moh.restaurant.service.impl;
+package com.moh.restaurant.service;
 
 
 import com.moh.restaurant.dao.ProduitRepository;
 import com.moh.restaurant.entities.Produit;
 import com.moh.restaurant.service.ICrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -12,39 +14,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-@Service
-//@Primary
-@Transactional
-public class ProduitService implements ICrudService<Produit, Long> {
+public interface ProduitService extends ICrudService<Produit> {
 
-	@Autowired
-	private ProduitRepository produitRepository;
-	
-	@Override
-	public List<Produit> getAll() {
-		return produitRepository.findAll();
-	}
 
-	@Override
-	public void add(Produit produit) {
-		produitRepository.save(produit);
-	}
-
-	@Override
-	public void update(Produit produit) {
-		produitRepository.save(produit);
-	}
-
-	@Override
-	public void delete(Long id) {
-		Produit produit = new Produit();
-		produit.setId(id);
-		produitRepository.delete(produit);
-	}
-	
-	@Override
-	public void saveAll(Iterable<Produit> iterable) {
-		produitRepository.saveAll(iterable);	
-	}
 
 }

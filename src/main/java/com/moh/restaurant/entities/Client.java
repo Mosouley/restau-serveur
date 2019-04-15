@@ -1,7 +1,9 @@
 package com.moh.restaurant.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
+
 
 @Entity
 public class Client{
@@ -10,30 +12,26 @@ public class Client{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
    
-    @Column
+    
     private String nameClient;
-    @Column
-    private String codeClient;
-    @Column
-    private String cityClient;
+    private String codeIfuClient;
+    
+    private String phoneClient;
+
+    @OneToMany
+    private Collection<Transactions> transactions;
 
     public Client() {
-        super();
     }
 
-    public Client(String nameClient, String codeClient, String cityClient) {
-        this.cityClient= cityClient;
-        this.codeClient= codeClient;
-        this.nameClient= nameClient;
-    }
-    public Long getId(){
+    public Long getId() {
         return id;
-        
     }
 
-    public void setId(Long id){
-        this.id=id;
+    public void setId(Long id) {
+        this.id = id;
     }
+
     public String getNameClient() {
         return nameClient;
     }
@@ -42,27 +40,27 @@ public class Client{
         this.nameClient = nameClient;
     }
 
-    public String getCodeClient() {
-        return codeClient;
+    public String getCodeIfuClient() {
+        return codeIfuClient;
     }
 
-    public void setCodeClient(String codeClient) {
-        this.codeClient = codeClient;
+    public void setCodeIfuClient(String codeIfuClient) {
+        this.codeIfuClient = codeIfuClient;
     }
 
-    public String getCityClient() {
-        return cityClient;
+    public String getPhoneClient() {
+        return phoneClient;
     }
 
-    public void setCityClient(String cityClient) {
-        this.cityClient = cityClient;
+    public void setPhoneClient(String phoneClient) {
+        this.phoneClient = phoneClient;
     }
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+
+    public Collection<Transactions> getTransactions() {
+        return transactions;
     }
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+
+    public void setTransactions(Collection<Transactions> transactions) {
+        this.transactions = transactions;
     }
 }

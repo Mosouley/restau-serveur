@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface FournisseurRepository extends JpaRepository<Fournisseur, Long> {
 
     Fournisseur findByNameSupplier(String nameSupplier);
+    Fournisseur findByPhoneSupplier(String phoneSupplier);
+    Fournisseur findByCodeIfuSupplier(String codeIfuSupplier);
 }

@@ -1,59 +1,67 @@
 package com.moh.restaurant.service.impl;
 
 
+import com.moh.restaurant.dao.ClientRepository;
 import com.moh.restaurant.entities.Client;
+import com.moh.restaurant.service.ClientService;
 import com.moh.restaurant.service.ICrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class ClientServiceImpl implements ICrudService<Client, Long> {
+@Transactional
+public class ClientServiceImpl implements ClientService{
 
-	private List<Client> clients;
-
-	public ClientServiceImpl(){
-//		clients = new ArrayList<Client>();
-//
-//		clients.add(new Client("client 1", "blabal2", "blabla"));
-//		clients.add(new Client("client 2", "blabal2", "blabla"));
-//		clients.add(new Client("client 3", "blabal2", "blabla"));
-//		clients.add(new Client("client 4", "blabal2", "blabla"));
-	}
-	
-	
-	@Override
-	public List<Client> getAll() {
-		return clients;
-	}
-
-	@Override
-	public void add(Client client) {
-		clients.add(client);
-	}
-
-	@Override
-	public void update(Client client) {
-		clients.remove(client);
-		clients.add(client);
-	}
-
-	@Override
-	public void delete(Long id) {
-		Client client = new Client();
-		client.setId(id);
-		clients.remove(client);
-	}
+    private final Logger log = LoggerFactory.getLogger(ClientService.class);
 
 
-	@Override
-	public void saveAll(Iterable<Client> iterable) {
-		Iterator<Client> iterator = iterable.iterator();
-		if(iterator.hasNext()) {
-			clients.add(iterator.next());
-		}
-	}
+    private ClientRepository clientRepository;
+
+    public ClientServiceImpl(ClientRepository clientRepository){
+        this.clientRepository = clientRepository;
+
+    }
+
+    @Override
+    public List<Client> getAll() {
+        log.debug("Request to retrieve all the client  : { clientRepository.findAll()}");
+        return clientRepository.findAll();
+    }
+
+    @Override
+    public void add(Client client) {
+        log.debug("Request to add the client  : { client }");
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void update(Client client) {
+        log.debug("Request to update the client  : { client }");
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.debug("Request to delete the client of id  : { id }");
+        clientRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAll(Iterable<Client> iterable) {
+
+        log.debug("Request to add an interable of the client  : { clientRepository.findAll()}");
+        clientRepository.saveAll(iterable);
+    }
+
+    @Override
+    public Client get(Long id) {
+        return null;
+    }
 
 }

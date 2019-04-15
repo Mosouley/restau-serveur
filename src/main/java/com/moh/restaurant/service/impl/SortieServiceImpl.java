@@ -1,51 +1,65 @@
 package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.dao.CategoryRepository;
+import com.moh.restaurant.dao.SortieRepository;
 import com.moh.restaurant.entities.Category;
+import com.moh.restaurant.entities.Sortie;
 import com.moh.restaurant.service.CategoryService;
+import com.moh.restaurant.service.SortieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceImpl implements CategoryService {
+import javax.transaction.Transactional;
+import java.util.List;
 
-    private final Logger log = LoggerFactory.getLogger(CategoryService.class);
+@Service
+@Transactional
+public class SortieServiceImpl implements SortieService {
+
+    private final Logger log = LoggerFactory.getLogger(SortieService.class);
 
 
-    private CategoryRepository categoryRepository;
+    private SortieRepository sortieRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
+    public SortieServiceImpl(SortieRepository sortieRepository){
+        this.sortieRepository = sortieRepository;
 
     }
 
     @Override
-    public Iterable<Category> getAll() {
-        log.debug("Request to retrieve all the category  : { categoryRepository.findAll()}");
-        return categoryRepository.findAll();
+    public List<Sortie> getAll() {
+        log.debug("Request to retrieve all the sorties  : { sortieRepository.findAll()}");
+        return sortieRepository.findAll();
     }
 
     @Override
-    public void add(Category category) {
-        log.debug("Request to add the category  : { category }");
-        categoryRepository.save(category);
+    public void add(Sortie sortie) {
+        log.debug("Request to add the sortie  : { sortie }");
+        sortieRepository.save(sortie);
     }
 
     @Override
-    public void update(Category category) {
-        log.debug("Request to update the category  : { category }");
-        categoryRepository.save(category);
+    public void update(Sortie sortie) {
+        log.debug("Request to update the sortie  : { sortie }");
+        sortieRepository.save(sortie);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete the category of id  : { id }");
-        categoryRepository.deleteById(id);
+        log.debug("Request to delete the sortie of id  : { id }");
+        sortieRepository.deleteById(id);
     }
 
     @Override
-    public void saveAll(Iterable<Category> iterable) {
+    public void saveAll(Iterable<Sortie> iterable) {
 
-        log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
-        categoryRepository.saveAll(iterable);
+        log.debug("Request to add an interable of the sorties  : { sortieRepository.findAll()}");
+        sortieRepository.saveAll(iterable);
+    }
+
+    @Override
+    public Sortie get(Long id) {
+        return null;
     }
 }

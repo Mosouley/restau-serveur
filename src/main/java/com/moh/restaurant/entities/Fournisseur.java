@@ -1,6 +1,8 @@
 package com.moh.restaurant.entities;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Fournisseur{
@@ -13,18 +15,22 @@ public class Fournisseur{
     private String nameSupplier;
 
     @Column
-    private String citySupplier;
+    private String phoneSupplier;
+
     @Column
-    private String codeIFU;
+    private String codeIfuSupplier;
+
+    @ManyToMany
+    private List<Produit> produits;
 
 
     public Fournisseur() {
-        super();
+
     }
 
-    public Fournisseur(String nameSupplier, String codeIFU, String citySupplier) {
-        this.citySupplier= citySupplier;
-        this.codeIFU= codeIFU;
+    public Fournisseur(String nameSupplier, String codeIfuSupplier, String phoneSupplier) {
+        this.phoneSupplier= phoneSupplier;
+        this.codeIfuSupplier= codeIfuSupplier;
         this.nameSupplier= nameSupplier;
     }
     public Long getId(){
@@ -43,19 +49,37 @@ public class Fournisseur{
         this.nameSupplier = nameSupplier;
     }
 
-    public String getCodeIFU() {
-        return codeIFU;
+    public String getcodeIfuSupplier() {
+        return codeIfuSupplier;
     }
 
-    public void setCodeIFU(String codeIFU) {
-        this.codeIFU = codeIFU;
+    public void setcodeIfuSupplier(String codeIfuSupplier) {
+        this.codeIfuSupplier = codeIfuSupplier;
     }
 
-    public String getCitySupplier() {
-        return citySupplier;
+    public String getphoneSupplier() {
+        return phoneSupplier;
     }
 
-    public void setCitySupplier(String citySupplier) {
-        this.citySupplier = citySupplier;
+    public void setphoneSupplier(String phoneSupplier) {
+        this.phoneSupplier = phoneSupplier;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fournisseur that = (Fournisseur) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getNameSupplier(), that.getNameSupplier()) &&
+                Objects.equals(phoneSupplier, that.phoneSupplier) &&
+                Objects.equals(codeIfuSupplier, that.codeIfuSupplier) &&
+                Objects.equals(produits, that.produits);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getNameSupplier(), phoneSupplier, codeIfuSupplier, produits);
     }
 }

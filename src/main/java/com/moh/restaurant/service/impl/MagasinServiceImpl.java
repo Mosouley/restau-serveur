@@ -1,51 +1,66 @@
 package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.dao.CategoryRepository;
+import com.moh.restaurant.dao.MagasinRepository;
 import com.moh.restaurant.entities.Category;
+import com.moh.restaurant.entities.Magasin;
 import com.moh.restaurant.service.CategoryService;
+import com.moh.restaurant.service.MagasinService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceImpl implements CategoryService {
+import javax.transaction.Transactional;
+import java.util.List;
 
-    private final Logger log = LoggerFactory.getLogger(CategoryService.class);
+@Service
+@Transactional
+public class MagasinServiceImpl implements MagasinService {
+
+    private final Logger log = LoggerFactory.getLogger(MagasinService.class);
 
 
-    private CategoryRepository categoryRepository;
+    private MagasinRepository magasinRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
+    public MagasinServiceImpl(MagasinRepository magasinRepository){
+        this.magasinRepository = magasinRepository;
 
     }
 
     @Override
-    public Iterable<Category> getAll() {
-        log.debug("Request to retrieve all the category  : { categoryRepository.findAll()}");
-        return categoryRepository.findAll();
+    public List<Magasin> getAll() {
+        log.debug("Request to retrieve all the magasins  : { magasinRepository.findAll()}");
+        return magasinRepository.findAll();
     }
 
     @Override
-    public void add(Category category) {
-        log.debug("Request to add the category  : { category }");
-        categoryRepository.save(category);
+    public void add(Magasin magasin) {
+        log.debug("Request to add the magasin  : { magasin }");
+        magasinRepository.save(magasin);
     }
 
     @Override
-    public void update(Category category) {
-        log.debug("Request to update the category  : { category }");
-        categoryRepository.save(category);
+    public void update(Magasin magasin) {
+        log.debug("Request to update the magasin  : { magasin }");
+        magasinRepository.save(magasin);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete the category of id  : { id }");
-        categoryRepository.deleteById(id);
+        log.debug("Request to delete the magasin of id  : { id }");
+        magasinRepository.deleteById(id);
     }
 
     @Override
-    public void saveAll(Iterable<Category> iterable) {
+    public void saveAll(Iterable<Magasin> iterable) {
 
-        log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
-        categoryRepository.saveAll(iterable);
+        log.debug("Request to add an interable of the magasins  : { magasinRepository.findAll()}");
+        magasinRepository.saveAll(iterable);
     }
+
+    @Override
+    public Magasin get(Long id) {
+        return null;
+    }
+
 }

@@ -17,7 +17,7 @@ public class CORSFilter implements Filter {
 	@Override
 	public void init(FilterConfig fc) throws ServletException {
 	}
-	
+
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
@@ -29,16 +29,16 @@ public class CORSFilter implements Filter {
 				response.setHeader("Access-Control-Allow-Credentials", "true");
 				response.setHeader("Access-Control-Allow-Headers",
 						"x-requested-with, authorization, Content-Type, X-Api-Key,Authorization, credential, X-XSRF-TOKEN");
-			
+
 				if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 					response.setStatus(HttpServletResponse.SC_OK);
 				} else {
 					chain.doFilter(req, resp);
 				}
-			
-	
+
+
 	}
-	
+
 	@Override
 	public void destroy() {
 	}

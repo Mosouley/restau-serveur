@@ -1,51 +1,65 @@
 package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.dao.CategoryRepository;
+import com.moh.restaurant.dao.RoleRepository;
 import com.moh.restaurant.entities.Category;
+import com.moh.restaurant.entities.Role;
 import com.moh.restaurant.service.CategoryService;
+import com.moh.restaurant.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceImpl implements CategoryService {
+import javax.transaction.Transactional;
+import java.util.List;
 
-    private final Logger log = LoggerFactory.getLogger(CategoryService.class);
+@Service
+@Transactional
+public class RoleServiceImpl implements RoleService {
+
+    private final Logger log = LoggerFactory.getLogger(RoleService.class);
 
 
-    private CategoryRepository categoryRepository;
+    private RoleRepository roleRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
+    public RoleServiceImpl(RoleRepository roleRepository){
+        this.roleRepository = roleRepository;
 
     }
 
     @Override
-    public Iterable<Category> getAll() {
-        log.debug("Request to retrieve all the category  : { categoryRepository.findAll()}");
-        return categoryRepository.findAll();
+    public List<Role> getAll() {
+        log.debug("Request to retrieve all the roles  : { roleRepository.findAll()}");
+        return roleRepository.findAll();
     }
 
     @Override
-    public void add(Category category) {
-        log.debug("Request to add the category  : { category }");
-        categoryRepository.save(category);
+    public void add(Role role) {
+        log.debug("Request to add the role  : { role }");
+        roleRepository.save(role);
     }
 
     @Override
-    public void update(Category category) {
-        log.debug("Request to update the category  : { category }");
-        categoryRepository.save(category);
+    public void update(Role role) {
+        log.debug("Request to update the role  : { role }");
+        roleRepository.save(role);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete the category of id  : { id }");
-        categoryRepository.deleteById(id);
+        log.debug("Request to delete the role of id  : { id }");
+        roleRepository.deleteById(id);
     }
 
     @Override
-    public void saveAll(Iterable<Category> iterable) {
+    public void saveAll(Iterable<Role> iterable) {
 
-        log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
-        categoryRepository.saveAll(iterable);
+        log.debug("Request to add an interable of the roles  : { roleRepository.findAll()}");
+        roleRepository.saveAll(iterable);
+    }
+
+    @Override
+    public Role get(Long id) {
+        return null;
     }
 }

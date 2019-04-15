@@ -1,51 +1,66 @@
 package com.moh.restaurant.service.impl;
 
 import com.moh.restaurant.dao.CategoryRepository;
+import com.moh.restaurant.dao.PrivilegeRepository;
 import com.moh.restaurant.entities.Category;
+import com.moh.restaurant.entities.Privilege;
 import com.moh.restaurant.service.CategoryService;
+import com.moh.restaurant.service.PrivilegeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceImpl implements CategoryService {
+import javax.transaction.Transactional;
+import java.util.List;
 
-    private final Logger log = LoggerFactory.getLogger(CategoryService.class);
+@Service
+@Transactional
+public class PrivilegeServiceImpl implements PrivilegeService {
+
+    private final Logger log = LoggerFactory.getLogger(PrivilegeService.class);
 
 
-    private CategoryRepository categoryRepository;
+    private PrivilegeRepository privilegeRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
+    public PrivilegeServiceImpl(PrivilegeRepository privilegeRepository){
+        this.privilegeRepository = privilegeRepository;
 
     }
 
     @Override
-    public Iterable<Category> getAll() {
-        log.debug("Request to retrieve all the category  : { categoryRepository.findAll()}");
-        return categoryRepository.findAll();
+    public List<Privilege> getAll() {
+        log.debug("Request to retrieve all the privileges  : { privilegeRepository.findAll()}");
+        return privilegeRepository.findAll();
     }
 
     @Override
-    public void add(Category category) {
-        log.debug("Request to add the category  : { category }");
-        categoryRepository.save(category);
+    public void add(Privilege privilege) {
+        log.debug("Request to add the privilege  : { privilege }");
+        privilegeRepository.save(privilege);
     }
 
     @Override
-    public void update(Category category) {
-        log.debug("Request to update the category  : { category }");
-        categoryRepository.save(category);
+    public void update(Privilege privilege) {
+        log.debug("Request to update the privilege  : { privilege }");
+        privilegeRepository.save(privilege);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete the category of id  : { id }");
-        categoryRepository.deleteById(id);
+        log.debug("Request to delete the privilege of id  : { id }");
+        privilegeRepository.deleteById(id);
     }
 
     @Override
-    public void saveAll(Iterable<Category> iterable) {
+    public void saveAll(Iterable<Privilege> iterable) {
 
-        log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
-        categoryRepository.saveAll(iterable);
+        log.debug("Request to add an interable of the privileges  : { privilegeRepository.findAll()}");
+        privilegeRepository.saveAll(iterable);
     }
+
+    @Override
+    public Privilege get(Long id) {
+        return null;
+    }
+
 }

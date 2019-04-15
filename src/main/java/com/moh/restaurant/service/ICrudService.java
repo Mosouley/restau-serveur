@@ -1,17 +1,14 @@
 package com.moh.restaurant.service;
 
-import java.util.List;
+public interface ICrudService<T> {
 
-
-public interface ICrudService<T, ID> {
-
-	List<T> getAll();
-	
+	Iterable<T> getAll();
+	T get(Long id);
 	void add(T entity);
 	
 	void update(T entity);
 	
-	void delete(ID id);
+	void delete(Long id);
 	
 	void saveAll(Iterable<T> iterable);
 }

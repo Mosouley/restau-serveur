@@ -3,15 +3,7 @@ package com.moh.restaurant.entities;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -40,7 +32,7 @@ public class User {
 		name="role_id")})
 	private Collection<Role> roles;
 
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
