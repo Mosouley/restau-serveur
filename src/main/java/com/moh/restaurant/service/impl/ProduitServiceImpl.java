@@ -30,6 +30,11 @@ public class ProduitServiceImpl implements ProduitService{
         this.produitRepository = produitRepository;
 
     }
+   
+    public Iterable<Produit> getProduitsByCategry(String nameCategory) {
+        log.debug("Request to retrieve all the products per category : { findProduitsByCategory(nameCategory)}");
+        return produitRepository.findProduitsByCategory(nameCategory);
+    }
 
     @Override
     public List<Produit> getAll() {
@@ -56,7 +61,6 @@ public class ProduitServiceImpl implements ProduitService{
         produitRepository.deleteById(id);
     }
 
-    @Override
     public void saveAll(Iterable<Produit> iterable) {
 
         log.debug("Request to add an interable of the products  : { produitRepository.findAll()}");
@@ -64,8 +68,8 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public Produit get(Long id) {
-        return null;
+    public Optional<Produit> get(Long id) {
+        return produitRepository.findById(id);
     }
 
 }

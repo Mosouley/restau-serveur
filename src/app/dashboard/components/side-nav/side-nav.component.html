@@ -1,0 +1,55 @@
+
+<mat-sidenav-container class="app-sidenav-container" >
+          <mat-sidenav class="app-sidenav " [opened]="!isScreenSmall()" [mode]="isScreenSmall() ? 'over' :'side'" mdbWavesEffect #sidenav>
+            <!-- style="background-color:rgba(37, 151, 226, 0.863);" -->
+            <mat-toolbar>
+
+              <div class="sidebar-background" style="background-image: url(/assets/img/sidebar-2.jpg)">
+
+                <i class="material-icons">home</i>
+                <img src="/assets/yasn logo.jpeg" id="company_logo" style="height: 60px; width: 60px">
+              </div>
+            </mat-toolbar>
+            <div *ngIf="authService.isLoggedIn()">
+                <mat-list >
+
+                  <mat-nav-list >
+                    <div  class="card" *ngIf="authService.isAdmin()">
+                      <a mat-list-item [routerLink]=[link.url] *ngFor=" let link of links" (click)="link.action">
+                        <mat-icon>{{link.icon}}</mat-icon>
+                        <!-- <mat-icon >{{link.icon}}</mat-icon> -->
+                        <span class="nav-caption">{{link.name}}</span>
+                      </a>
+                    </div>
+                  </mat-nav-list>
+                </mat-list>
+                </div>
+
+          </mat-sidenav>
+          <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
+          <div [ngSwitch]="authService.isLoggedIn()">
+
+            <div class="mat-card-header col-lg-12 " *ngSwitchCase="false">
+
+                <div class="alert alert-warning alert-with-icon " role="alert" style="text-align: center; align-content: center">
+                  Vous êtes deconnecté, essayez de vous connecter à nouveau!
+                </div>
+                <p class="card-body">
+                  ici ton site
+                </p>
+
+            </div>
+            <div *ngSwitchCase="true">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+</mat-sidenav-container>
+

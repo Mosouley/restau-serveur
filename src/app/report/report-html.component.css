@@ -1,0 +1,31 @@
+#report_head{
+  background-color: rgb(87, 60, 60);
+  font-size: 12px;
+  padding: 5px;
+  border-spacing: 5px;
+}
+
+report_body{
+  background-color: #fff;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+table {
+  width: 100%;
+  overflow: auto;
+  min-width: auto;
+  max-height: 700;
+
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
+/* .mat-column-select {
+  overflow: initial;
+} */
+tr.mat-footer-row {
+  font-weight: bold;
+}

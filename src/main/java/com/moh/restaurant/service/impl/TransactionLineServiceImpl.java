@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -50,8 +51,6 @@ public class TransactionLineServiceImpl implements TransactionLineService {
         log.debug("Request to delete the product of id  : { id }");
         transactionLineRepository.deleteById(id);
     }
-
-    @Override
     public void saveAll(Iterable<TransactionLine> iterable) {
 
         log.debug("Request to add an interable of the transactionLine  : { transactionLineRepository.findAll()}");
@@ -59,7 +58,7 @@ public class TransactionLineServiceImpl implements TransactionLineService {
     }
 
     @Override
-    public TransactionLine get(Long id) {
-        return null;
+    public Optional<TransactionLine> get(Long id) {
+        return transactionLineRepository.findById(id);
     }
 }

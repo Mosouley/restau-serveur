@@ -13,6 +13,7 @@ public class Produit {
 	@Column(nullable = false, unique = true,length = 10)
 	private String codeProd;
 
+	@Column
 	private String descProduit;
 
 	@Column
@@ -25,7 +26,8 @@ public class Produit {
 
 	@ManyToOne
 	private Category category;
-
+	@ManyToMany(mappedBy = "produit")
+	private List<TransactionLine> transactionLines;
 
 	@ManyToMany(mappedBy = "produits")
 	private List<Fournisseur> fournisseurs;

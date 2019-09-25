@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -52,7 +53,6 @@ public class FournisseurServiceImpl implements FournisseurService {
         fournisseurRepository.deleteById(id);
     }
 
-    @Override
     public void saveAll(Iterable<Fournisseur> iterable) {
 
         log.debug("Request to add an interable of the fournisseurs  : { fournisseurRepository.findAll()}");
@@ -60,8 +60,8 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public Fournisseur get(Long id) {
-        return null;
+    public Optional<Fournisseur> get(Long id) {
+        return fournisseurRepository.findById(id);
     }
 
 

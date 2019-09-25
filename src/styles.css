@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+/* @import '~font-awesome/css/font-awesome.min.css' */
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+@import '~material-design-icons-iconfont/dist/material-design-icons.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@media print {
+  .isPrinting > * { display: none; }
+  .isPrinting app-print-layout { display: block; }
+}

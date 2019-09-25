@@ -62,7 +62,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
 
-    @Override
     public void saveAll(Iterable<Category> iterable) {
 
         log.debug("Request to add an interable of the categorys  : { categoryRepository.findAll()}");
@@ -74,8 +73,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category get(Long id) {
-        return null;
+    public Optional<Category> get(Long id) {
+        return categoryRepository.findById(id);
     }
 
 

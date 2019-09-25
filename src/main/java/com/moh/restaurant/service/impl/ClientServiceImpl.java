@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -52,7 +53,7 @@ public class ClientServiceImpl implements ClientService{
         clientRepository.deleteById(id);
     }
 
-    @Override
+
     public void saveAll(Iterable<Client> iterable) {
 
         log.debug("Request to add an interable of the client  : { clientRepository.findAll()}");
@@ -60,8 +61,8 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public Client get(Long id) {
-        return null;
+    public Optional<Client> get(Long id) {
+        return clientRepository.findById(id);
     }
 
 }

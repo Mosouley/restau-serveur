@@ -1,0 +1,53 @@
+<mat-toolbar #content  class="flex justify-content-center">
+  <button mat-button (click)= "toggleSidenav.emit()"
+  class="sidenav-toggle">
+    <mat-icon>
+      menu
+    </mat-icon>
+
+  </button>
+  <span></span>
+  <span>Restaurant Yasin &nbsp;</span>
+  <img  src="/assets/yasn logo.jpeg" height="60px" width="60px" id="logo-img">
+  <span></span>
+
+  <div class="btn-group" mdbDropdown>
+
+      <a mdbDropdownToggle  color="primary" class="dropdown-toggle waves-light"
+        mdbWavesEffect id="account-menu"
+        >
+        <span >
+            <span >
+                <img class="profile-image img-circle" > &nbsp;
+            </span>
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span *ngIf="authService.isLoggedIn()" >
+              Bienvenue  {{ tokenService.getUsername() | titlecase }}
+            </span>
+          </span>
+
+      </a>
+      <div class="dropdown-menu dropdown-menu-right
+       dropdown-default ">
+        <a *ngIf="!authService.isLoggedIn()" class="dropdown-item" (click)="login()" >
+            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
+          <span>Se connecter</span></a>
+        <a *ngIf="authService.isLoggedIn() && authService.isAdmin()" class="dropdown-item" (click)="register()">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <span> Utilisateur</span>
+            </a>
+        <a *ngIf="authService.isLoggedIn() && authService.isAdmin()" class="dropdown-item" href="#">
+            <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>
+            <span small>Mot de Passe</span></a>
+        <div class="divider dropdown-divider"></div>
+        <a *ngIf="authService.isLoggedIn()" class="dropdown-item"  (click)="billInvoice()">
+            <i class="fa fa-fw fa-address-book" aria-hidden="true"></i>
+            <span >Facturer</span>
+          </a>
+        <a *ngIf="authService.isLoggedIn()" class="dropdown-item"  (click)="authService.logout()">
+            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+            <span >Se deconnecter</span>
+          </a>
+      </div>
+    </div>
+</mat-toolbar>

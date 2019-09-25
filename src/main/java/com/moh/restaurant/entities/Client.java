@@ -2,24 +2,22 @@ package com.moh.restaurant.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 
 @Entity
-public class Client{
+public class Client {
 
     @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-   
-    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nameClient;
     private String codeIfuClient;
-    
+
     private String phoneClient;
 
     @OneToMany
-    private Collection<Transactions> transactions;
+    private Collection<Invoice> invoice;
 
     public Client() {
     }
@@ -56,11 +54,11 @@ public class Client{
         this.phoneClient = phoneClient;
     }
 
-    public Collection<Transactions> getTransactions() {
-        return transactions;
+    public Collection<Invoice> getinvoice() {
+        return invoice;
     }
 
-    public void setTransactions(Collection<Transactions> transactions) {
-        this.transactions = transactions;
+    public void setinvoice(Collection<Invoice> invoice) {
+        this.invoice = invoice;
     }
 }

@@ -1,71 +1,119 @@
-//package com.moh.restaurant.security;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.builders.WebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//
-//
-//import org.springframework.http.HttpMethod;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//	@Autowired
-//	private UserDetailsService userDetailsService;
-//	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-//	protected void configure(HttpSecurity http) throws Exception{
-//
-//		 http.authorizeRequests()
-//				 .antMatchers("/api/**").hasRole("USER")
-//				 .antMatchers("/v2/api-docs",
-//				 "/configuration/**", "/swagger*/**",
-//				  "/webjars/**").permitAll()
-//						 .antMatchers("/**").permitAll()
-//				 .and()
-//				.authorizeRequests()
-//				.anyRequest()
-//				.permitAll()
-//				.and()
-//				.csrf().disable().headers()
-//				 .frameOptions().disable();
-//
-//logger.info("< doFilter");
-//	}
-//
-//
-//	protected void configure(AuthenticationManagerBuilder auth)
-//			throws Exception {
-//		auth.userDetailsService(userDetailsService).passwordEncoder(
-//				// NoOpPasswordEncoder.getInstance()
-//				passwordEncoder()
-//				);
-//	}
-//
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-//	@Bean
-//	public DaoAuthenticationProvider authProvider() {
-//		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//		authProvider.setUserDetailsService(userDetailsService);
-//		authProvider.setPasswordEncoder(passwordEncoder());
-//		return authProvider;
-//	}
-//}
+package com.moh.restaurant.security;
+
+import com.moh.restaurant.security.jwt.JwtAuthEntryPoint;
+import com.moh.restaurant.security.jwt.JwtAuthTokenFilter;
+import com.moh.restaurant.security.services.UserDetailsServiceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	// inject the custom implementation of userdetails
+	@Autowired
+	UserDetailsServiceImpl userDetailsService;
+	// inject the custom implementation of jwtAuth
+	@Autowired
+	private JwtAuthEntryPoint unauthorizedHandler;
+
+// inject a bean for the custom  jwt tolken filter
+@Bean
+public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+	return new JwtAuthTokenFilter();
+}
+
+@Override
+public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+	authenticationManagerBuilder
+			.userDetailsService(userDetailsService)
+			.passwordEncoder(passwordEncoder());
+}
+
+@Bean
+@Override
+public AuthenticationManager authenticationManagerBean() throws Exception {
+	return super.authenticationManagerBean();
+}
+
+@Bean
+public PasswordEncoder passwordEncoder() {
+	return new BCryptPasswordEncoder();
+}
+
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+
+	// Optional, if you want to test the API from a browser
+	// http.httpBasic();
+  http
+  .httpBasic()
+  .and()
+  //     .formLogin().loginPage("/dashboard").permitAll()
+  // .and()
+      .requestMatchers().antMatchers("/", "/login", "/logout", "/api/auth/**")
+    .and()
+      .authorizeRequests().anyRequest().authenticated()
+      .and()
+      //.authenticationEntryPoint(unauthorizedHandler)
+      .exceptionHandling()
+      .authenticationEntryPoint(unauthorizedHandler)
+      .and()
+      .csrf().disable()
+			 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+          // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+			// .and()
+			// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+      http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+	// http.cors().and().csrf().disable().
+	// 		authorizeRequests()
+	// 		.antMatchers("/", "/api/auth/**","/dashboard").permitAll()
+			// .antMatchers("/dashboard/**").permitAll()
+			// .antMatchers("/api/auth/**").permitAll()
+			// .anyRequest().authenticated() // fullyauth for users that are not remembered
+			// .and()
+			// .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+			// .and()
+			// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+
+}
+
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		// Allow swagger to be accessed without authentication
+    web.ignoring().antMatchers("/v2/api-docs")//
+        .antMatchers("/")  // tres important pour acceder a la page d'accueil
+        .antMatchers("/swagger-resources/**")//
+        .antMatchers("/*.bundle.*/**")//
+        .antMatchers("/dashboard/**")//
+        .antMatchers("/api/auth/**")//
+				// .antMatchers("/dashboard/**")//
+				.antMatchers("/swagger-ui.html")//
+				.antMatchers("/configuration/**")//
+				.antMatchers("/webjars/**")//
+				.antMatchers("/public")
+
+		;
+	}
+}

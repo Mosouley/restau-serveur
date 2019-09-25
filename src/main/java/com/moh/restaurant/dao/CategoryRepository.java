@@ -4,7 +4,6 @@ package com.moh.restaurant.dao;
 import java.util.List;
 
 import com.moh.restaurant.entities.Category;
-import com.moh.restaurant.entities.Client;
 import com.moh.restaurant.entities.Produit;
 
 import org.springframework.data.jpa.repository.JpaRepository;

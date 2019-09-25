@@ -1,58 +1,69 @@
 package com.moh.restaurant.entities;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.NaturalId;
 
 @Entity
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
+		@UniqueConstraint(columnNames = { "email" }) })
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private Long id;
-	
-	@Column(unique=true)
+
+	@Size(min = 4, max = 50, message = "Minimum username length: 4 characters")
+	@NotBlank
 	private String username;
 
+	@NotBlank
+	@Size(min = 3, max = 50)
 	private String lastName;
+
+	@NaturalId
+	@NotBlank
+	@Size(max = 60)
+	 @Email(message = "Not a valid Email Adress")
 	private String email;
-	
+
+	@JsonIgnore
+	@NotBlank
+	@Size(min = 6, max = 100)
+	@Column(name = "password_hash")
 	private String password;
-	
-	private boolean enable;
-	private boolean tokenExpired;
-	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="users_roles",
-	joinColumns={@JoinColumn(
-		name="user_id")},
-	inverseJoinColumns = {@JoinColumn(
-		name="role_id")})
-	private Collection<Role> roles;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id") })
+	private Set<Role> roles;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+	// @ElementCollection(fetch = FetchType.EAGER)
+	// List<Role> roles;
 
-	/**
-	 * @return the tokenExpired
-	 */
-	public boolean isTokenExpired() {
-		return tokenExpired;
-	}
-
-	/**
-	 * @param tokenExpired the tokenExpired to set
-	 */
-	public void setTokenExpired(boolean tokenExpired) {
-		this.tokenExpired = tokenExpired;
+	public User(String lastname, String username,  String email, String password) {
+		this.lastName = lastname;
+		this.username = username;
+		this.email = email;
+		this.password = password;
 	}
 
 	/**
@@ -83,33 +94,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	public User(String username, String password, boolean enable) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.enable = enable;
-	}
-
 	public User() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {
@@ -136,20 +121,18 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isEnable() {
-		return enable;
-	}
-
-	public void setEnable(boolean enable) {
-		this.enable = enable;
-	}
-
-	public Collection<Role> getRoles() {
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 }
