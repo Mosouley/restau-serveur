@@ -1,0 +1,7 @@
+.mat-card {
+  padding-right: 1px;
+  row-gap: 1px;
+  align-items: center;
+  border-color: blue;
+  background-color: azure;
+}

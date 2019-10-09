@@ -1,15 +1,10 @@
 <mat-card class="main-card">
   <mat-card-title class="content-header ">
-    <div class="main-card">
-      <mdb-breadcrumb customClass="cyan lighten-4">
-        <mdb-breadcrumb-item>Factures</mdb-breadcrumb-item>
-        <mdb-breadcrumb-item class="active">Nouvelle </mdb-breadcrumb-item>
-      </mdb-breadcrumb>
-    </div>
+    Nouvelle Facture
   </mat-card-title>
 
   <mat-card-content>
-    <mat-card class="container-fluid ">
+    <mat-card class="column">
       <div class="box box-primary">
         <div class="basic-container">
           <mat-card>
@@ -19,26 +14,19 @@
               (ngSubmit)="save(invoiceForm.value, invoiceForm.valid, $event)"
 
             >
-              <!--customer list-->
-              <mat-card>
+
+              <!-- <mat-card>
                 <div class="form-group form-inline">
                   <label class="col-md-1 ">Client: </label>
                   <select
                     required
-                    class="form-control"
+                    class="form-control col-md-3"
                     formControlName="client"
                   >
-                    <option *ngFor="let c of clients" [value]="c.id">
-                      <strong> {{ c.nameClient }} </strong> -
-                      <em> {{ c.phoneClient }} </em>
-                      <!-- {{c.nameClient}} -->
+                    <option *ngFor="let c of receiveData.clients" [value]="c.id">
+                      - <strong> {{ c.nameClient }} </strong> -
                     </option>
                   </select>
-                  <!-- <div class="form-control" >
-                  <label >REF:</label>
-                    <label >{{invoice.invoiceRef}}</label>
-                </div> -->
-                  <!-- <div class="input-group"> -->
                     <div class="input-group-prepend">
                       <div class="input-group-text">
                         <button type="button">...</button>
@@ -56,12 +44,21 @@
                       <label type="text">Date</label>
                       <input required class="form-control" type="date" [value]="today | date:'dd-MM-yyyy'" formControlName="dateTrans" />
                 </div>
-              </mat-card>
+              </mat-card> -->
 
               <!-- Start form units array with first row must and dynamically add more -->
               <mat-card formArrayName="items">
-                <mat-card-title>Produits Vendus</mat-card-title>
-                <mat-divider></mat-divider>
+                <div class="form-group form-inline d-flex justify-content-between">
+                    <mat-card-title>Produits Vendus</mat-card-title>
+                    <mat-card-actions>
+                        <button class="btn btn-primary" type="button" mat-raised-button (click)="addUnit()">
+                          <mat-icon>add box</mat-icon>
+                          Ajouter Produit
+                        </button>
+                      </mat-card-actions>
+                </div>
+
+                <!-- <mat-divider></mat-divider> -->
 
                 <!-- loop throught units -->
                 <div
@@ -84,12 +81,12 @@
                       fxLayout="row"
                       fxLayout.xs="column"
                       fxLayoutWrap
-                      fxLayoutGap="3.5%"
+                      fxLayoutGap="0.5%"
                       fxLayoutAlign="center"
                     >
                       <!-- unit name input field -->
 
-                      <mat-form-field fxFlex.xs="20%">
+                      <mat-form-field fxFlex.xs="5%">
                         <mat-label>Categorie</mat-label>
                         <select
                           matNativeControl
@@ -105,7 +102,7 @@
                         </select>
                       </mat-form-field>
 
-                      <mat-form-field fxFlex.xs="20%">
+                      <mat-form-field fxFlex.xs="5%">
                         <mat-label>Code Produit</mat-label>
                         <select
                           matNativeControl
@@ -126,9 +123,9 @@
                       </mat-form-field>
                       <!-- unit quantity input field -->
                       <mat-form-field
-                        fxFlex="10%"
-                        fxFlex.xs="20%"
-                        style="text-align: right"
+                        fxFlex="5%"
+                        fxFlex.xs="5%"
+                        style="text-align: center"
                       >
                         <input
                           matInput
@@ -141,9 +138,9 @@
 
                       <!-- unit price input field -->
                       <mat-form-field
-                        fxFlex="20%"
-                        fxFlex.xs="20%"
-                        style="text-align: right"
+                        fxFlex="5%"
+                        fxFlex.xs="5%"
+                        style="text-align: center"
                       >
                         <input
                           matInput
@@ -181,13 +178,13 @@
                 </div>
 
                 <!-- New unit button -->
-                <mat-divider></mat-divider>
+                <!-- <mat-divider></mat-divider>
                 <mat-card-actions>
-                  <button type="button" mat-raised-button (click)="addUnit()">
+                  <button class="btn btn-primary" type="button" mat-raised-button (click)="addUnit()">
                     <mat-icon>add box</mat-icon>
                     Ajouter Produit
                   </button>
-                </mat-card-actions>
+                </mat-card-actions> -->
               </mat-card>
               <!-- End form units array -->
               <br />
@@ -207,7 +204,14 @@
                 >
                   Submit
                 </button>
-
+                <button
+                mdbBtn
+                (click)="closeDialog()"
+                mdbWavesEffect
+                color="danger"
+              >
+                Annuler
+              </button>
               </mat-card-actions>
               <ng-template #askPrint>
 

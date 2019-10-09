@@ -1,3 +1,4 @@
+import { LoginComponent } from './../../../login/login.component';
 import { InvoiceModalService } from './../../../invoice/invoice-modal.service';
 import { SignupModalService } from './../../../signup/signinup-modal.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -5,6 +6,7 @@ import { LoginModalService } from '../../../login/login-modal.service';
 import { AuthService } from '../../../auth/auth.service';
 import { TokenStorageService } from '../../../auth/token-storage.service';
 import { truncateSync } from 'fs';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class ToolbarComponent implements OnInit {
     private signupModalService: SignupModalService,
   public authService: AuthService,
   public invoiceModal: InvoiceModalService,
+  private dialog: MatDialog,
   private tokenService: TokenStorageService) {
 
   }
@@ -39,5 +42,14 @@ register() {
 }
 billInvoice() {
   this.invoiceModal.open();
+}
+
+dialogOpen() {
+  // lanch mat dialog
+  const dialogConfig = new MatDialogConfig();
+  // dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  this.dialog.open(LoginComponent, dialogConfig);
+
 }
 }

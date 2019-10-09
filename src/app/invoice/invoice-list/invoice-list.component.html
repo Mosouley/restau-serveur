@@ -1,0 +1,124 @@
+<mat-card style="text-align: center center">
+    <div class="row">
+      <div class="col-lg-12">
+            <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Facture
+                </mat-panel-title>
+                <mat-panel-description>
+                    Créer une nouvelle facture
+                  </mat-panel-description>
+              </mat-expansion-panel-header>
+                  <app-invoice-item></app-invoice-item>
+              <div>
+
+          </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <a class="btn btn-outline-primary ml-1">
+                        <i class="fa fa-table"></i> &nbsp; Voir Liste
+                    </a>
+
+                </mat-panel-title>
+                <mat-panel-description>
+
+                    Voir la liste des factures
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+            <div class="container" fxLayout fxFlexFill>
+
+                <table class="mat-elevation-z8 table-hover table-striped" mat-table matSort [dataSource]="dataSource" >
+
+                    <ng-container matColumnDef="dateTrans">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Fact. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dateTrans}} </td>
+                      </ng-container>
+
+                    <ng-container matColumnDef="invoiceRef">
+                        <th fxLayout fxFlex="60px" mat-header-cell *matHeaderCellDef mat-sort-header> #Facture No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.invoiceRef}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="client">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+                          <td mat-cell *matCellDef="let element"> {{element.client[name]}} </td>
+                        </ng-container>
+                    <ng-container matColumnDef="paymentMode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mode Paiement </th>
+                        <td mat-cell *matCellDef="let element"> {{element.paymentMode}} </td>
+                      </ng-container>
+
+                    <ng-container matColumnDef="statut">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut </th>
+                        <td mat-cell *matCellDef="let element"> {{element.statut}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="totalInvoice">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
+                          <td mat-cell *matCellDef="let element"> {{element.totalInvoice}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="details">
+                            <th mat-header-cell *matHeaderCellDef> Details </th>
+                            <td mat-cell *matCellDef="let element">
+                              <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+                                  <mat-icon class="mat-18">reorder</mat-icon>
+                              </button>
+                            </td>
+                          </ng-container>
+
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef> Supprimer </th>
+                                <td mat-cell *matCellDef="let element">
+                                  <button mat-icon-button color="warn" (click)="onInvoiceDelete(element.id)">
+                                      <mat-icon class="mat-18">delete</mat-icon>
+                                  </button>
+                                </td>
+                              </ng-container>
+                              <span></span>
+                              <!-- <ng-container matColumnDef="new">
+                                  <th mat-header-cell *matHeaderCellDef>
+                                      <button mat-mini-fab color="primary" (click)="generateBill()">
+                                          <mat-icon class="mat-18">add</mat-icon>
+                                      </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"></td>
+                                </ng-container> -->
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <!-- <thead class="thead-light">
+                      <th>#Facture No.</th>
+                      <th>Client</th>
+                      <th>P. Method</th>
+                      <th>Montant Total</th>
+                      <th>
+                        <a class="btn btn-outline-success" (click)="generateBill()"><i class="fa fa-plus-square"></i> Creer Nouv.</a>
+                      </th>
+                    </thead> -->
+                    <!-- <tbody>
+                      <tr *ngFor="let item of invoiceList">
+                        <th (click)="openForEdit(item.invoiceRef)">{{item.invoiceRef}}</th>
+                        <td (click)="openForEdit(item.invoiceRef)">{{item.dateTrans}}</td>
+                        <td (click)="openForEdit(item.invoiceRef)">{{item.paymentMode}}</td>
+                        <td (click)="openForEdit(item.invoiceRef)">{{item.totalInvoice}}</td>
+                        <td>
+                            <i class="btn text-danger" (click)="onOrderDelete(item.OrderID)"><i class="fa fa-trash fa-lg"></i></a>
+                        </td>
+                      </tr>
+                    </tbody> -->
+                  </table>
+                  <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+                    </mat-paginator>
+                  </div>
+                </mat-expansion-panel>
+          </mat-accordion>
+
+      </div>
+    </div>
+</mat-card>

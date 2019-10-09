@@ -6,6 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth/auth.service';
 import { AuthLoginInfo } from '../auth/login-info';
 import { TokenStorageService } from '../auth/token-storage.service';
+import { MatDialogRef } from '@angular/material';
 
 
 
@@ -22,6 +23,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles:  string[] = [];
   private loginInfo:  AuthLoginInfo;
+
+  private dialogRef: MatDialogRef<LoginComponent>;
 
   constructor(
               private authService: AuthService,
@@ -88,5 +91,9 @@ logout() {
   this.isLoginFailed = true;
   this.authService.logout();
   this.activeModal.dismiss('cancel');
+}
+
+sortir() {
+  this.dialogRef.close();
 }
 }

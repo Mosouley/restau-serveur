@@ -5,13 +5,13 @@ import { Router , ActivatedRoute } from '@angular/router';
 import { Client } from './../../shared/model/client';
 import { Category } from './../../shared/model/category';
 import { Produit } from './../../shared/model/produit';
-import { CategoryService } from './../../services/category.service';
+// import { CategoryService } from './../../services/category.service';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ClientService } from './../../services/client.service';
+// import { ClientService } from './../../services/client.service';
 import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy,
-  AfterContentChecked, ChangeDetectorRef, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+  AfterContentChecked, ChangeDetectorRef, AfterViewInit, Output, EventEmitter, Input, Inject } from '@angular/core';
 import { ModalDirective } from 'angular-bootstrap-md';
-import { ProduitService } from '../../services/produit.service';
+// import { ProduitService } from '../../services/produit.service';
 import { CurrencyPipe, DatePipe, formatDate } from '@angular/common';
 import { LoginComponent } from '../../login/login.component';
 import { InvoiceService } from '../../services/invoice.service';
@@ -19,11 +19,12 @@ import { Invoice, InvoiceStatus, PaymentMode } from '../../shared/model/invoice'
 import { logging, element } from 'protractor';
 import { TransactionLine } from '../../shared/model/transactionLine';
 import { TransactionLineService } from '../../services/transactionLine.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HistoricCashBalanceService } from '../../services/HistoricCashBalance.service';
 import { CashBalance } from '../../shared/model/cashBalance';
 import { filter } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -34,16 +35,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InvoiceCreateComponent implements OnInit, OnDestroy {
 
-  public clients: Client[];
+  receiveData;
+   public clients: Client[];
   public invoiceForm: FormGroup;
-  public produits: Produit[];
-  public filteredProduits: Produit[][];
-  public categories: Category[];
-  public category: Category;
+   public produits: Produit[];
+   public filteredProduits: Produit[][];
+   public categories: Category[];
+   public category: Category;
   public totalSum = 0;
-  private myFormValueChanges$;
-  private clientValueChange$;
-  public selectedClient: Client;
+   public myFormValueChanges$;
+   public clientValueChange$;
+   public selectedClient: Client;
   public listTransactions: any;
   public isSaved = false;
   public payMode = PaymentMode;
@@ -58,32 +60,39 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
   //  @ViewChild(InvoiceHtmlComponent) // referenced the html invoice
   // invoiceHtmlComponent: InvoiceHtmlComponent;
 
-  constructor(private clientService: ClientService,
+  constructor(
+    // private clientService: ClientService,
     public fb: FormBuilder,
-    public categorieService: CategoryService,
-    public produitService: ProduitService,
+    // public categorieService: CategoryService,
+    // public produitService: ProduitService,
     public invoiceService: InvoiceService,
     public transactionLineService: TransactionLineService,
     public currencyPipe: CurrencyPipe,
     public datePipe: DatePipe,
     public aRoute: ActivatedRoute,
     public route: Router,
-    public snackBar: MatSnackBar,
     // private generalService: GeneralService,
     public cashService: HistoricCashBalanceService,
     public printService: PrintService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public activeModal: NgbActiveModal,
+    @Inject(MAT_DIALOG_DATA) public data,
+    public dialogRef: MatDialogRef<InvoiceCreateComponent>
 
-  ) { }
+  ) {
+    this.receiveData = data;
+    console.log(this.receiveData);
+
+  }
 
   ngOnInit() {
     // const modes = Object.keys(this.payMode);
     // console.log(modes);
     this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
     // Get the arrays of clients, products, and categories
-    this.clients = this.aRoute.snapshot.data.clients;
-    this.categories = this.aRoute.snapshot.data.categories;
-    this.produits = this.aRoute.snapshot.data.produits;
+    this.clients = this.receiveData.clients; // this.aRoute.snapshot.data.clients;
+    this.categories = this.receiveData.categories;  // this.aRoute.snapshot.data.categories;
+    this.produits = this.receiveData.produits;  // this.aRoute.snapshot.data.produits;
 
     // create the form
     this.initData();
@@ -105,7 +114,10 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
 
     // set the date and the payment mode
     this.invoiceForm.controls['payMode'].patchValue(this.payMode.CASH);
-    //  this.invoiceForm.controls['dateTrans'].patchValue( formatDate(new Date(), 'mediumDate', 'en-US'));
+    this.invoiceForm.controls['dateTrans'].patchValue( formatDate(new Date(), 'mediumDate', 'en-US'));
+
+
+
   }
   /**
  * unsubscribe listener
@@ -125,12 +137,13 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
         this.cashService.getAll()
         .subscribe(p => {
           this.accountBalances = p;
-          console.log(this.accountBalances);
+          // console.log(this.accountBalances);
         });
         // create a new invoice
     const invoice = new Invoice();
     // Give a static ref to the invoice that will always be unique
     invoice.invoiceRef = (new Date()).getFullYear() + 'F' + Math.round((new Date()).getTime() / 1000);
+        //  OrderNo: Math.floor(100000 + Math.random() * 900000).toString(),
     invoice.transactionLines = [];
     this.listTransactions = [];
     this.today = this.invoiceForm.get('dateTrans').value;
@@ -149,12 +162,9 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
       data => {
 
         this.toastr.success('Facture generée avec succes : Ref ' + invoice.invoiceRef);
-        // this.snackBar.open('Facture generee avec succes', 'Succes', {
-        //   duration: 2000
-        // });
 
         this.isSaved = true;
-     const lastCashBalance = this.accountBalances
+      const lastCashBalance = this.accountBalances
         .find( s =>  new Date(s['dateHisto']).getTime() === new Date(data['dateTrans']).getTime() &&
       s['payMode'] === data['paymentMode']);
         // resultat des courses
@@ -169,7 +179,7 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
           this.toastr.success('Caisse initiale du jour : ' + cashEvent);
         //  console.log('caisse initiale du jour :' + cashEvent);
         } else {
-          // console.log( lastCashBalance);
+
           // send notification
 
           // then update the balance and save
@@ -181,9 +191,7 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
 
       },
       err => {
-        this.snackBar.open('Erreur survenue', 'Error', {
-          duration: 2000
-        });
+        this.toastr.error('Une erreur est survenue! Aucun enregistrement fait!');
       }
     );
 
@@ -206,6 +214,7 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
 
   // Initialiase the form group
   initData() {
+    this.data = { clients: this.clients};
     // this.selectedItem = this.initItem;
     this.createForm();
   }
@@ -291,6 +300,11 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
       }
     }
 
+  }
+
+
+  closeDialog() {
+    this.dialogRef.close('Pizza!');
   }
 
 }

@@ -10,8 +10,10 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { InvoiceService } from '../services/invoice.service';
 import { TransactionLineService } from '../services/transactionLine.service';
 import { NgxPrintModule} from 'ngx-print';
+import { InvoiceListComponent } from './invoice-list/invoice-list.component';
+import { InvoiceItemComponent } from './invoice-item/invoice-item.component';
 @NgModule({
-  declarations: [InvoiceCreateComponent],
+  declarations: [InvoiceCreateComponent, InvoiceListComponent, InvoiceItemComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -21,6 +23,7 @@ import { NgxPrintModule} from 'ngx-print';
     NgxPrintModule,
     MDBBootstrapModule.forRoot()
   ],
+  // exports: [InvoiceListComponent],
   providers: [InvoiceService, TransactionLineService, DatePipe, InvoiceModalService]
 })
 export class InvoiceModule {

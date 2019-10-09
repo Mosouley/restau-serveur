@@ -1,5 +1,4 @@
 import { ToastrService } from 'ngx-toastr';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupModalService } from './../signup/signinup-modal.service';
 
@@ -38,6 +37,8 @@ import { LoginComponent } from '../login/login.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MainContentComponent } from '../dashboard/components/main-content/main-content.component';
 import { SignupComponent } from '../signup/signup.component';
+import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create.component';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { SignupComponent } from '../signup/signup.component';
     LoginComponent,
     SignupComponent,
     MainContentComponent,
-    NotificationsComponent
+
 
   ],
   imports: [
@@ -73,7 +74,6 @@ import { SignupComponent } from '../signup/signup.component';
     ToolbarComponent,
     LoginComponent,
     SignupComponent,
-    NotificationsComponent,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,

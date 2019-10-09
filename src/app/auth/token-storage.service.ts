@@ -14,6 +14,7 @@ private roles: Array<string> = [];
   signOut() {
     // window.sessionStorage.clear();
     localStorage.clear();
+    // window.location.reload();
   }
   public saveToken(token: string) {
     // window.sessionStorage.removeItem(TOKEN_KEY);

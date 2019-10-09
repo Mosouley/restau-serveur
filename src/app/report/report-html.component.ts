@@ -9,7 +9,7 @@ import { EntreeService } from '../services/entree.service';
 import { Sortie } from '../shared/model/sortie';
 import { Entree } from '../shared/model/entree';
 import { Invoice } from '../shared/model/invoice';
-import { switchMapTo, groupBy, mergeMap, toArray, flatMap, reduce } from 'rxjs/operators';
+import { switchMapTo, groupBy, mergeMap, toArray, flatMap, reduce, map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 import { Spending } from '../shared/model/spendings';
 import { of, Observable, from } from 'rxjs';
@@ -62,10 +62,11 @@ export class ReportHtmlComponent implements OnInit, AfterViewInit {
   dataSpendings: Spending[];
   dataTx: TransactionLine[] = [];
   data = [];
-
+  isEnable = false;
   // utiliser mat-table
-  public displayedColumns = [];
-  public dataSource = new MatTableDataSource([]);
+  displayedColumns = [];
+   dataSource = new MatTableDataSource([]);
+  noData: any;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -80,12 +81,14 @@ export class ReportHtmlComponent implements OnInit, AfterViewInit {
     this.dataEntrees = this.route.snapshot.data.entrees;
     this.dataSpendings = this.route.snapshot.data.spendings;
     this.dataTx = this.route.snapshot.data.transax;
+    // console.log(this.selectedType);
 
     this.title = 'Selectionnez votre rapport et la période';
 
   }
   ngAfterViewInit(): void {
     this.doSortAndPaginate();
+    console.log(this.selectedType);
   }
 
   public doFilter = (value: string) => {
@@ -98,9 +101,13 @@ public doSortAndPaginate(): void {
 
   getPeriod(event: any) {
     this.selectedPeriod = event.target.value;
+    this.enableReport();
   }
   getReportType(event: any) {
     this.selectedType = event.target.value;
+    // console.log(this.selectedType[0]);
+
+    this.enableReport();
 
   }
     setPeriodIntervals(choix: number) {
@@ -156,6 +163,8 @@ public doSortAndPaginate(): void {
       return new Date(transac.txDate).getTime() >= new Date(start).getTime() &&
       new Date(transac.txDate).getTime() <= new Date(end).getTime() ; } );
 
+      // console.log(this.dataEntity);
+
       this.title = 'Rapport des Ventes détaillées du ' +
       `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
 
@@ -187,8 +196,7 @@ public doSortAndPaginate(): void {
 
         break;
         case 2:
-        // console.log('got it!');
-
+      // Reporting des dépenses sur une periode
         // this.dataEntity = [...this.dataInvoices];
         this.dataEntity = this.dataSpendings.filter((spent: Spending) => {
           // console.log(new Date(inv.dateTrans).getTime() );
@@ -212,6 +220,7 @@ public doSortAndPaginate(): void {
         break;
 
         case 3:
+        // Reporting des mouvements de stocks sur une periode
         // initialize the entity data
        this.dataEntity = [];
         // Show the transactions, filter based on the interval sets by the user
@@ -249,7 +258,7 @@ public doSortAndPaginate(): void {
         )
       ).subscribe( result => this.dataEntity.push( result));
 
-          this.title = 'Rapport des Mouvements effectues du ' +
+          this.title = ' Mouvements de stocks effectues du ' +
         `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
         this.modelEntity = [
         new DataModel('produit', 'Produit', 'Array', false, []),
@@ -263,6 +272,128 @@ public doSortAndPaginate(): void {
         ];
 
         this.dataSource =  new MatTableDataSource<TransactionLine>();
+        // console.log(this.dataEntity);
+
+         // Faire appel a la fonction de mat-table
+      this.connectDataSource(this.modelEntity, this.dataEntity);
+        break;
+
+        // Rapport sur la caisse
+        case 4:
+        // Reporting des mouvements de caisse sur une periode
+        // initialize the entity data
+       this.dataEntity = [];
+        // Show the transactions, filter based on the interval sets by the user
+        this.data = this.dataTx.filter((transac: TransactionLine) => {
+          return new Date(transac.txDate).getTime()  >= new Date(start).getTime() &&
+          new Date(transac.txDate).getTime()  <= new Date(end).getTime();
+        } );
+        // console.log(this.data);
+
+        // transform into rxjs observable
+        // 1. convert the array to observable
+        // 2. groupBy the property value
+        // 3. flatMap or mergeMap, to merge all the objects in a single object
+        // 4.then on each object make the calculation need
+        // 5. subscribe and push back in an array
+        from(this.data)
+        .pipe(
+          groupBy( tx => tx.produit.codeProd),
+          // flatMap(group => group.pipe(toArray()))
+          mergeMap(transac =>
+          transac.pipe(
+            reduce(
+              (acc, curr) => {
+                acc.produit = acc.produit || curr.produit;
+                // acc.produit.descProduit = curr.produit.descProduit ;
+                acc.debitAmount += curr.debitAmount / curr.unitValue;
+                acc.creditAmount += curr.creditAmount / curr.unitValue;
+                acc.solde = acc.debitAmount - acc.creditAmount;
+                return acc;
+              },
+              {   produit: null, unitValue: 0,
+                quantity: 0, debitAmount: 0, creditAmount: 0, solde: 0 }
+            )
+          )
+        )
+      ).subscribe( result => this.dataEntity.push( result));
+
+          this.title = ' Mouvements de stocks effectues du ' +
+        `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
+        this.modelEntity = [
+        new DataModel('produit', 'Produit', 'Array', false, []),
+        new DataModel('debitAmount', 'Entrees', 'number', false, []),
+        new DataModel('creditAmount', 'Sorties', 'number', false, []),
+        new DataModel('solde', 'Stock Restant', 'number', false, [])
+        ];
+        this.modelArrayEntity = [
+          new DataModel('codeProd', 'Code Produit', 'string', false, [])
+
+        ];
+
+        this.dataSource =  new MatTableDataSource<TransactionLine>();
+        console.log(this.dataEntity);
+
+         // Faire appel a la fonction de mat-table
+      this.connectDataSource(this.modelEntity, this.dataEntity);
+        break;
+
+        // Rapport des resultats Charges produits de la periode
+        case 5:
+        // Reporting des mouvements de stocks sur une periode
+        // initialize the entity data
+       this.dataEntity = [];
+        // Show the transactions, filter based on the interval sets by the user
+        this.data = this.dataTx.filter((transac: TransactionLine) => {
+          return new Date(transac.txDate).getTime()  >= new Date(start).getTime() &&
+          new Date(transac.txDate).getTime()  <= new Date(end).getTime();
+        } );
+        // console.log(this.data);
+
+        // transform into rxjs observable
+        // 1. convert the array to observable
+        // 2. groupBy the property value
+        // 3. flatMap or mergeMap, to merge all the objects in a single object
+        // 4.then on each object make the calculation need
+        // 5. subscribe and push back in an array
+        from(this.data)
+        .pipe(
+          groupBy( tx => tx.produit.codeProd),
+          // flatMap(group => group.pipe(toArray()))
+          mergeMap(transac =>
+          transac.pipe(
+            reduce(
+              (acc, curr) => {
+                acc.produit = acc.produit || curr.produit;
+                // acc.produit.descProduit = curr.produit.descProduit ;
+                acc.debitAmount += curr.debitAmount / curr.unitValue;
+                acc.creditAmount += curr.creditAmount / curr.unitValue;
+                acc.solde = acc.debitAmount - acc.creditAmount;
+                return acc;
+              },
+              {   produit: null, unitValue: 0,
+                quantity: 0, debitAmount: 0, creditAmount: 0, solde: 0 }
+            )
+          )
+        )
+      ).subscribe( result => this.dataEntity.push( result));
+
+          this.title = ' Mouvements de stocks effectues du ' +
+        `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
+        this.modelEntity = [
+        new DataModel('produit', 'Produit', 'Array', false, []),
+        new DataModel('debitAmount', 'Entrees', 'number', false, []),
+        new DataModel('creditAmount', 'Sorties', 'number', false, []),
+        new DataModel('solde', 'Stock Restant', 'number', false, [])
+        ];
+        this.modelArrayEntity = [
+          new DataModel('codeProd', 'Code Produit', 'string', false, [])
+
+        ];
+
+        this.dataSource =  new MatTableDataSource<TransactionLine>();
+        console.log(this.dataEntity);
+
          // Faire appel a la fonction de mat-table
       this.connectDataSource(this.modelEntity, this.dataEntity);
         break;
@@ -329,6 +460,7 @@ public doSortAndPaginate(): void {
         new DataModel('id', 'ID', 'number', true, []),
         new DataModel('invoiceRef', 'Reference', 'string', false, []),
         new DataModel('dateTrans', 'Date Op', 'date', false, []),
+        new DataModel('client', 'Client', 'string', false, []),
         new DataModel('paymentMode', 'Mode', 'string', false, []),
         new DataModel('statut', 'statut', 'string', false, []),
         new DataModel('totalInvoice', 'Montant', 'number', false, [])
@@ -347,7 +479,7 @@ public doSortAndPaginate(): void {
 }
 
 public connectDataSource( model: DataModel[], data: any []): void {
-
+  this.noData = this.dataSource.connect().pipe(map(donnee => donnee.length === 0));
   this.displayedColumns = model.map(c => c.columnName);
   this.dataSource.data = data;
   this.doSortAndPaginate();
@@ -363,5 +495,14 @@ getTotal(data: any []) {
   // tslint:disable-next-line:curly
   // if (a.key < b.key) return b.key;
 // }
+enableReport() {
+  if (this.selectedType > 0 && this.selectedPeriod > 0) {
+    this.isEnable = true;
+    this.title = 'Rapport de ' + this.reportType[1] + ' sur ' + this.reportPeriod[this.selectedPeriod - 1];
 
+  } else {
+    this.isEnable = false;
+    this.title = 'Vous devez selectonner un type et une periode ';
+  }
+}
 }

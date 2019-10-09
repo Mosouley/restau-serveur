@@ -36,6 +36,8 @@ import { InvoiceResolver } from '../invoice/invoice-create/invoice.resolver';
 import { TransactionLineResolver } from '../shared/transactionLine.resolver';
 import { AuthGuard } from '../services/auth-guard.service';
 import { LoginComponent } from '../login/login.component';
+import { InvoiceListComponent } from '../invoice/invoice-list/invoice-list.component';
+
 
 
 const routes: Routes = [
@@ -119,14 +121,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'invoice-create', component: InvoiceCreateComponent,
-        resolve: {
-            categories: CategoryResolver,
-            produits: ProduitResolver,
-            clients: ClientResolver
-        }
-      },
-      {
         path: 'company',
         component: CompanyComponent,
         canActivate: [AuthGuard],
@@ -138,6 +132,16 @@ const routes: Routes = [
         resolve: {
             users: UserResolver
                   }
+      }
+      ,
+      {
+        path: 'invoice-list',
+        component: InvoiceListComponent,
+        resolve: {
+            categories: CategoryResolver,
+            produits: ProduitResolver,
+            clients: ClientResolver
+                }
       },
       {
         path: '',
@@ -149,8 +153,9 @@ const routes: Routes = [
     path: 'access-denied',
     component: AccessDeniedComponent
   },
+
   {
-    path: '',
+    path: '**',
     redirectTo: '/dashboard',
     pathMatch: 'full'
   }

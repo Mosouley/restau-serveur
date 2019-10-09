@@ -1,3 +1,4 @@
+import { InvoiceCreateComponent } from './invoice/invoice-create/invoice-create.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthGuard } from './services/auth-guard.service';
 import { LoginComponent } from './login/login.component';
@@ -16,7 +17,7 @@ import { AppErrorHandler } from './app-errors/app-error-handler';
 import { AppRoutingModule } from './shared/app.routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-
+// import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 
@@ -43,6 +44,7 @@ import { ReportHtmlComponent } from './report/report-html.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { SignupComponent } from './signup/signup.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 
 
@@ -60,6 +62,7 @@ import { SignupComponent } from './signup/signup.component';
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
+    // FlexLayoutModule,
     NgbModule,
     ToastrModule.forRoot({
       timeOut: 5000,
@@ -83,8 +86,12 @@ import { SignupComponent } from './signup/signup.component';
     // Store
     {
       provide: ErrorHandler, useClass: AppErrorHandler
-    }
+    },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    { provide: MAT_DIALOG_DATA, useValue: [] },
+    {provide: MatDialogRef, useValue: []}
   ],
+  entryComponents: [InvoiceCreateComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

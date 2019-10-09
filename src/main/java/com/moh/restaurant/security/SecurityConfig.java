@@ -70,7 +70,7 @@ protected void configure(HttpSecurity http) throws Exception {
   .and()
   //     .formLogin().loginPage("/dashboard").permitAll()
   // .and()
-      .requestMatchers().antMatchers("/", "/login", "/logout", "/api/auth/**")
+      .requestMatchers().antMatchers("/", "/dashboard", "/login", "/logout", "/api/auth/**")
     .and()
       .authorizeRequests().anyRequest().authenticated()
       .and()
@@ -106,6 +106,7 @@ protected void configure(HttpSecurity http) throws Exception {
         .antMatchers("/")  // tres important pour acceder a la page d'accueil
         .antMatchers("/swagger-resources/**")//
         .antMatchers("/*.bundle.*/**")//
+        .antMatchers("/dashboard")//
         .antMatchers("/dashboard/**")//
         .antMatchers("/api/auth/**")//
 				// .antMatchers("/dashboard/**")//

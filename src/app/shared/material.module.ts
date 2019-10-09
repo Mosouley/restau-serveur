@@ -1,6 +1,7 @@
 import { MatSidenav, MatToolbarModule, MatListModule,
   MatCardModule, MatRippleModule, MatFormFieldModule,
-  MatInputModule, MatSnackBar, MatSnackBarModule, MatTreeModule, MatPaginatorModule, MatSortModule, MatCell } from '@angular/material';
+  MatInputModule, MatSnackBar, MatSnackBarModule, MatTreeModule,
+  MatPaginatorModule, MatSortModule, MatCell, MatDialogModule, MatExpansionModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule, MatSidenavModule, MatTableModule, MatButtonModule} from '@angular/material';
@@ -25,7 +26,9 @@ import { MatIconModule, MatSidenavModule, MatTableModule, MatButtonModule} from 
     WavesModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
+    MatExpansionModule
 
   ],
   exports: [
@@ -45,6 +48,8 @@ import { MatIconModule, MatSidenavModule, MatTableModule, MatButtonModule} from 
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDialogModule,
+    MatExpansionModule
 
   ]
 })

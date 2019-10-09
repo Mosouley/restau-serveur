@@ -6,9 +6,9 @@ import { API_URLS } from '../config/app.url.config';
 
 
 @Injectable()
-export class SortieService extends DataService{
+export class SortieService extends DataService {
 
-  constructor( _http: HttpClient) { 
-    super(API_URLS.SORTIE_URL,_http);
+  constructor( _http: HttpClient) {
+    super(API_URLS.SORTIE_URL, _http);
   }
 }
