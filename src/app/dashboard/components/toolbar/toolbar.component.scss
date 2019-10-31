@@ -1,34 +1,11 @@
 
 
-// .toolbar-content{
-//  $iconWidth: 20px;
-// }
-// .sidenav-toggle{
-//   display: none;
-//   width: $iconWidth;
-
-// }
-
-// @media(max-width: 720px){
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// mat-icon{
-//   font-size: 30px;
-//   height: $iconWidth;
-//   width: $iconWidth;
-//   line-height: $iconWidth;
-//   columns: white;
-// }
-
 .mat-toolbar {
   padding: .2em 1em;
-  border-spacing: 20px;
+  border-spacing: 5px;
   // border-block-end: #353d47;
   // background-color: #353d47;
-  background-color:rgba(37, 151, 226, 0.863)
+  background-color:rgba(6, 105, 170, 0.863);
 }
 /* ==========================================================================
 Navbar
@@ -39,11 +16,11 @@ Navbar
   height: 40px;
   width: 40px;
   border-radius: 90%;
-  border-color: rgb(17, 15, 15);
+  border-color: rgb(16, 15, 17);
 }
 
 .dropdown-item.active,  .dropdown-item.active:focus,.dropdown-item.active:hover {
-  background-color: #fff;
+  background-color: rgb(189, 178, 178);
 }
 
 .dropdown-toggle::after {

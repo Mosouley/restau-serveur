@@ -1,3 +1,6 @@
+import { InvoiceItemComponent } from './../invoice/invoice-item/invoice-item.component';
+import { InvoiceGenerateComponent } from './../invoice/invoice-generate/invoice-generate.component';
+import { InvoiceCreateComponent } from './../invoice/invoice-create/invoice-create.component';
 import { AccessDeniedComponent } from './../entities/access-denied/access-denied.component';
 import { SpendingsResolver } from './../entities/spendings/spendings.resolver';
 import { SpendingsComponent } from './../entities/spendings/spendings.component';
@@ -27,7 +30,6 @@ import { EntreeComponent } from '../entities/entree/entree.component';
 
 import { SortieComponent } from '../entities/sortie/sortie.component';
 
-import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create.component';
 import { UserResolver } from '../entities/user/user.resolver';
 
 import { PrintLayoutComponent } from '../shared/print/print-layout/print-layout.component';
@@ -135,12 +137,28 @@ const routes: Routes = [
       }
       ,
       {
-        path: 'invoice-list',
-        component: InvoiceListComponent,
+        path: 'invoice-generate',
+        component: InvoiceItemComponent,
         resolve: {
             categories: CategoryResolver,
             produits: ProduitResolver,
-            clients: ClientResolver
+            clients: ClientResolver,
+            transax: TransactionLineResolver
+                }
+      },
+      {
+        path: 'invoice-list',
+        component: InvoiceListComponent,
+        resolve: {
+            invoiceData: InvoiceResolver
+
+                }
+      },
+      {
+        path: 'invoice/edit/:id',
+        component: InvoiceHtmlComponent,
+        resolve: {
+            invoiceData: InvoiceResolver
                 }
       },
       {

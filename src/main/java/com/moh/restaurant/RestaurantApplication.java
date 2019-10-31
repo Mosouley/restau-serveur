@@ -11,19 +11,38 @@ import com.moh.restaurant.entities.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 
 @SpringBootApplication
-public class RestaurantApplication {
+@Controller
+public class RestaurantApplication implements ErrorController{
 
 	public static void main(String[] args) {
 		 SpringApplication.run(RestaurantApplication.class, args);
-	
-	}
+
+  }
+
+  // important pour permettre l'actualisation de la page sans perdre lURL'
+  private static final String PATH = "/error";
+
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "forward:/index.html";
+    }
+
+    @Override
+    public String getErrorPath() {
+        return PATH;
+    }
+
 // 	@Component
 // 	public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 

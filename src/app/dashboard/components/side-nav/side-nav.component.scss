@@ -18,12 +18,13 @@
   height: 100%;
   min-height: 100%;
   border-spacing: 20px;
+
 }
 .app-sidenav-content{
   display: flex;
   height: 100%;
   flex-direction: column;
- background-image: url('/assets/img/sidebar-1.jpg') ;
+  background-image: url('/assets/img/sidebar-1.jpg') ;
   background-size: auto;
   background-repeat: initial;
 }

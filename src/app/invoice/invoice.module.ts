@@ -12,8 +12,9 @@ import { TransactionLineService } from '../services/transactionLine.service';
 import { NgxPrintModule} from 'ngx-print';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { InvoiceItemComponent } from './invoice-item/invoice-item.component';
+import { InvoiceGenerateComponent } from './invoice-generate/invoice-generate.component';
 @NgModule({
-  declarations: [InvoiceCreateComponent, InvoiceListComponent, InvoiceItemComponent],
+  declarations: [InvoiceCreateComponent, InvoiceListComponent, InvoiceItemComponent, InvoiceGenerateComponent],
   imports: [
     CommonModule,
     MaterialModule,

@@ -1,3 +1,6 @@
+
+import { AuthService } from './../../auth/auth.service';
+import { UserService } from './../../services/user.service';
 import { InvoiceCreateComponent } from './../invoice-create/invoice-create.component';
 
 import { PrintService } from './../../shared/print/print.service';
@@ -7,7 +10,7 @@ import { Client } from './../../shared/model/client';
 import { Category } from './../../shared/model/category';
 import { Produit } from './../../shared/model/produit';
 // import { CategoryService } from './../../services/category.service';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 // import { ClientService } from './../../services/client.service';
 import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy,
   AfterContentChecked, ChangeDetectorRef, AfterViewInit, Output, EventEmitter, Input, Inject } from '@angular/core';
@@ -20,12 +23,15 @@ import { Invoice, InvoiceStatus, PaymentMode } from '../../shared/model/invoice'
 import { logging, element } from 'protractor';
 import { TransactionLine } from '../../shared/model/transactionLine';
 import { TransactionLineService } from '../../services/transactionLine.service';
-import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatDialogConfig, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatDialogConfig, MatDialog, MatTable } from '@angular/material';
 import { HistoricCashBalanceService } from '../../services/HistoricCashBalance.service';
 import { CashBalance } from '../../shared/model/cashBalance';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, groupBy, reduce, mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { User } from '../../shared/model/user';
+import { from } from 'rxjs';
 
 
 @Component({
@@ -34,341 +40,525 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./invoice-item.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvoiceItemComponent implements OnInit, OnDestroy {
+export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  noData: any;
-  receiveData;
-   public clients: Client[];
-  public invoiceForm: FormGroup;
-   public produits: Produit[];
-   public filteredProduits: Produit[][];
-   public categories: Category[];
-   public category: Category;
-  public totalSum = 0;
-   public myFormValueChanges$;
-   public clientValueChange$;
-   public selectedClient: Client;
-  public listTransactions: any;
-  public isSaved = false;
-  public payMode = PaymentMode;
-  public modes = [];
-  public today = new Date();
-  public  accountBalances: CashBalance[] = [];
+        noData: any;
+        receiveData;
+        dataTx = []; // stock data
+        public clients: Client[];
+        public invoiceForm: FormGroup;
+        public tableForm: FormGroup;
+        public produits: Produit[];
+        public filteredProduits: Produit[][];
+        public categories: Category[];
+        public category: Category;
+        public totalSum = 0;
+        public myFormValueChanges$;
+        public clientValueChange$;
+        public myFormTotalInvoiceValueChange$;
+        public selectedClient: Client;
+        public listTransactions: any;
+        public isValid = false;
+        public payMode = PaymentMode;
+        public modes = [];
+        public today = new Date();
+        public  accountBalances: CashBalance[] = [];
+        public activeUser: User;
+        public stockArray = [];
   // private  lastCashBalance: CashBalance;
   // @Output()
   // emitInvoice: EventEmitter<Invoice> = new EventEmitter<Invoice>();
 
-  public displayedColumns = [ 'categorie', 'produit', 'quantite', 'prixUnit', 'totalInvoice', 'delete'];
-  public dataSource = new MatTableDataSource<TransactionLine>();
-  //  @ViewChild(InvoiceHtmlComponent) // referenced the html invoice
-  // invoiceHtmlComponent: InvoiceHtmlComponent;
+              public displayedColumns = [ 'categorie', 'produit', 'quantite', 'prixUnit',
+              'totalInvoice', 'view', 'action' ];
+              public donneesSource = new MatTableDataSource();
 
-  constructor(
-    // private clientService: ClientService,
-    public fb: FormBuilder,
-    // public categorieService: CategoryService,
-    // public produitService: ProduitService,
-    public invoiceService: InvoiceService,
-    public transactionLineService: TransactionLineService,
-    public currencyPipe: CurrencyPipe,
-    public datePipe: DatePipe,
-    public aRoute: ActivatedRoute,
-    public route: Router,
-    // private generalService: GeneralService,
-    public cashService: HistoricCashBalanceService,
-    public printService: PrintService,
-    public toastr: ToastrService,
-    public activeModal: NgbActiveModal,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private dialog: MatDialog,
-    public dialogRef: MatDialogRef<InvoiceCreateComponent>
+              @ViewChild(MatTable) table: MatTable<any>;
 
-  ) {
-    this.receiveData = data;
+              constructor(
+                // private clientService: ClientService,
+                public fb: FormBuilder,
+                // public categorieService: CategoryService,
+                // public produitService: ProduitService,
+                public invoiceService: InvoiceService,
+                public transactionLineService: TransactionLineService,
+                public currencyPipe: CurrencyPipe,
+                public datePipe: DatePipe,
+                public aRoute: ActivatedRoute,
+                public route: Router,
+                // private generalService: GeneralService,
+                public cashService: HistoricCashBalanceService,
+                public printService: PrintService,
+                public toastr: ToastrService,
+                public activeModal: NgbActiveModal,
+                @Inject(MAT_DIALOG_DATA) public data,
+                private dialog: MatDialog,
+                public dialogRef: MatDialogRef<InvoiceCreateComponent>,
+                public cdRef: ChangeDetectorRef,
+                public tokenService: TokenStorageService,
+                public userFetcher: UserService,
+                private router: Router,
+                private stockService: TransactionLineService
 
-  }
+        ) {
+          this.receiveData = data;
+
+        }
 
   ngOnInit() {
     // const modes = Object.keys(this.payMode);
     // console.log(modes);
-    this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
-    // Get the arrays of clients, products, and categories
+        this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
+        // Get the arrays of clients, products, and categories
 
-    this.clients = this.aRoute.snapshot.data.clients;
-    this.categories = this.aRoute.snapshot.data.categories;
-    this.produits = this.aRoute.snapshot.data.produits;
-
-    // this.clients = this.receiveData.clients; // this.aRoute.snapshot.data.clients;
-    // this.categories = this.receiveData.categories;  // this.aRoute.snapshot.data.categories;
-    // this.produits = this.receiveData.produits;  // this.aRoute.snapshot.data.produits;
-
-    // create the form
-    this.initData();
-    this.filteredProduits = new Array<Produit[]>();
-    // initialize stream on units
-    this.myFormValueChanges$ = this.invoiceForm.controls['items'].valueChanges;
-    // console.log(this.myFormValueChanges$);
-    // subscribe to the stream so listen to changes on units
-    this.myFormValueChanges$.subscribe(units => {
-      this.updateTotalUnitPrice(units),
-        this.updateFilteredProduits(units);
-    });
-    // Recuperer les changements du client
-    this.clientValueChange$ = this.invoiceForm.controls['client'].valueChanges;
-    this.clientValueChange$.subscribe(id => {
-      this.selectedClient = this.clients.find(n => n.id = id);
-    }
-    );
-
-    // set the date and the payment mode
-    this.invoiceForm.controls['payMode'].patchValue(this.payMode.CASH);
-    this.invoiceForm.controls['dateTrans'].patchValue( formatDate(new Date(), 'mediumDate', 'en-US'));
-
-    this.dataSource.data = this.listTransactions;
-    this.noData = this.dataSource.connect().pipe(map(donnee => donnee.length === 0));
+        this.clients = this.aRoute.snapshot.data.clients;
+        this.categories = this.aRoute.snapshot.data.categories;
+        this.produits = this.aRoute.snapshot.data.produits;
+        // console.log( this.stockService.getAll());
+        this.dataTx = this.aRoute.snapshot.data.transax;
 
 
+      // obtenir les stocks disponibles
+      this.stockService.getAll().subscribe(res => this.dataTx = res);
+    // console.log( this.dataTx);
+    this.getTheStockByProduct();
+              // create the form
+        this.initData();
+        this.filteredProduits = new Array<Produit[]>();
+        // initialize stream on units
+        this.myFormValueChanges$ = this.invoiceForm.controls['transax'].valueChanges;
+        // console.log(this.myFormValueChanges$);
+        // subscribe to the stream so listen to changes on units
+        this.myFormValueChanges$.subscribe(units => {
+          // this.updateTotalUnitPrice(units),
+                    this.updateFilteredProduits(units);
+                });
+                // Recuperer les changements du client
+                this.clientValueChange$ = this.invoiceForm.controls['client'].valueChanges;
+                this.clientValueChange$.subscribe(id => {
+                  this.selectedClient = this.clients.find(n => n.id = id);
+                }
+                );
+
+                this.userFetcher.getAll().subscribe(liste => {
+                  this.activeUser = liste.find(u => u.username === this.tokenService.getUsername());
+            });
+
+            // set the date and the payment mode
+            this.invoiceForm.controls['payMode'].patchValue(this.payMode.CASH);
+            // this.invoiceForm.controls['dateTrans'].patchValue( new Date().setHours(0, 0, 0, 0));
+           this.invoiceForm.valueChanges.subscribe(v =>  this.validateForm());
   }
-  /**
- * unsubscribe listener
- */
-  ngOnDestroy(): void {
-    this.myFormValueChanges$.unsubscribe();
-    this.clientValueChange$.unsubscribe();
-  }
-  /**
-   * Save form data
-   */
-  save(model: any, isValid: boolean, e: any) {
-    e.preventDefault();
+          // Initialiase the form group
+          initData() {
+          // this.tableForm = new FormGroup({
+          //   mytable: new FormControl()}
+          // );
+          // this.selectedItem = this.initItem;
+          this.createForm();
+        }
+        // create the form if it does not exist
+        createForm() {
+          // this.invoiceForm ? this.invoiceForm = this.fb.group({}) :
+          this.invoiceForm = this.fb.group({
+            client: ['', Validators.required],
+            dateTrans: ['', Validators.required],
+            payMode: ['', Validators.required],
+            totalInvoice: [{ value: '', disabled: true }, Validators.required],
+            transax: ''                    // this.fb.array([this.getUnit()])
+          }) ;
 
-    // Initialize cash data
-    // this.initData();
-        this.cashService.getAll()
-        .subscribe(p => {
-          this.accountBalances = p;
-          // console.log(this.accountBalances);
-        });
-        // create a new invoice
-    const invoice = new Invoice();
-    // Give a static ref to the invoice that will always be unique
-    invoice.invoiceRef = (new Date()).getFullYear() + 'F' + Math.round((new Date()).getTime() / 1000);
-        //  OrderNo: Math.floor(100000 + Math.random() * 900000).toString(),
-    invoice.transactionLines = [];
-    this.listTransactions = [];
-    this.today = this.invoiceForm.get('dateTrans').value;
-    invoice.dateTrans = this.today;
-    invoice.statut = InvoiceStatus.PAYE;
-    invoice.paymentMode = this.invoiceForm.get('payMode').value;
-    invoice.client = this.selectedClient;
-    this.getTransactionLines(model['items']);
-
-    invoice.transactionLines = [... this.listTransactions];
-    //  invoice.totalInvoice = this.listTransactions.reduce(((sum, x) => sum + x.transAmount));
-    invoice.totalInvoice = this.totalSum;
-
-
-    this.invoiceService.create(invoice).subscribe(
-      data => {
-
-        this.toastr.success('Facture generée avec succes : Ref ' + invoice.invoiceRef);
-
-        this.isSaved = true;
-      const lastCashBalance = this.accountBalances
-        .find( s =>  new Date(s['dateHisto']).getTime() === new Date(data['dateTrans']).getTime() &&
-      s['payMode'] === data['paymentMode']);
-        // resultat des courses
-        if (lastCashBalance === undefined || lastCashBalance === null) {
-          const cashEvent = new CashBalance();
-          cashEvent.dateHisto = data.dateTrans;
-          cashEvent.payMode = data.paymentMode;
-          cashEvent.balance =  data.totalInvoice;
-          this.cashService.create(cashEvent)
-         .subscribe ();
-          // send the notification
-          this.toastr.success('Caisse initiale du jour : ' + cashEvent);
-        //  console.log('caisse initiale du jour :' + cashEvent);
-        } else {
-
-          // send notification
-
-          // then update the balance and save
-          lastCashBalance.balance = lastCashBalance.balance + data.totalInvoice;
-          this.cashService.update(lastCashBalance).subscribe();
-          // console.log('caisse bien mise a jour :' + lastCashBalance.balance);
-          this.toastr.success('Caisse bien mise a jour  : ' + lastCashBalance.balance);
         }
 
-      },
-      err => {
-        this.toastr.error('Une erreur est survenue! Aucun enregistrement fait!');
+// permet d'eviter des erreurs apres fermeture des boites de dialogues
+      ngAfterViewInit(): void {
+        this.cdRef.detectChanges();
       }
-    );
+      /**
+     * unsubscribe listener
+     */
+      ngOnDestroy(): void {
+        this.myFormValueChanges$.unsubscribe();
+        this.clientValueChange$.unsubscribe();
+      }
 
-  }
 
   /**
+   * Save form data into the invoice database and the transaction ones
+   */
+      save(model: any, isValid: boolean, e: any) {
+        e.preventDefault();
+        if (this.validateForm()) {
+
+
+
+            // Initialize cash data
+            this.cashService.getAll()
+              .subscribe(p => {
+                this.accountBalances = p;
+              });
+
+                // create a new invoice
+                const invoice = new Invoice();
+                // Give a static ref to the invoice that will always be unique
+                invoice.invoiceRef = (new Date()).getFullYear() + 'F' + Math.round((new Date()).getTime() / 1000);
+                    //  OrderNo: Math.floor(100000 + Math.random() * 900000).toString(),
+                    // initialize the list of transaction
+                invoice.transactionLines = [];
+                this.listTransactions = [];
+                this.today = this.invoiceForm.get('dateTrans').value;
+                invoice.dateTrans = this.today;
+                invoice.statut = InvoiceStatus.PAYE;
+                invoice.paymentMode = this.invoiceForm.get('payMode').value;
+                invoice.client = this.selectedClient;
+
+                // Recuperer celui qui fait l'action
+                invoice.user = this.activeUser;
+
+                this.getTransactionLines(this.donneesSource.data);
+
+                invoice.transactionLines = [... this.listTransactions];
+                //  invoice.totalInvoice = this.listTransactions.reduce(((sum, x) => sum + x.transAmount));
+                invoice.totalInvoice = this.totalSum;
+
+                this.invoiceService.create(invoice).subscribe(
+                  data => {
+                        const lastCashBalance = this.accountBalances
+                          .find( s =>  new Date(s['dateHisto']).getTime() === new Date(data['dateTrans']).getTime() &&
+                        s['payMode'] === data['paymentMode']);
+                          // resultat des courses
+                          if (lastCashBalance === undefined || lastCashBalance === null) {
+                            const cashEvent = new CashBalance();
+                            cashEvent.dateHisto = data.dateTrans;
+                            cashEvent.payMode = data.paymentMode;
+                            cashEvent.balance =  data.totalInvoice;
+
+
+                            this.cashService.create(cashEvent).subscribe ();
+                            // send the notification
+                            this.toastr.success('Caisse initiale du jour : ' + cashEvent.balance);
+                          //  console.log('caisse initiale du jour :' + cashEvent);
+                          } else {
+
+                            // send notification
+
+                            // then update the balance and save
+                            lastCashBalance.balance = lastCashBalance.balance + data.totalInvoice;
+                            this.cashService.update(lastCashBalance).subscribe();
+                            // console.log('caisse bien mise a jour :' + lastCashBalance.balance);
+                            this.toastr.success('Caisse bien mise a jour  : ' + lastCashBalance.balance);
+                          }
+                          this.toastr.success('Facture generée avec succes : Ref ' + invoice.invoiceRef);
+                          this.donneesSource.data = [];
+                          this.updateTotalInvoice();
+                            // console.log(this.donneesSource.data);
+                          this.table.renderRows();
+                    },
+                        err => {
+
+                          this.toastr.error('Hey! Aucun enregistrement fait!' + err.message);
+                        }
+                        );
+
+                } else {
+                  this.toastr.error('Hey! Aucun enregistrement fait!' + isValid);
+                }
+            }
+
+                  // Mettre a jour la facture totale sur la base des lignes du tableau
+                private updateTotalInvoice () {
+                      // this.validateForm();
+                      this.totalSum = 0;
+
+                      this.totalSum = this.donneesSource.data.reduce((prev, curr) => {
+                        return prev + curr['totalInvoice'];
+                      }, 0);
+                      // console.log(this.totalSum);
+
+                      this.invoiceForm.controls['totalInvoice'].patchValue(this.totalSum);
+                  }
+                  /**
+                 * Update prices as soon as something changed on units group
+                 */
+                  private updateFilteredProduits(items: any) {
+                    // get our units group controll
+                    for (const i in items) {
+                      if (items.hasOwnProperty(i)) {
+                        if (!(items[i].category === undefined) && !(items[i].category == null)) {
+                          this.filteredProduits[i] = this.produits.filter(
+                            produit => produit.category['nameCategory'] === items[i].category
+                          );
+
+                        }
+
+                      }
+                    }
+                  }
+
+                  private getTransactionLines(items: any) {
+                    // tslint:disable-next-line:forin
+                    for (const i in items) {
+
+                      if (items.hasOwnProperty(i)) {
+                        const transax = new TransactionLine();
+                        transax.produit = this.produits.find(n => n['codeProd'] === items[i].codeProd);
+                        transax.quantity = items[i].quantite;
+                        transax.unitValue = items[i].prixUnit;
+                        transax.creditAmount = items[i].totalInvoice;
+                        transax.txDate = this.today;
+
+                        this.listTransactions.push(transax);
+                      }
+
+                    }
+
+                  }
+
+
+                  closeDialog() {
+                    this.dialogRef.close();
+                  }
+
+              // launching the mat dialog of invoice
+      addOrEditItem(line) {
+
+              const ligne = this.donneesSource.data.filter((data, idx) => idx === line);
+
+              const dialogConfig = new MatDialogConfig();
+                dialogConfig.autoFocus = true;
+                dialogConfig.disableClose = true;
+                dialogConfig.width = '65%';
+                dialogConfig.height = '25%';
+                dialogConfig.minHeight = '200px';
+                dialogConfig.panelClass = 'my-mat-class';
+                dialogConfig.data = { categories: this.categories,
+                produits: this.produits,
+                selectedRow: ligne['0']
+               };
+
+              const dialogRef = this.dialog.open(InvoiceCreateComponent, dialogConfig);
+
+                dialogRef.afterClosed().subscribe( result => {
+                  if (result && line == null) {
+
+                    const newData = this.donneesSource.data.concat(result.data);
+                    // console.log(this.donneesSource.data);
+                    this.getBilledByProduct(newData);
+                    this.addRowData(result.data);
+
+
+                  } else if (result) {
+                    // console.log(result)
+                    this.updateRowData(result.data);
+                  } else {
+                    dialogRef.close();
+                  }
+
+                });
+              }
+
+              addRowData(transax) {
+                // on recupere les donnees de la ligne envoyee
+                // on les ajoute au tableau
+                this.donneesSource.data.push({
+                  category: transax.category,
+                  codeProd: transax.codeProd,
+                  quantite: transax.quantite,
+                  prixUnit: transax.prixUnit,
+                  totalInvoice: transax.quantite * transax.prixUnit
+                });
+
+                // on rafrachit le tableau definit en childview
+                this.table.renderRows();
+                this.updateTotalInvoice();
+              }
+
+              updateRowData(selectedRow) {
+
+               this.donneesSource.data.filter((data, idx) => {
+                //  data.category ==
+                  data['category'] = selectedRow['category'];
+                  data['codeProd'] = selectedRow['codeProd'];
+                  data['quantite'] = selectedRow['quantite'];
+                  data['prixUnit'] = selectedRow['prixUnit'];
+                  data['totalInvoice'] = selectedRow['quantite'] * selectedRow['prixUnit'];
+                  this.table.renderRows();
+                  this.updateTotalInvoice();
+                });
+              }
+
+              validateForm() {
+                // Checking if invoice data are provided
+                // console.log(this.donneesSource.data);
+
+                if (!this.invoiceForm.controls['client'].value ||
+                !this.invoiceForm.controls['dateTrans'].value ||
+                !this.invoiceForm.controls['totalInvoice'].value ||
+                this.donneesSource.data.length === 0) {
+                   this.isValid = false;
+                  //  console.log(this.donneesSource.data.length);
+                   // and if all stock are positive
+                // } else if (this.stockArray) {
+                    // from(this.donneesSource.data)
+                    // .pipe(
+                    //   groupBy( tx => tx.produit.codeProd)
+                    // )
+                  //   this.getBilledByProduct();
+                  // this.isValid = false;
+                } else {
+                  this.isValid = true;
+                }
+
+                // else if (this.table.dataSource..length === 0)
+                //   this.isValid = false;
+                return this.isValid;
+                }
+                deleteRowData( ligne ) {
+                  this.donneesSource.data = this.donneesSource.data.filter(((data, idx) => idx !== ligne));
+                  this.updateTotalInvoice();
+                }
+
+                showList() {
+                  this.router.navigate(['/dashboard/invoice-list']);
+                }
+
+                getTheStockByProduct(): any {
+                  // transform into rxjs observable
+                  // 1. convert the array to observable
+                  // 2. groupBy the property value
+                  // 3. flatMap or mergeMap, to merge all the objects in a single object
+                  // 4.then on each object make the calculation need
+                  // 5. subscribe and push back in an array
+                  from(this.dataTx)
+                  .pipe(
+                    groupBy(tx => tx.produit.codeProd),
+                    // flatMap(group => group.pipe(toArray()))
+                    mergeMap(transac =>
+                    transac.pipe(
+                      reduce(
+                        (acc, curr) => {
+                          acc.produit = acc.produit || curr.produit;
+                          // acc.produit.descProduit = curr.produit.descProduit ;
+                          acc.debitAmount += curr.debitAmount / curr.unitValue;
+                          acc.creditAmount += curr.creditAmount / curr.unitValue;
+                          acc.solde = acc.debitAmount - acc.creditAmount;
+                          return acc;
+                        },
+                        {   produit: null, unitValue: 0,
+                          quantity: 0, debitAmount: 0, creditAmount: 0, solde: 0 }
+                      )
+                    )
+                  )
+                ).subscribe( result => this.stockArray.push( result));
+                // console.log(this.stockArray);
+                return this.stockArray;
+              }
+
+              // Get the total by product on the bill
+              getBilledByProduct(liste: any ): boolean {
+                // transform into rxjs observable
+                // 1. convert the array to observable
+                // 2. groupBy the property value
+                // 3. flatMap or mergeMap, to merge all the objects in a single object
+                // 4.then on each object make the calculation need
+                // 5. subscribe and push back in an array
+                console.log(liste);
+
+                from(liste)
+                .pipe(
+                  groupBy(tx => tx['codeProd']),
+                  // flatMap(group => group.pipe(toArray()))
+                  mergeMap(transac =>
+                  transac.pipe(
+                    reduce(
+                      (acc, curr) => {
+                        acc['codeProd'] = acc['codeProd'] || curr['codeProd'];
+                        // acc.produit.descProduit = curr.produit.descProduit ;
+                        acc.quantite += curr['quantite'];
+
+                        acc.totalInvoice = acc.quantite * acc['prixUnit'];
+                        return acc;
+                      },
+                      {   codeProd: null,
+                        quantite: 0,
+                      totalInvoice: 0 }
+                    )
+                  )
+                )
+              ).subscribe( result => {
+                console.log(result);
+
+
+                if (this.stockArray.find(r => r['produit'].codeProd === result.codeProd)) {
+                  console.log(this.stockArray);
+
+                  // check if the total sales is sup to the remainning stock
+                  //  if (result.quantite > this.stockArray['solde']) {
+                    //  console.log(r);
+                    console.log(result.quantite);
+
+                  //  }
+                }
+              });
+
+              // console.log(this.stockArray);
+              // return this.stockArray;
+              return false;
+            }
+
+    /**
    * Create form unit
    */
-  public getUnit() {
-    const numberPatern = '^[0-9.,]+$';
-    return this.fb.group({
-      category: ['', Validators.required],
-      codeProd: ['', Validators.required],
-      quantite: [1, [Validators.required, Validators.pattern(numberPatern)]],
-      prixUnit: ['', [Validators.required]],
-      unitTotalPrice: [{ value: '', disabled: true }]
-    });
+  // public getUnit() {
+  //   const numberPatern = '^[0-9.,]+$';
+  //   return this.fb.group({
+  //     category: ['', Validators.required],
+  //     codeProd: ['', Validators.required],
+  //     quantite: [1, [Validators.required, Validators.pattern(numberPatern)]],
+  //     prixUnit: ['', [Validators.required]],
+  //     unitTotalPrice: [{ value: '', disabled: true }]
+  //   });
 
-  }
-
-  // Initialiase the form group
-  initData() {
-    // this.selectedItem = this.initItem;
-    this.createForm();
-  }
-  // create the form if it does not exist
-  createForm() {
-    // this.invoiceForm ? this.invoiceForm = this.fb.group({}) :
-    this.invoiceForm = this.fb.group({
-      client: ['', Validators.required],
-      dateTrans: [this.today, Validators.required],
-      payMode: ['', Validators.required],
-      items: this.fb.array([this.getUnit()])
-    }) ;
-    // this.invoiceForm.reset();
-  }
-  /**
+  // }
+    /**
    * Add new unit row into form
    */
-  public addUnit() {
-    const control = <FormArray>this.invoiceForm.controls['items'];
-    control.push(this.getUnit());
+  // public addUnit() {
+  //   const control = <FormArray>this.invoiceForm.controls['items'];
+  //   control.push(this.getUnit());
 
-  }
+  // }
 
   /**
    * Remove unit row from form on click delete button
    */
-  private removeUnit(i: number) {
-    const control = <FormArray>this.invoiceForm.controls['items'];
-    control.removeAt(i);
-  }
+  // private removeUnit(i: number) {
+  //   const control = <FormArray>this.invoiceForm.controls['test'];
+  //   control.removeAt(i);
+  // }
 
   /**
    * Update prices as soon as something changed on units group
    */
-  private updateTotalUnitPrice(items: any) {
+  // private updateTotalUnitPrice(items: any) {
     // get our units group controll
-    const control = <FormArray>this.invoiceForm.controls['items'];
+    // const control = <FormArray>this.invoiceForm.controls['test'];
     // before recount total price need to be reset.
-    this.totalSum = 0;
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        const totalUnitPrice = items[i].quantite * items[i].prixUnit;
+    // this.totalSum = 0;
+    // for (const i in items) {
+    //   if (items.hasOwnProperty(i)) {
+    //     const totalUnitPrice = items[i].quantite * items[i].prixUnit;
 
         // now format total price with angular currency pipe
-        const totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'XOF ', 'symbol-narrow', '1.2-2');
+        // const totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'XOF ', 'symbol-narrow', '1.2-2');
         // update total sum field on unit and do not emit event myFormValueChanges$ in this case on units
-        control.at(+i).get('unitTotalPrice').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
+        // control.at(+i).get('unitTotalPrice').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
         // update total price for all units
-        this.totalSum += totalUnitPrice;
-      }
-    }
-  }
-
-  /**
- * Update prices as soon as something changed on units group
- */
-  private updateFilteredProduits(items: any) {
-    // get our units group controll
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        if (!(items[i].category === undefined) && !(items[i].category == null)) {
-          this.filteredProduits[i] = this.produits.filter(
-            produit => produit.category['nameCategory'] === items[i].category
-          );
-
-        }
-
-      }
-    }
-  }
-
-  private getTransactionLines(items: any) {
-    // tslint:disable-next-line:forin
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        const transax = new TransactionLine();
-        transax.produit = this.produits.find(n => n['codeProd'] === items[i].codeProd);
-        transax.quantity = items[i].quantite;
-        transax.unitValue = items[i].prixUnit;
-        transax.creditAmount = Number(items[i].quantite) * Number(items[i].prixUnit);
-        transax.txDate = this.today;
-        this.listTransactions.push(transax);
-      }
-    }
-
-  }
-
-
-  closeDialog() {
-    this.dialogRef.close('Pizza!');
-  }
-
-  // launching the mat dialog of invoice
-generateBill() {
-
-  const dialogConfig = new MatDialogConfig();
-  dialogConfig.autoFocus = true;
-  // dialogConfig.disableClose = true;
-  // dialogConfig.width = '80%';
-  //  dialogConfig.data = { clients };
-   const dialogRef = this.dialog.open(InvoiceCreateComponent, {
-     width: '65%',
-     height: '50%',
-     minHeight: '200px',
-    panelClass: 'my-class',
-     data: {
-       clients: this.clients,
-       categories: this.categories,
-       produits: this.produits
-     }
-   });
+  //       this.totalSum += totalUnitPrice;
+  //     }
+  //   }
+  // }
 
 }
-}
-  /**
- * Get online geoIp information to pre-fill form fields country, city and zip
- */
-  /*  private getCountryByIpOnline(): Observable<any> {
-     return this.http.get('https://ipapi.co/json/')
-         .map(this.extractData)
-         .catch(this.handleError);
-   }
-  */
-  /**
-   * responce data extraction from http responce
-   */
-  /*  private extractData(res: Response) {
-     let body = res.json();
-     return body || { };
-   } */
 
-  /**
-   * handle error if geoIp service not available.
-   */
-  // private handleError (error: Response | any) {
-  // In a real world app, you might use a remote logging infrastructure
-  /*     let errMsg: string;
-      if (error instanceof Response) {
-        const body = error.json() || '';
-        const err = body.error || JSON.stringify(body);
-        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-      } else {
-        errMsg = error.message ? error.message : error.toString();
-      }
-      console.error(errMsg);
-      return Observable.throw(errMsg);
-    } */
 

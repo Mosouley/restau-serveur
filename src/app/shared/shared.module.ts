@@ -38,6 +38,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MainContentComponent } from '../dashboard/components/main-content/main-content.component';
 import { SignupComponent } from '../signup/signup.component';
 import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create
     LoginComponent,
     SignupComponent,
     MainContentComponent,
+    NotificationsComponent,
 
 
   ],

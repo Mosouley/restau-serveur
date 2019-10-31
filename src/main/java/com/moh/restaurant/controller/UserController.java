@@ -63,7 +63,7 @@ public class UserController{
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
                         loginRequest.getPassword()
-                        
+
                 )
         );
 
@@ -122,7 +122,7 @@ public class UserController{
     }
 
   @GetMapping("/all")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  // @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<?>  getAllUsers() {
 		// List<User> users = super.getAll();
 		List<User> users= userRepository.findAll();

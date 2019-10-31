@@ -1,234 +1,62 @@
-<mat-card class="main-card">
-  <mat-card-title class="content-header ">
-    Nouvelle Facture
-  </mat-card-title>
 
-  <mat-card-content>
-    <mat-card class="column">
-      <div class="box box-primary">
-        <div class="basic-container">
+  <mat-card class="form-group form-inline d-flex justify-content-between">
+      <form [formGroup]="invoiceForm" novalidate (ngSubmit)="onSubmit()">
+
+          <!-- "onSubmit(invoiceForm.value, invoiceForm.valid, $event)" -->
           <mat-card>
-            <form
-              [formGroup]="invoiceForm"
-              novalidate
-              (ngSubmit)="save(invoiceForm.value, invoiceForm.valid, $event)"
+                  <div class="form-group form-inline" >
 
-            >
+                    <mat-form-field>
+                      <mat-label>Categorie</mat-label>
+                      <select matNativeControl required formControlName="category">
+                        <option *ngFor="let category of categories" [value]="category.nameCategory">
+                          {{ category.nameCategory }}</option>
+                      </select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Code Produit</mat-label>
+                      <select matNativeControl required formControlName="codeProd">
+                        <option *ngFor="
+                                        let i = index;
+                                        let produit
+                                        of: filteredProduits
+                                      " [value]="produit.codeProd">
+                          {{ produit.codeProd }}</option>
+                      </select>
+                    </mat-form-field>
+                    <mat-form-field class="col-1 " style="text-align: center">
+                      <input matInput placeholder="Quantity" type="number" formControlName="quantite" required />
+                    </mat-form-field>
+                    <mat-form-field class="col-2 " style="text-align: center">
+                      <input matInput placeholder="Prix Unitaire" type="number" formControlName="prixUnit" required />
+                    </mat-form-field>
+                    <mat-form-field class="col-2 " style="text-align: center">
+                      <input matInput placeholder="Somme Totale" formControlName="unitTotalPrice" />
+                    </mat-form-field>
 
-              <!-- <mat-card>
-                <div class="form-group form-inline">
-                  <label class="col-md-1 ">Client: </label>
-                  <select
-                    required
-                    class="form-control col-md-3"
-                    formControlName="client"
-                  >
-                    <option *ngFor="let c of receiveData.clients" [value]="c.id">
-                      - <strong> {{ c.nameClient }} </strong> -
-                    </option>
-                  </select>
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        <button type="button">...</button>
-                      </div>
-                    </div>
-
-                  <label class="col-md-1 ">Mode: </label>
-                  <select
-                    required
-                    class="form-control"
-                    formControlName="payMode"
-                  >
-                    <option  *ngFor="let mode of modes" [value]="mode" [label]="payMode[mode]"></option>
-                  </select>
-                      <label type="text">Date</label>
-                      <input required class="form-control" type="date" [value]="today | date:'dd-MM-yyyy'" formControlName="dateTrans" />
-                </div>
-              </mat-card> -->
-
-              <!-- Start form units array with first row must and dynamically add more -->
-              <mat-card formArrayName="items">
-                <div class="form-group form-inline d-flex justify-content-between">
-                    <mat-card-title>Produits Vendus</mat-card-title>
-                    <mat-card-actions>
-                        <button class="btn btn-primary" type="button" mat-raised-button (click)="addUnit()">
-                          <mat-icon>add box</mat-icon>
-                          Ajouter Produit
-                        </button>
-                      </mat-card-actions>
-                </div>
-
-                <!-- <mat-divider></mat-divider> -->
-
-                <!-- loop throught units -->
-                <div
-                  *ngFor="
-                    let unit of invoiceForm['controls'].items['controls'];
-                    let i = index
-                  "
-                >
-                  <!-- row divider show for every nex row exclude if first row -->
-                  <mat-divider
-                    *ngIf="
-                      invoiceForm.controls.items.controls.length > 1 && i > 0
-                    "
-                  ></mat-divider>
-                  <!-- <br /> -->
-
-                  <!-- group name in this case row index -->
-                  <div [formGroupName]="i">
-                    <div
-                      fxLayout="row"
-                      fxLayout.xs="column"
-                      fxLayoutWrap
-                      fxLayoutGap="0.5%"
-                      fxLayoutAlign="center"
-                    >
-                      <!-- unit name input field -->
-
-                      <mat-form-field fxFlex.xs="5%">
-                        <mat-label>Categorie</mat-label>
-                        <select
-                          matNativeControl
-                          required
-                          formControlName="category"
-                        >
-                          <option
-                            *ngFor="let category of categories"
-                            [value]="category.nameCategory"
-                          >
-                            {{ category.nameCategory }}</option
-                          >
-                        </select>
-                      </mat-form-field>
-
-                      <mat-form-field fxFlex.xs="5%">
-                        <mat-label>Code Produit</mat-label>
-                        <select
-                          matNativeControl
-                          required
-                          formControlName="codeProd"
-                        >
-                          <option
-                            *ngFor="
-                              let i = index;
-                              let produit;
-                              of: filteredProduits[i]
-                            "
-                            [value]="produit.codeProd"
-                          >
-                            {{ produit.codeProd }}</option
-                          >
-                        </select>
-                      </mat-form-field>
-                      <!-- unit quantity input field -->
-                      <mat-form-field
-                        fxFlex="5%"
-                        fxFlex.xs="5%"
-                        style="text-align: center"
-                      >
-                        <input
-                          matInput
-                          placeholder="Quantity"
-                          type="number"
-                          formControlName="quantite"
-                          required
-                        />
-                      </mat-form-field>
-
-                      <!-- unit price input field -->
-                      <mat-form-field
-                        fxFlex="5%"
-                        fxFlex.xs="5%"
-                        style="text-align: center"
-                      >
-                        <input
-                          matInput
-                          placeholder="Prix Unitaire"
-                          type="number"
-                          formControlName="prixUnit"
-                          required
-                        />
-                      </mat-form-field>
-
-                      <!-- unit total price input field, calculated and not editable -->
-                      <!-- <div fxLayout.xs="row"> -->
-                      <mat-form-field style="text-align: right">
-                        <input
-                          matInput
-                          placeholder="Somme Totale"
-                          formControlName="unitTotalPrice"
-                        />
-                      </mat-form-field>
-
-                      <!-- row delete button, hidden if there is just one row -->
+                  <mat-card-actions>
                       <button
-                        type="button"
-                        mat-mini-fab
-                        color="warn"
-                        fxFlex="nogrow"
-                        *ngIf="invoiceForm.controls.items.controls.length > 1"
-                        (click)="removeUnit(i)"
-                      >
-                        <mat-icon>delete forever</mat-icon>
+                      mat-mini-fab
+                      mdbBtn
+                      [disabled]="invoiceForm.invalid"
+                      mdbWavesEffect
+                      color="success">
+                        <!-- <i class="fa fa-database"></i> -->
+                        <mat-icon>done</mat-icon>
+
                       </button>
-                      <!-- </div> -->
-                    </div>
+                      <button
+                      mdbBtn
+                      mat-mini-fab
+                      (click)="closeDialog()" mdbWavesEffect color="danger">
+                      <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-card-actions>
+
                   </div>
-                </div>
-
-                <!-- New unit button -->
-                <!-- <mat-divider></mat-divider>
-                <mat-card-actions>
-                  <button class="btn btn-primary" type="button" mat-raised-button (click)="addUnit()">
-                    <mat-icon>add box</mat-icon>
-                    Ajouter Produit
-                  </button>
-                </mat-card-actions> -->
-              </mat-card>
-              <!-- End form units array -->
-              <br />
-              <!-- Total price calculation formated with angular currency pipe -->
-              <mat-card>
-                Total price is
-                {{ totalSum | currency: "XOF ":"symbol-narrow":"1.2-2" }}
-              </mat-card>
-              <!-- Form submit button enabled on if form is valid -->
-              <!-- //*ngIf="!isSaved; else askPrint" -->
-              <mat-card-actions>
-                <button
-                  mdbBtn
-                  [disabled]="invoiceForm.invalid"
-                  mdbWavesEffect
-                  color="success"
-                >
-                  Submit
-                </button>
-                <button
-                mdbBtn
-                (click)="closeDialog()"
-                mdbWavesEffect
-                color="danger"
-              >
-                Annuler
-              </button>
-              </mat-card-actions>
-              <ng-template #askPrint>
-
-                <div class="col-md-12">
-                  <div class="alert alert-success" role="alert">
-                    Facture sauvegardée avec succès !!
-                  </div>
-                  <a class="btn btn-lg btn-info" >OK</a>
-
-                </div>
-              </ng-template>
-
-            </form>
           </mat-card>
-        </div>
-      </div>
-    </mat-card>
-  </mat-card-content>
-</mat-card>
+
+
+      </form>
+  </mat-card>
 

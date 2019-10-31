@@ -18,8 +18,11 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 
 export const appRoutes: Routes = [
-
-      { path: 'dashboard',
+      {
+        path: '',
+        redirectTo: '/dashboard', pathMatch: 'full'
+      },
+          { path: 'dashboard',
       component: DashboardComponent
       },
       {
@@ -28,10 +31,7 @@ export const appRoutes: Routes = [
        '../dashboard/dashboard.module#DashboardModule'
 
       },
-      {
-        path: '',
-        redirectTo: '/dashboard', pathMatch: 'full'
-      },
+
      {
       path: '**',
       redirectTo: '/dashboard', pathMatch: 'full'
@@ -41,7 +41,7 @@ export const appRoutes: Routes = [
 @NgModule({
     declarations: [],
     imports: [RouterModule.forRoot(appRoutes,
-      {enableTracing: true},
+      // {enableTracing: true},
     )
   ],
     exports: [RouterModule],

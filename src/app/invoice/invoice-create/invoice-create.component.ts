@@ -35,310 +35,163 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class InvoiceCreateComponent implements OnInit, OnDestroy {
 
-  receiveData;
-   public clients: Client[];
+
   public invoiceForm: FormGroup;
    public produits: Produit[];
-   public filteredProduits: Produit[][];
+   public filteredProduits: Produit[];
    public categories: Category[];
    public category: Category;
   public totalSum = 0;
    public myFormValueChanges$;
-   public clientValueChange$;
+   public myFormCategoryChanges$;
+   public myFormProduitChanges$;
+   public selectedProduit: Produit;
    public selectedClient: Client;
-  public listTransactions: any;
-  public isSaved = false;
-  public payMode = PaymentMode;
-  public modes = [];
-  public today = new Date();
-  public  accountBalances: CashBalance[] = [];
-  // private  lastCashBalance: CashBalance;
-  // @Output()
-  // emitInvoice: EventEmitter<Invoice> = new EventEmitter<Invoice>();
-
-
-  //  @ViewChild(InvoiceHtmlComponent) // referenced the html invoice
-  // invoiceHtmlComponent: InvoiceHtmlComponent;
+   public selectedRowData;
 
   constructor(
-    // private clientService: ClientService,
+
     public fb: FormBuilder,
-    // public categorieService: CategoryService,
-    // public produitService: ProduitService,
     public invoiceService: InvoiceService,
-    public transactionLineService: TransactionLineService,
     public currencyPipe: CurrencyPipe,
     public datePipe: DatePipe,
     public aRoute: ActivatedRoute,
     public route: Router,
-    // private generalService: GeneralService,
     public cashService: HistoricCashBalanceService,
     public printService: PrintService,
     public toastr: ToastrService,
-    public activeModal: NgbActiveModal,
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public receiveData,
     public dialogRef: MatDialogRef<InvoiceCreateComponent>
 
   ) {
-    this.receiveData = data;
-    console.log(this.receiveData);
 
   }
 
   ngOnInit() {
-    // const modes = Object.keys(this.payMode);
-    // console.log(modes);
-    this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
-    // Get the arrays of clients, products, and categories
-    this.clients = this.receiveData.clients; // this.aRoute.snapshot.data.clients;
-    this.categories = this.receiveData.categories;  // this.aRoute.snapshot.data.categories;
-    this.produits = this.receiveData.produits;  // this.aRoute.snapshot.data.produits;
 
-    // create the form
-    this.initData();
-    this.filteredProduits = new Array<Produit[]>();
-    // initialize stream on units
-    this.myFormValueChanges$ = this.invoiceForm.controls['items'].valueChanges;
-    // console.log(this.myFormValueChanges$);
-    // subscribe to the stream so listen to changes on units
-    this.myFormValueChanges$.subscribe(units => {
-      this.updateTotalUnitPrice(units),
-        this.updateFilteredProduits(units);
-    });
-    // Recuperer les changements du client
-    this.clientValueChange$ = this.invoiceForm.controls['client'].valueChanges;
-    this.clientValueChange$.subscribe(id => {
-      this.selectedClient = this.clients.find(n => n.id = id);
-    }
-    );
+            this.categories = this.receiveData.categories;  // this.aRoute.snapshot.data.categories;
+            this.produits = this.receiveData.produits;  // this.aRoute.snapshot.data.produits;
+            this.selectedRowData = this.receiveData.selectedRow;
+            // create the form
+            this.initData();
+            this.filteredProduits = new Array<Produit>();
 
-    // set the date and the payment mode
-    this.invoiceForm.controls['payMode'].patchValue(this.payMode.CASH);
-    this.invoiceForm.controls['dateTrans'].patchValue( formatDate(new Date(), 'mediumDate', 'en-US'));
+            // initialize stream on category to observe
+            this.myFormCategoryChanges$ = this.invoiceForm.controls['category'].valueChanges;
 
+            // initialize stream on prduct codes to observe
+            this.myFormProduitChanges$ = this.invoiceForm.controls['codeProd'].valueChanges;
 
+            // subscribe to the stream so listen to changes on categry
+            this.myFormCategoryChanges$.subscribe(categ => {
+                this.updateFilteredProduits(categ);
+            });
 
+                // subscribe to the stream so listen to changes on produit
+            this.myFormProduitChanges$.subscribe(prod => {
+                    this.updateSelectedProduct(prod);
+                });
+            this.invoiceForm.valueChanges.subscribe(v => {
+              this.updateSomme();
+              }
+            );
   }
-  /**
- * unsubscribe listener
- */
-  ngOnDestroy(): void {
-    this.myFormValueChanges$.unsubscribe();
-    this.clientValueChange$.unsubscribe();
-  }
-  /**
-   * Save form data
-   */
-  save(model: any, isValid: boolean, e: any) {
-    e.preventDefault();
+      /**
+     * unsubscribe listeners
+     */
+      ngOnDestroy(): void {
+        this.myFormProduitChanges$.unsubscribe();
+        this.myFormCategoryChanges$.unsubscribe();
+        // this.invoiceForm.valueChanges
+      }
 
-    // Initialize cash data
-    // this.initData();
-        this.cashService.getAll()
-        .subscribe(p => {
-          this.accountBalances = p;
-          // console.log(this.accountBalances);
-        });
-        // create a new invoice
-    const invoice = new Invoice();
-    // Give a static ref to the invoice that will always be unique
-    invoice.invoiceRef = (new Date()).getFullYear() + 'F' + Math.round((new Date()).getTime() / 1000);
-        //  OrderNo: Math.floor(100000 + Math.random() * 900000).toString(),
-    invoice.transactionLines = [];
-    this.listTransactions = [];
-    this.today = this.invoiceForm.get('dateTrans').value;
-    invoice.dateTrans = this.today;
-    invoice.statut = InvoiceStatus.PAYE;
-    invoice.paymentMode = this.invoiceForm.get('payMode').value;
-    invoice.client = this.selectedClient;
-    this.getTransactionLines(model['items']);
+        // Initialiase the form group
+        initData() {
+        //  console.log(this.selectedRowData);
 
-    invoice.transactionLines = [... this.listTransactions];
-    //  invoice.totalInvoice = this.listTransactions.reduce(((sum, x) => sum + x.transAmount));
-    invoice.totalInvoice = this.totalSum;
-
-
-    this.invoiceService.create(invoice).subscribe(
-      data => {
-
-        this.toastr.success('Facture generée avec succes : Ref ' + invoice.invoiceRef);
-
-        this.isSaved = true;
-      const lastCashBalance = this.accountBalances
-        .find( s =>  new Date(s['dateHisto']).getTime() === new Date(data['dateTrans']).getTime() &&
-      s['payMode'] === data['paymentMode']);
-        // resultat des courses
-        if (lastCashBalance === undefined || lastCashBalance === null) {
-          const cashEvent = new CashBalance();
-          cashEvent.dateHisto = data.dateTrans;
-          cashEvent.payMode = data.paymentMode;
-          cashEvent.balance =  data.totalInvoice;
-          this.cashService.create(cashEvent)
-         .subscribe ();
-          // send the notification
-          this.toastr.success('Caisse initiale du jour : ' + cashEvent);
-        //  console.log('caisse initiale du jour :' + cashEvent);
-        } else {
-
-          // send notification
-
-          // then update the balance and save
-          lastCashBalance.balance = lastCashBalance.balance + data.totalInvoice;
-          this.cashService.update(lastCashBalance).subscribe();
-          // console.log('caisse bien mise a jour :' + lastCashBalance.balance);
-          this.toastr.success('Caisse bien mise a jour  : ' + lastCashBalance.balance);
+          this.createForm(this.selectedRowData);
         }
+        // create the form if it does not exist
+        createForm(item) {
+        //  item ?  console.log(item.produit) : console.log('rien');
 
-      },
-      err => {
-        this.toastr.error('Une erreur est survenue! Aucun enregistrement fait!');
-      }
-    );
 
-  }
+           const numberPatern = '^[0-9.,]+$';
+          item ? this.invoiceForm = this.fb.group({
+            category: [item.category, Validators.required],
+            codeProd: [item.produit, Validators.required],
+            quantite: [item.quantite, [Validators.required, Validators.pattern(numberPatern)]],
+            prixUnit: [item.prixUnit, [Validators.required, Validators.pattern(numberPatern)]],
+            unitTotalPrice: [{ value: item.totalInvoice, disabled: true }]
+          }) :
 
-  /**
-   * Create form unit
-   */
-  public getUnit() {
-    const numberPatern = '^[0-9.,]+$';
-    return this.fb.group({
-      category: ['', Validators.required],
-      codeProd: ['', Validators.required],
-      quantite: [1, [Validators.required, Validators.pattern(numberPatern)]],
-      prixUnit: ['', [Validators.required]],
-      unitTotalPrice: [{ value: '', disabled: true }]
-    });
-
-  }
-
-  // Initialiase the form group
-  initData() {
-    this.data = { clients: this.clients};
-    // this.selectedItem = this.initItem;
-    this.createForm();
-  }
-  // create the form if it does not exist
-  createForm() {
-    // this.invoiceForm ? this.invoiceForm = this.fb.group({}) :
-    this.invoiceForm = this.fb.group({
-      client: ['', Validators.required],
-      dateTrans: [this.today, Validators.required],
-      payMode: ['', Validators.required],
-      items: this.fb.array([this.getUnit()])
-    }) ;
-    // this.invoiceForm.reset();
-  }
-  /**
-   * Add new unit row into form
-   */
-  public addUnit() {
-    const control = <FormArray>this.invoiceForm.controls['items'];
-    control.push(this.getUnit());
-
-  }
-
-  /**
-   * Remove unit row from form on click delete button
-   */
-  private removeUnit(i: number) {
-    const control = <FormArray>this.invoiceForm.controls['items'];
-    control.removeAt(i);
-  }
-
-  /**
-   * Update prices as soon as something changed on units group
-   */
-  private updateTotalUnitPrice(items: any) {
-    // get our units group controll
-    const control = <FormArray>this.invoiceForm.controls['items'];
-    // before recount total price need to be reset.
-    this.totalSum = 0;
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        const totalUnitPrice = items[i].quantite * items[i].prixUnit;
-
-        // now format total price with angular currency pipe
-        const totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'XOF ', 'symbol-narrow', '1.2-2');
-        // update total sum field on unit and do not emit event myFormValueChanges$ in this case on units
-        control.at(+i).get('unitTotalPrice').setValue(totalUnitPriceFormatted, { onlySelf: true, emitEvent: false });
-        // update total price for all units
-        this.totalSum += totalUnitPrice;
-      }
-    }
-  }
-
-  /**
- * Update prices as soon as something changed on units group
- */
-  private updateFilteredProduits(items: any) {
-    // get our units group controll
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        if (!(items[i].category === undefined) && !(items[i].category == null)) {
-          this.filteredProduits[i] = this.produits.filter(
-            produit => produit.category['nameCategory'] === items[i].category
-          );
+          this.invoiceForm = this.fb.group({
+            category: ['', Validators.required],
+            codeProd: ['', Validators.required],
+            quantite: [1, [Validators.required, Validators.pattern(numberPatern)]],
+            prixUnit: ['', [Validators.required, Validators.pattern(numberPatern)]],
+            unitTotalPrice: [{ value: '', disabled: true }]
+          });
 
         }
 
+        /**
+       * Update products as soon as something changed in the category
+       */
+        private updateFilteredProduits(category: string) {
+          // get the list of produits given their category choosen
+
+              if (!(category === undefined) && !(category == null)) {
+                this.filteredProduits = this.produits.filter(
+                  produit => produit.category['nameCategory'] === category
+                );
+
+          }
+        }
+
+        // get the price of a product based on the product code
+        private updateSelectedProduct(prod: string) {
+            // find the produit which has been selected
+              if (!(prod === undefined) && !(prod == null)) {
+                this.selectedProduit = this.filteredProduits.find( p => p['codeProd'] === prod);
+                // this.invoiceForm.controls['codeProd'].patchValue(this.selectedProduit.codeProd);
+                this.invoiceForm.controls['prixUnit'].patchValue(this.selectedProduit.prixUnitaire);
+              }
+
+        }
+
+      /**
+       * Update prices as soon as something changed on units group
+       */
+      private updateSomme() {
+            // get our units group controll
+
+            // before recount total price need to be reset.
+            this.totalSum = 0;
+
+            const totalUnitPrice = this.invoiceForm.controls['quantite'].value * this.invoiceForm.controls['prixUnit'].value;
+            // now format total price with angular currency pipe
+            const totalUnitPriceFormatted = this.currencyPipe.transform(totalUnitPrice, 'XOF ', 'symbol-narrow', '1.2-2');
+           // update total price for all units
+            this.totalSum += totalUnitPrice;
+
+          // update total sum field on unit and do not emit event myFormValueChanges$ in this case on units
+            this.invoiceForm.controls['unitTotalPrice'].setValue(this.totalSum, { onlySelf: true, emitEvent: false });
+
       }
-    }
-  }
 
-  private getTransactionLines(items: any) {
-    // tslint:disable-next-line:forin
-    for (const i in items) {
-      if (items.hasOwnProperty(i)) {
-        const transax = new TransactionLine();
-        transax.produit = this.produits.find(n => n['codeProd'] === items[i].codeProd);
-        transax.quantity = items[i].quantite;
-        transax.unitValue = items[i].prixUnit;
-        transax.creditAmount = Number(items[i].quantite) * Number(items[i].prixUnit);
-        transax.txDate = this.today;
-        this.listTransactions.push(transax);
+      // submit the line added to the invoice
+      onSubmit() {
+        // console.log(this.invoiceForm.value);
+
+        // add the data on the matdialo to a list of the table
+        this.dialogRef.close({data: this.invoiceForm.value});
+
+        }
+
+      closeDialog() {
+        this.dialogRef.close();
       }
-    }
-
-  }
-
-
-  closeDialog() {
-    this.dialogRef.close('Pizza!');
-  }
 
 }
-  /**
- * Get online geoIp information to pre-fill form fields country, city and zip
- */
-  /*  private getCountryByIpOnline(): Observable<any> {
-     return this.http.get('https://ipapi.co/json/')
-         .map(this.extractData)
-         .catch(this.handleError);
-   }
-  */
-  /**
-   * responce data extraction from http responce
-   */
-  /*  private extractData(res: Response) {
-     let body = res.json();
-     return body || { };
-   } */
-
-  /**
-   * handle error if geoIp service not available.
-   */
-  // private handleError (error: Response | any) {
-  // In a real world app, you might use a remote logging infrastructure
-  /*     let errMsg: string;
-      if (error instanceof Response) {
-        const body = error.json() || '';
-        const err = body.error || JSON.stringify(body);
-        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-      } else {
-        errMsg = error.message ? error.message : error.toString();
-      }
-      console.error(errMsg);
-      return Observable.throw(errMsg);
-    } */
 

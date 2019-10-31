@@ -45,6 +45,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { SignupComponent } from './signup/signup.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { NotificationsComponent } from './shared/notifications/notifications.component';
 
 
 
@@ -91,7 +92,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA, MatDialogRef } from '@angu
     { provide: MAT_DIALOG_DATA, useValue: [] },
     {provide: MatDialogRef, useValue: []}
   ],
-  entryComponents: [InvoiceCreateComponent],
+  entryComponents: [InvoiceCreateComponent, NotificationsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

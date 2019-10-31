@@ -33,7 +33,7 @@ export class InvoiceHtmlComponent implements OnInit {
   this.invoiceService.find(this.invoiceId)
   .subscribe( inv => {
     this.invoice = inv;
-    console.log(this.invoice);
+    // console.log(this.invoice);
 
   });
 }

@@ -67,7 +67,7 @@ export class SampleComponent implements OnInit {
     if (this.enumType != null) {
     this.enumElements = Object.keys(this.enumType).filter(f => !isNaN(Number(f)));
     }
-    // this.onChange();
+    this.onChange();
   }
 
   getValues() {
@@ -78,6 +78,8 @@ export class SampleComponent implements OnInit {
 
     this.crudForm.valueChanges.subscribe(val => {
       // this.selectedItem = event.target.value;
+      // console.log(val);
+
       this.selectedItem = val;
       this.selectedItemChange.emit(this.selectedItem);
       // console.log(this.selectedItem);
@@ -102,6 +104,7 @@ export class SampleComponent implements OnInit {
   }
 
   update() {
+    // console.log(this.selectedItem);
     this.service.update(this.selectedItem).subscribe(res => {
       this.initData();
       this.loadData();

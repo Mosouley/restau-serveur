@@ -1,7 +1,11 @@
-.mat-card {
-  padding-right: 1px;
-  row-gap: 1px;
+.card-body {
+  padding: 3px;
   align-items: center;
-  border-color: blue;
-  background-color: azure;
+  display: flex;
+  background-color: aqua;
+}
+.mat-card {
+  padding: 3px;
+  align-items: center;
+  display: flex;
 }

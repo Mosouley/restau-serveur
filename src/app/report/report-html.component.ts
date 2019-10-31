@@ -45,33 +45,33 @@ export class ReportHtmlComponent implements OnInit, AfterViewInit {
     timePeriod: { startDay: new Date(), endDay: new Date() } }
   ];
 
-  dataEntity = [];
+      dataEntity = [];
 
-  modelEntity: DataModel[] = [];
+      modelEntity: DataModel[] = [];
 
-  modelArrayEntity: DataModel[] = [];
+      modelArrayEntity: DataModel[] = [];
 
-  title: string;
+      title: string;
 
-  selectedType = 0;
+      selectedType = 0;
 
-  selectedPeriod = 0;
-  dataInvoices: Invoice[];
-  invoice: Invoice;
-  dataEntrees: Entree[];
-  dataSpendings: Spending[];
-  dataTx: TransactionLine[] = [];
-  data = [];
-  isEnable = false;
-  // utiliser mat-table
-  displayedColumns = [];
-   dataSource = new MatTableDataSource([]);
-  noData: any;
+      selectedPeriod = 0;
+      dataInvoices: Invoice[];
+      invoice: Invoice;
+      dataEntrees: Entree[];
+      dataSpendings: Spending[];
+      dataTx: TransactionLine[] = [];
+      data = [];
+      isEnable = false;
+      // utiliser mat-table
+      displayedColumns = [];
+      dataSource = new MatTableDataSource([]);
+      noData: any;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+      @ViewChild(MatSort) sort: MatSort;
+      @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @ViewChild(MatTable) table: MatTable<any>;
+      @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -81,14 +81,14 @@ export class ReportHtmlComponent implements OnInit, AfterViewInit {
     this.dataEntrees = this.route.snapshot.data.entrees;
     this.dataSpendings = this.route.snapshot.data.spendings;
     this.dataTx = this.route.snapshot.data.transax;
-    // console.log(this.selectedType);
+
 
     this.title = 'Selectionnez votre rapport et la période';
 
   }
   ngAfterViewInit(): void {
     this.doSortAndPaginate();
-    console.log(this.selectedType);
+    // console.log(this.selectedType);
   }
 
   public doFilter = (value: string) => {
@@ -150,18 +150,17 @@ public doSortAndPaginate(): void {
    setReportData(type: number, intervalSelected: number) {
     const start = this.reportPeriod[intervalSelected - 1].timePeriod.startDay;
     const end = this.reportPeriod[intervalSelected - 1].timePeriod.endDay;
-    // console.log('Date de Depart ' + start.toDateString());
-    // console.log( 'Date fin ' + end);
+
     switch (Number(type)) {
-      // donnees des transctions
+      // donnees des transactions
       case 1:
 
       this.data = this.dataTx.filter (tx => tx.debitAmount === 0);
 
         this.dataEntity = this.data.filter((transac: TransactionLine) => {
         // tslint:disable-next-line:no-unused-expression
-      return new Date(transac.txDate).getTime() >= new Date(start).getTime() &&
-      new Date(transac.txDate).getTime() <= new Date(end).getTime() ; } );
+      return new Date(transac.txDate).setHours(0, 0 , 0, 0) >= new Date(start).setHours(0, 0 , 0, 0) &&
+      new Date(transac.txDate).setHours(0, 0 , 0, 0) <= new Date(end).setHours(0, 0 , 0, 0) ; } );
 
       // console.log(this.dataEntity);
 
@@ -183,15 +182,6 @@ public doSortAndPaginate(): void {
 
        this.dataSource =  new MatTableDataSource<TransactionLine>();
        this.connectDataSource(this.modelEntity, this.dataEntity);
-        // Affichage des donnees dans un material table
-        // this.modelEntity.forEach(model => {
-        //   this.displayedColumns.push(model.columnName);
-        // });
-        // this.displayedColumns = this.modelEntity.map(c => c.columnName);
-
-        // this.dataSource.data = this.dataEntity;
-        // console.log(this.dataSource.data);
-        // this.doSortAndPaginate();
 
 
         break;
@@ -199,11 +189,11 @@ public doSortAndPaginate(): void {
       // Reporting des dépenses sur une periode
         // this.dataEntity = [...this.dataInvoices];
         this.dataEntity = this.dataSpendings.filter((spent: Spending) => {
-          // console.log(new Date(inv.dateTrans).getTime() );
+          // console.log(new Date(inv.dateTrans).setHours(0, 0 , 0, 0) );
 
           // tslint:disable-next-line:no-unused-expression
-          return new Date(spent.dateSpending).getTime()  >= new Date(start).getTime() &&
-          new Date(spent.dateSpending).getTime()  <= new Date(end).getTime(); } );
+          return new Date(spent.dateSpending).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+          new Date(spent.dateSpending).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0); } );
           this.title = 'Rapport des Depenses effectuees du ' +
         `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
         this.modelEntity = [
@@ -225,8 +215,8 @@ public doSortAndPaginate(): void {
        this.dataEntity = [];
         // Show the transactions, filter based on the interval sets by the user
         this.data = this.dataTx.filter((transac: TransactionLine) => {
-          return new Date(transac.txDate).getTime()  >= new Date(start).getTime() &&
-          new Date(transac.txDate).getTime()  <= new Date(end).getTime();
+          return new Date(transac.txDate).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+          new Date(transac.txDate).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0);
         } );
         // console.log(this.data);
 
@@ -285,8 +275,8 @@ public doSortAndPaginate(): void {
        this.dataEntity = [];
         // Show the transactions, filter based on the interval sets by the user
         this.data = this.dataTx.filter((transac: TransactionLine) => {
-          return new Date(transac.txDate).getTime()  >= new Date(start).getTime() &&
-          new Date(transac.txDate).getTime()  <= new Date(end).getTime();
+          return new Date(transac.txDate).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+          new Date(transac.txDate).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0);
         } );
         // console.log(this.data);
 
@@ -332,7 +322,7 @@ public doSortAndPaginate(): void {
         ];
 
         this.dataSource =  new MatTableDataSource<TransactionLine>();
-        console.log(this.dataEntity);
+    
 
          // Faire appel a la fonction de mat-table
       this.connectDataSource(this.modelEntity, this.dataEntity);
@@ -345,10 +335,11 @@ public doSortAndPaginate(): void {
        this.dataEntity = [];
         // Show the transactions, filter based on the interval sets by the user
         this.data = this.dataTx.filter((transac: TransactionLine) => {
-          return new Date(transac.txDate).getTime()  >= new Date(start).getTime() &&
-          new Date(transac.txDate).getTime()  <= new Date(end).getTime();
+          return new Date(transac.txDate).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+          new Date(transac.txDate).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0);
         } );
-        // console.log(this.data);
+
+
 
         // transform into rxjs observable
         // 1. convert the array to observable
@@ -392,7 +383,7 @@ public doSortAndPaginate(): void {
         ];
 
         this.dataSource =  new MatTableDataSource<TransactionLine>();
-        console.log(this.dataEntity);
+        // console.log(this.dataEntity);
 
          // Faire appel a la fonction de mat-table
       this.connectDataSource(this.modelEntity, this.dataEntity);
@@ -401,11 +392,11 @@ public doSortAndPaginate(): void {
 
       // this.dataEntity = [...this.dataInvoices];
       this.dataEntity = this.dataInvoices.filter((inv: Invoice) => {
-        // console.log(new Date(inv.dateTrans).getTime() );
+        // console.log(new Date(inv.dateTrans).setHours(0, 0 , 0, 0) );
 
         // tslint:disable-next-line:no-unused-expression
-        return new Date(inv.dateTrans).getTime()  >= new Date(start).getTime() &&
-        new Date(inv.dateTrans).getTime()  <= new Date(end).getTime(); } );
+        return new Date(inv.dateTrans).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+        new Date(inv.dateTrans).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0); } );
         this.title = 'Rapport des Factures emises du ' +
       `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
         this.modelEntity = [
@@ -428,8 +419,8 @@ public doSortAndPaginate(): void {
       // this.dataEntity = [...this.dataInvoices];
       this.dataEntity = this.data.filter((tx: TransactionLine) => {
         // tslint:disable-next-line:no-unused-expression
-      return new Date(tx.txDate).getTime()  >= new Date(start).getTime() &&
-      new Date(tx.txDate).getTime()  <= new Date(end).getTime(); } );
+      return new Date(tx.txDate).setHours(0, 0 , 0, 0)  >= new Date(start).setHours(0, 0 , 0, 0) &&
+      new Date(tx.txDate).setHours(0, 0 , 0, 0)  <= new Date(end).setHours(0, 0 , 0, 0); } );
 
 
       this.title = 'Rapport des Appro de stock faits du ' +
@@ -452,8 +443,8 @@ public doSortAndPaginate(): void {
 
       this.dataEntity = this.dataInvoices.filter((inv: Invoice) => {
         // tslint:disable-next-line:no-unused-expression
-      return new Date(inv.dateTrans).getTime() >= new Date(start).getTime() &&
-      new Date(inv.dateTrans).getTime() <= new Date(end).getTime() ; } );
+      return new Date(inv.dateTrans).setHours(0, 0 , 0, 0) >= new Date(start).setHours(0, 0 , 0, 0) &&
+      new Date(inv.dateTrans).setHours(0, 0 , 0, 0) <= new Date(end).setHours(0, 0 , 0, 0) ; } );
       this.title = 'Rapport des Factures emises  du ' +
       `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;
       this.modelEntity = [
@@ -498,8 +489,9 @@ getTotal(data: any []) {
 enableReport() {
   if (this.selectedType > 0 && this.selectedPeriod > 0) {
     this.isEnable = true;
-    this.title = 'Rapport de ' + this.reportType[1] + ' sur ' + this.reportPeriod[this.selectedPeriod - 1];
-
+    this.title = 'Rapport de ' + this.reportType[this.selectedType - 1]['name'] + ' sur '
+    + this.reportPeriod[this.selectedPeriod - 1]['name'];
+    // console.log(this.dataTx);
   } else {
     this.isEnable = false;
     this.title = 'Vous devez selectonner un type et une periode ';

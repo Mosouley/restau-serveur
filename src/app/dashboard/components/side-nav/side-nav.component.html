@@ -6,9 +6,7 @@
             <!-- style="background-color:rgba(37, 151, 226, 0.863);" -->
 
             <mat-toolbar>
-
-              <div class="sidebar-background" style="background-image: url(/assets/img/sidebar-2.jpg)">
-
+              <div class="sidebar-background" style="background-image: url('/assets/img/sidebar-2.jpg')">
                 <i class="material-icons">home</i>
                 <img src="/assets/yasn logo.jpeg" id="company_logo" style="height: 60px; width: 60px">
               </div>
@@ -18,7 +16,7 @@
                 <mat-list >
                   <mat-nav-list >
                         <a mat-list-item
-                        [routerLink]= "['invoice-list' ]"
+                        [routerLink]= "['invoice-generate' ]"
 
                          >
                          <!-- [routerLink]= "[  {outlets: {incoice: ['invoice-create'] }} ]" -->
@@ -43,10 +41,11 @@
           </mat-sidenav>
           <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
           <!-- <router-outlet name="modal"></router-outlet> -->
-          <div fxLayout="column" fxFlexFill>
+          <div fxLayout="column" fxFlexFill style="justify-content: center">
             <div  *ngIf="authService.isLoggedIn()">
-
+              <mat-card>
                <router-outlet></router-outlet>
+               </mat-card>
                <!-- <router-outlet name="invoice"></router-outlet> -->
 
 
@@ -55,7 +54,7 @@
                 <div class="alert alert-danger alert-with-icon " role="alert" style="text-align: center; align-content: center">
                     Vous êtes deconnecté, essayez de vous connecter à nouveau!
                   </div>
-                  <div class="jumbotron jumbtron-fluid">
+                  <div class="jumbotron jumbotron-fluid">
 
                       <div fxLayout="column">
                         <div class="row">
@@ -63,13 +62,13 @@
                               <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                                   <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="/assets/img/sidebar-2.jpeg" class="d-block w-100" alt="...">
+                                        <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                      <img src="/assets/img/sidebar-2.jpeg" class="d-block w-100" alt="...">
+                                      <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
                                     </div>
                                     <div class="carousel-item">
-                                      <img src="/assets/img/sidebar-2.jpeg" class="d-block w-100" alt="...">
+                                      <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
                                     </div>
                                   </div>
                                 </div>

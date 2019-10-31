@@ -1,13 +1,17 @@
-<div>
-    <div class="content-wrapper" style="height: 20px;margin: 5px;">
+
+
+    <div  style="height: 20px;margin: 5px;">
       <section class=" content-header">
         <div  style="text-align: center">
           <h1>
             <strong>
             Facture A Imprimer
           </strong>
+          <button mat-mini-fab mdbBtn color="success"  [routerLink]="['/dashboard/invoice-list']">
+            <mat-icon class="mat-18">arrow_back_ios</mat-icon>
+        </button>
           </h1>
-          <ol class="breadcrumb "></ol>
+
         </div>
       </section>
       <section
@@ -58,6 +62,10 @@
                     <span>
                       Contacts:&nbsp;{{ invoice["client"].phoneClient }}
                     </span>
+                    <br />
+                    <span>
+                        Date:&nbsp;{{ invoice.dateTrans}}
+                      </span>
                   </mat-card>
             </div>
             <br>
@@ -90,10 +98,10 @@
                       {{ tx["produit"].descProduit }}
                     </td>
                     <td style="padding-left: 20px;">{{ tx.quantity }}</td>
-                    <td style="padding-left: 20px;">{{ tx.sellPrice }}</td>
+                    <td style="padding-left: 20px;">{{ tx.unitValue }}</td>
                     <td style="padding-left: 20px;">
                       {{
-                        tx.transAmount | number
+                        tx.creditAmount | number
                       }}
                     </td>
                   </tr>
@@ -174,6 +182,6 @@
         </mat-card>
       </ng-template>
     </div>
-  </div>
+
 
 
