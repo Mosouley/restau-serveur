@@ -322,7 +322,7 @@ public doSortAndPaginate(): void {
         ];
 
         this.dataSource =  new MatTableDataSource<TransactionLine>();
-    
+
 
          // Faire appel a la fonction de mat-table
       this.connectDataSource(this.modelEntity, this.dataEntity);
@@ -356,7 +356,6 @@ public doSortAndPaginate(): void {
             reduce(
               (acc, curr) => {
                 acc.produit = acc.produit || curr.produit;
-                // acc.produit.descProduit = curr.produit.descProduit ;
                 acc.debitAmount += curr.debitAmount / curr.unitValue;
                 acc.creditAmount += curr.creditAmount / curr.unitValue;
                 acc.solde = acc.debitAmount - acc.creditAmount;
@@ -367,7 +366,7 @@ public doSortAndPaginate(): void {
             )
           )
         )
-      ).subscribe( result => this.dataEntity.push( result));
+      ).subscribe( result => this.dataEntity.push(result));
 
           this.title = ' Mouvements de stocks effectues du ' +
         `${formatDate(start, 'mediumDate', 'en-US')}` + ' au ' + `${formatDate(end, 'mediumDate', 'en-US')}`;

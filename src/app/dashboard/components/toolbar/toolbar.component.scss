@@ -3,9 +3,11 @@
 .mat-toolbar {
   padding: .2em 1em;
   border-spacing: 5px;
-  // border-block-end: #353d47;
-  // background-color: #353d47;
-  background-color:rgba(6, 105, 170, 0.863);
+ max-height: 50px;
+  // background-color:rgba(6, 105, 170, 0.863);
+  background-color:rgba(184, 215, 235, 0.863);
+  background-image: url('/assets/img/sidebar-3.jpg') ;
+  color:rgba(4, 10, 65, 0.808);
 }
 /* ==========================================================================
 Navbar

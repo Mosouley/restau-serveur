@@ -26,7 +26,7 @@ import { TransactionLineService } from '../../services/transactionLine.service';
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatDialogConfig, MatDialog, MatTable } from '@angular/material';
 import { HistoricCashBalanceService } from '../../services/HistoricCashBalance.service';
 import { CashBalance } from '../../shared/model/cashBalance';
-import { filter, map, groupBy, reduce, mergeMap } from 'rxjs/operators';
+import { filter, map, groupBy, reduce, mergeMap, flatMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TokenStorageService } from '../../auth/token-storage.service';
@@ -462,7 +462,6 @@ export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
                 // 3. flatMap or mergeMap, to merge all the objects in a single object
                 // 4.then on each object make the calculation need
                 // 5. subscribe and push back in an array
-                console.log(liste);
 
                 from(liste)
                 .pipe(
@@ -472,34 +471,32 @@ export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
                   transac.pipe(
                     reduce(
                       (acc, curr) => {
-                        acc['codeProd'] = acc['codeProd'] || curr['codeProd'];
+                        acc.codeProd = acc.codeProd || curr['codeProd'];
                         // acc.produit.descProduit = curr.produit.descProduit ;
                         acc.quantite += curr['quantite'];
-
-                        acc.totalInvoice = acc.quantite * acc['prixUnit'];
                         return acc;
                       },
                       {   codeProd: null,
-                        quantite: 0,
-                      totalInvoice: 0 }
+                          quantite: 0
+                        }
                     )
                   )
                 )
               ).subscribe( result => {
-                console.log(result);
+                const maLigne = this.stockArray.find(r => r['produit'].codeProd === result.codeProd);
+                  if (maLigne) {
+                            if (result.quantite >= maLigne['solde']) {
+                              this.toastr.error('Impossible de Facturer un total de ' + result.quantite +
+                              ' Pour ' + maLigne['produit'].codeProd + ' Stock Restant ' +
+                              maLigne['solde'] );
+
+                            }
+
+                  }
 
 
-                if (this.stockArray.find(r => r['produit'].codeProd === result.codeProd)) {
-                  console.log(this.stockArray);
+                });
 
-                  // check if the total sales is sup to the remainning stock
-                  //  if (result.quantite > this.stockArray['solde']) {
-                    //  console.log(r);
-                    console.log(result.quantite);
-
-                  //  }
-                }
-              });
 
               // console.log(this.stockArray);
               // return this.stockArray;
