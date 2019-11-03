@@ -1,36 +1,32 @@
 package com.moh.restaurant.service.impl;
 
 
-import com.moh.restaurant.dao.ProduitRepository;
-import com.moh.restaurant.entities.Produit;
-import com.moh.restaurant.service.ICrudService;
-
-import com.moh.restaurant.service.ProduitService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import com.moh.restaurant.dao.ProduitRepository;
+import com.moh.restaurant.entities.Produit;
+import com.moh.restaurant.service.ProduitService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 @Service
 @Transactional
-public class ProduitServiceImpl implements ProduitService{
+public class ProduitServiceImpl implements ProduitService {
 
-    private final Logger log = LoggerFactory.getLogger(ProduitService.class);
+  private final Logger log = LoggerFactory.getLogger(ProduitService.class);
 
+  private ProduitRepository produitRepository;
 
-    private ProduitRepository produitRepository;
-
-    public  ProduitServiceImpl(ProduitRepository produitRepository){
-        this.produitRepository = produitRepository;
+  public ProduitServiceImpl(ProduitRepository produitRepository) {
+    this.produitRepository = produitRepository;
 
     }
-   
+
     public Iterable<Produit> getProduitsByCategry(String nameCategory) {
         log.debug("Request to retrieve all the products per category : { findProduitsByCategory(nameCategory)}");
         return produitRepository.findProduitsByCategory(nameCategory);
@@ -45,7 +41,7 @@ public class ProduitServiceImpl implements ProduitService{
     @Override
     public void add(Produit produit) {
         log.debug("Request to add the product  : { produit }");
-        
+
         produitRepository.save(produit);
     }
 

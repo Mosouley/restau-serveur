@@ -1,3 +1,4 @@
+import { FormUploadComponent } from './../form-upload/form-upload.component';
 import { ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupModalService } from './../signup/signinup-modal.service';
@@ -53,6 +54,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     SignupComponent,
     MainContentComponent,
     NotificationsComponent,
+    FormUploadComponent
 
 
   ],
@@ -82,7 +84,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     InvoiceModule,
     RouterModule,
     PrintModule,
-
+    FormUploadComponent
   ],
   providers:
   [

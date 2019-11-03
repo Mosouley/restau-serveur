@@ -1,4 +1,4 @@
-<mat-card class="flex-row" style="justify-content: center">
+  <mat-card class="flex-row" style="justify-content: center">
     <div class="row">
       <div class="flex flex-column">
         <div class="card">
@@ -20,8 +20,12 @@
                     <input  type="text" formControlName="phoneCompany" class="form-control" />
                     <label>Code IFU</label>
                     <input  type="text" formControlName="codeIfuCompany" class="form-control" />
-                    <label>Logo</label>
-                    <input  type="file" formControlName="logoCompany" class="form-control" />
+                    <mat-card>
+                      <label>Logo</label>
+                      <app-form-upload></app-form-upload>
+                    </mat-card>
+
+                    <!-- <input  type="file" formControlName="logoCompany" class="form-control" /> -->
                   </div>
                 </div>
 
@@ -37,4 +41,5 @@
         </div>
       </div>
     </div>
-    </mat-card>
+  </mat-card>
+

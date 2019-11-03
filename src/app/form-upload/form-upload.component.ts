@@ -1,9 +1,10 @@
-import { UploadFileService } from './../upload-file.service';
+
 import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { UploadFileService } from '../shared/upload-file.service';
 
 @Component({
-  selector: 'form-upload',
+  selector: 'app-form-upload',
   templateUrl: './form-upload.component.html',
   styleUrls: ['./form-upload.component.css']
 })

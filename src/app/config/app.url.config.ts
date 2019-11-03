@@ -18,5 +18,6 @@ export const API_URLS = {
     CASHBALANCE_URL:  PATH + '/cash',
     PRODBALANCE_URL:  PATH + '/prodBalance',
     SINGNING_URL: PATH + '/auth/signin',
-    SINGNUP_URL:  PATH + '/auth/signup'
+    SINGNUP_URL:  PATH + '/auth/signup',
+    FILE_UPLOAD_URL: PATH + '/storage'
 };
