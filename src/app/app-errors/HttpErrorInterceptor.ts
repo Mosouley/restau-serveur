@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { HttpInterceptor,
      HttpRequest,
      HttpHandler,
@@ -10,6 +11,7 @@ import { BadInput } from './bad-input';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 
+  constructor (public toastr: ToastrService) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
         .pipe(
@@ -24,6 +26,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
                 }
                 window.alert(errorMessage);
+                // this.toastr.error(errorMessage);
                 return throwError(errorMessage);
             })
         );

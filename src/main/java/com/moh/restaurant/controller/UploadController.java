@@ -32,7 +32,7 @@ public class UploadController{
 
     @PostMapping("/save")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-
+      storageService.init();
         String message = "";
         try {
             storageService.store(file);
@@ -41,8 +41,9 @@ public class UploadController{
             message = "You successfully uploaded " +file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
-            message = "You failed to upload " +file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+            message = "You failed to upload " + file.getOriginalFilename() + "!";
+            // return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok().body(message);
         }
     }
 

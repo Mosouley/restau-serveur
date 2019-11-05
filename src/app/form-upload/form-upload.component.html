@@ -16,19 +16,19 @@
 <div class="alert alert-primary">
 
 </div> -->
-
+<form [formGroup]="uploadForm" >
 <div class="card card-primary">
 
-  <div *ngIf="currentFile" class="progres">
+  <div *ngIf="currentFileUpload" class="progres">
     <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progres.percentage}}"
       aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
       {{progres.percentage}}%</div>
   </div>
 
   <label class="btn btn-default">
-    <input type="file" (change)="checkUpFile($event)">
+    <input type="file" name="logo" (change)="checkUpFile($event)">
   </label>
 
-  <button class="btn btn-success" [disabled]="!selectionFiles" (click)="load()">Upload on Server</button>
+  <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Upload on Server</button>
   </div>
-
+</form>
