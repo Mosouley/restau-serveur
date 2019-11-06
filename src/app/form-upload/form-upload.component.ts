@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { UploadFileService } from '../shared/upload-file.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form-upload',
@@ -20,7 +21,8 @@ export class FormUploadComponent implements OnInit {
   progres: { percentage: number } = { percentage: 0};
 
   constructor(private uploaService: UploadFileService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+  private toast: ToastrService) { }
 
   ngOnInit() {
     this.uploadForm = this.formBuilder.group({
@@ -40,38 +42,21 @@ export class FormUploadComponent implements OnInit {
     }
   }
 
-  // upload() {
-  //   this.progress.percentage = 0;
-  //   this.currentFileUpload = this.selectedFiles.item(0);
-  //   this.uploaService.pushFileToStorage(this.currentFileUpload).subscribe( event => {
-  //     if (event.type === HttpEventType.UploadProgress) {
-  //       this.progress.percentage = Math.round(100 * event.loaded / event.total);
-  //       } else if (event instanceof HttpResponse) {
-  //         console.log('File is completely uploaded! ');
-
-  //     }
-  //   });
-
-  //   this.selectedFiles = undefined;
-  // }
-
   onSubmit() {
     this.progres.percentage = 0;
     // this.currentFileUpload = this.selectionFiles.item(0);
     this.currentFileUpload = this.uploadForm.get('logo').value;
 
-    console.log(this.currentFileUpload);
-
-    this.uploaService.pushFileTwoToStorage(this.currentFileUpload).subscribe( event => {
+    this.uploaService.pushFileToStorage(this.currentFileUpload).subscribe( event => {
 
 
       if (event.type === HttpEventType.UploadProgress) {
         this.progres.percentage = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           console.log('File is completely uploaded! ');
-
+          this.toast.success('File is completely uploaded! ');
       } else {
-        console.log(event.type);
+        this.toast.error('Une erreur est survenue lors du chargement du fichier ');
 
       }
     });

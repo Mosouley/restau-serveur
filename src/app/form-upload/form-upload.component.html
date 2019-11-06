@@ -19,7 +19,7 @@
 <form [formGroup]="uploadForm" >
 <div class="card card-primary">
 
-  <div *ngIf="currentFileUpload" class="progres">
+  <div *ngIf="currentFileUpload" class="progress">
     <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progres.percentage}}"
       aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
       {{progres.percentage}}%</div>

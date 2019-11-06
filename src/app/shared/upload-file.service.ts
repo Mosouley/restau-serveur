@@ -14,7 +14,7 @@ export class UploadFileService {
 
 
 
-  pushFileTwoToStorage(file): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file): Observable<HttpEvent<{}>> {
     // const headers: any = new HttpHeaders();
     // headers.append('Content-type', 'undefined');
     // const headers = new HttpHeaders({'Content-Type': 'undefined'});
@@ -37,16 +37,4 @@ export class UploadFileService {
     return this.http.get<string[]>(API_URLS.FILE_UPLOAD_URL  + '/getallfiles');
   }
 
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
-
-    const formData: FormData = new FormData();
-    formData.append('file', file);
-
-    const req = new HttpRequest('POST', API_URLS.FILE_UPLOAD_URL + '/file/upload', formData, {
-      reportProgress: true,
-      responseType: 'text'
-    });
-
-    return this.http.request(req);
-  }
 }
