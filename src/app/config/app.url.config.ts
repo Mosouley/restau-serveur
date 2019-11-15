@@ -19,5 +19,7 @@ export const API_URLS = {
     PRODBALANCE_URL:  PATH + '/prodBalance',
     SINGNING_URL: PATH + '/auth/signin',
     SINGNUP_URL:  PATH + '/auth/signup',
-    FILE_UPLOAD_URL: PATH + '/storage/save'
+    FILE_UPLOAD_URL: PATH + '/storage/upload',
+    FILE_LOADING_URL: PATH + '/storage/files',
+    FILE_LOADING_ALL: PATH + '/storage/getallfiles'
 };

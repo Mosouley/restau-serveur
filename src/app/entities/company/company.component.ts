@@ -1,9 +1,14 @@
+import { Observable } from 'rxjs';
+
+import { UploadFileService } from './../../shared/upload-file.service';
 import { isUndefined } from 'util';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CompanyService } from '../../services/company.service';
 import { Company } from '../../shared/model/company';
 import { MatSnackBar } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-company',
@@ -13,6 +18,14 @@ import { MatSnackBar } from '@angular/material';
 export class CompanyComponent implements OnInit {
 
 
+  selectionFiles: FileList;
+  listFichiers: string [];
+  progres: { percentage: number } = { percentage: 0};
+
+  @Input()
+  logoCompany: string ;
+
+  currentFileUpload: File;
   private companyForm: FormGroup;
   private theCompany = new Company();
   operation = 'add';
@@ -20,7 +33,8 @@ export class CompanyComponent implements OnInit {
   constructor(
     private companyService: CompanyService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
+    private uploadService: UploadFileService,
+    private toast: ToastrService
   ) {
 
    }
@@ -51,16 +65,18 @@ export class CompanyComponent implements OnInit {
       codeIfuCompany: ['', Validators.required],
       phoneCompany: '',
       adressCompany: '',
-      logoCompany: ''
+      logoCompany: '/assets/yasn logo.jpeg'
     });
 }
 
   add() {
     const p = this.companyForm.value;
-    this.companyService.create(p).subscribe(res => {console.log(res);
-      this.snackBar.open('Societe parametree', 'Succes', {
-        duration: 1000
-      });
+
+    this.companyService.create(p).subscribe(res => {
+      this.toast.show('Societe configuree avec success');
+      // this.snackBar.open('Societe parametree', 'Succes', {
+      //   duration: 1000
+      // });
       this.companyForm.reset();
       // console.log(this.loadData());
     });
@@ -68,10 +84,51 @@ export class CompanyComponent implements OnInit {
   }
 
   update() {
-
     this.companyService.update(this.theCompany).subscribe(res => {
-
     });
   }
 
+  checkUpFile(event) {
+    const file = event.target.files.item(0);
+    // console.log(file);
+
+    if (file.type.match('image.*')) {
+    this.selectionFiles =  event.target.files;
+    // this.companyForm.get('logoCompany').setValue(file);
+    } else {
+      this.toast.warning('invalid file format');
+    }
+    // console.log(this.companyForm.value);
+
+  }
+
+  onSubmit() {
+    this.progres.percentage = 0;
+    this.currentFileUpload = this.selectionFiles.item(0);
+    // this.currentFileUpload = this.companyForm.get('logoCompany').value;
+
+    // this.logo = '/upload-dir/' + this.currentFileUpload['name'];
+    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe( event => {
+
+      this.companyForm.get('logoCompany').setValue(event['partialText']);
+      this.logoCompany = event['partialText'];
+      console.log(event['partialText']);
+
+      // this.companyForm.get('logoCompany').setValue(this.currentFileUpload['name']);
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progres.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.toast.success('Fichier chargé avec succès! ');
+      }
+    });
+    // this.logoCompany = this.companyForm.get('logoCompany').value;
+    console.log(this.logoCompany);
+    // this.selectionFiles = undefined;
+  }
+  getImageUrl(): Observable<string> {
+    this.uploadService.getFile(this.currentFileUpload['name']).subscribe(res => console.log(res));
+
+    return this.currentFileUpload ? this.companyForm.get('logoCompany').value : '/assets/yasn logo.jpeg';
+  }
+  // this.uploadService.getFile(this.currentFileUpload['name'])
 }

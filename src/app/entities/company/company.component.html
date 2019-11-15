@@ -20,9 +20,32 @@
                     <input  type="text" formControlName="phoneCompany" class="form-control" />
                     <label>Code IFU</label>
                     <input  type="text" formControlName="codeIfuCompany" class="form-control" />
+                          <mat-card style="text-align: center">
+                              <label>Logo</label>
+                            <span *ngIf="getImageUrl()">
+
+                            <img  [src]="getImageUrl()" class="img-fluid img-thumbnail" style="height: 60px; width:60px;"  >
+                          </span>
+
+                          </mat-card>
+
                     <mat-card>
-                      <label>Logo</label>
-                      <app-form-upload></app-form-upload>
+
+                      <!-- <app-form-upload></app-form-upload> -->
+                            <div class="card card-primary " >
+
+                              <div *ngIf="currentFileUpload" class="progress">
+                                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progres.percentage}}"
+                                  aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progres.percentage+'%'}">
+                                  {{progres.percentage}}%</div>
+                              </div>
+
+                              <label class="btn btn-default">
+                                <input type="file" name="logoCompany" accept="image/png, image/jpeg" (change)="checkUpFile($event)">
+                              </label>
+                              <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Appliquer</button>
+                            </div>
+
                     </mat-card>
 
                     <!-- <input  type="file" formControlName="logoCompany" class="form-control" /> -->

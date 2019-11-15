@@ -1,9 +1,11 @@
 package com.moh.restaurant.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Company{
@@ -16,10 +18,13 @@ public class Company{
     private String codeIfuCompany;
     private String adressCompany;
     private String phoneCompany;
+
+    @Size(max = 256)
+    @Column(name = "logo_url", length = 256)
     private String logoCompany;
 
     public  Company() {
-        
+
     }
     /**
      * @return the adressCompany
@@ -92,5 +97,5 @@ public class Company{
     public void setPhoneCompany(String phoneCompany) {
         this.phoneCompany = phoneCompany;
     }
-    
+
 }

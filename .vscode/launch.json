@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - RestaurantApplication",
+            "request": "launch",
+            "mainClass": "com.moh.restaurant.RestaurantApplication",
+            "projectName": "restaurant"
+        }
+    ]
+}

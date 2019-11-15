@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -92,8 +94,7 @@ protected void configure(HttpSecurity http) throws Exception {
 			// .and()
 			// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-
-}
+  }
 
 
 	@Override
@@ -106,12 +107,19 @@ protected void configure(HttpSecurity http) throws Exception {
         .antMatchers("/dashboard")//
         .antMatchers("/dashboard/**")//
         .antMatchers("/api/auth/**")//
-				// .antMatchers("/dashboard/**")//
+				 .antMatchers("/uploads/**")//
 				.antMatchers("/swagger-ui.html")//
 				.antMatchers("/configuration/**")//
 				.antMatchers("/webjars/**")//
-				.antMatchers("/public")
+				.antMatchers("/public");
+    }
 
-		;
-	}
+    // Necessary for adding directory for static content serving
+    @Configuration
+    public class AdditionalResourceWebConfiguration implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**").addResourceLocations("file:uploads/");
+    }
+}
 }

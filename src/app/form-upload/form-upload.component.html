@@ -1,34 +1,20 @@
-<!-- <div class="card card-primary">
-<div *ngIf="currentFileUpload" class="progress">
-  <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-    aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-    {{progress.percentage}}%</div>
-</div>
 
-<label class="btn btn-default">
-  <input type="file" (change)="selectFile($event)">
-</label>
 
-<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload on Sql</button>
-</div>
-<br>
-
-<div class="alert alert-primary">
-
-</div> -->
 <form [formGroup]="uploadForm" >
-<div class="card card-primary">
+  <div class="card card-primary " >
 
-  <div *ngIf="currentFileUpload" class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progres.percentage}}"
-      aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-      {{progres.percentage}}%</div>
-  </div>
-
-  <label class="btn btn-default">
-    <input type="file" name="logo" (change)="checkUpFile($event)">
-  </label>
-
-  <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Upload on Server</button>
+    <div *ngIf="currentFileUpload" class="progress">
+      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progres.percentage}}"
+        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progres.percentage+'%'}">
+        {{progres.percentage}}%</div>
+    </div>
+    <span >
+      <img [src]="getImageUrl()" class="logo-img img-circle" alt="getImageUrl()" style="height: 60px; width: 60px" >
+    </span>
+    <label class="btn btn-default">
+      <input type="file" name="logo" accept="image/png, image/jpeg" (change)="checkUpFile($event)">
+    </label>
+    <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Appliquer</button>
   </div>
 </form>
+
