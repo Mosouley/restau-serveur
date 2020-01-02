@@ -59,7 +59,6 @@ export class InvoiceCreateComponent implements OnInit, OnDestroy {
     public route: Router,
     public cashService: HistoricCashBalanceService,
     public printService: PrintService,
-    public toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public receiveData,
     public dialogRef: MatDialogRef<InvoiceCreateComponent>
 

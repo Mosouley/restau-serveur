@@ -38,7 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
         log.debug("Request to add the company  : { company }");
        if(companyRepository.findAll().isEmpty()) {
            companyRepository.save(company);
-       } 
+       }
     }
 
     @Override

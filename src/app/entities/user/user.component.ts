@@ -22,6 +22,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.fb.group({
+      id: '',
       username: ['', Validators.required],
       lastname: ['', Validators.required],
       password: ['', Validators.required]

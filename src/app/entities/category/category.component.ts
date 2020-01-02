@@ -43,7 +43,7 @@ export class CategoryComponent implements OnInit {
 
 
     this.categoryForm = this.fb.group({
-
+      id: '',
       nameCategory: ['', Validators.required],
       createAt: ['', Validators.required]
     });

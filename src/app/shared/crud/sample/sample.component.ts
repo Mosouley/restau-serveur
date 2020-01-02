@@ -41,10 +41,10 @@ export class SampleComponent implements OnInit {
   initForm: FormGroup;
 
   crudForm: FormGroup;
-
+  // panelOpenState = false;
   operation = 'add';
 
-
+  myformValueChange$: any;
   selectedItem: any;
 
   @Input()
@@ -67,23 +67,27 @@ export class SampleComponent implements OnInit {
     if (this.enumType != null) {
     this.enumElements = Object.keys(this.enumType).filter(f => !isNaN(Number(f)));
     }
-    this.onChange();
-  }
-
-  getValues() {
-     this.crudForm.patchValue(this.selectedItem);
-  }
-
-  onChange() {
-
-    this.crudForm.valueChanges.subscribe(val => {
-      // this.selectedItem = event.target.value;
+    this.myformValueChange$ =  this.crudForm.valueChanges;
+    this.myformValueChange$.subscribe( val => {
       // console.log(val);
 
-      this.selectedItem = val;
+    });
+    // this.onChange();
+  }
+
+  getValues($event) {
+    // console.log(this.selectedItem);
+    this.crudForm.patchValue(this.selectedItem);
+    // console.log(this.crudForm.value);
+    // console.log(this.selectedItem);
+
+  }
+
+  onChange(event) {
+    this.crudForm.valueChanges.subscribe(val => {
+      this.selectedItem = this.crudForm.value;
       this.selectedItemChange.emit(this.selectedItem);
-      // console.log(this.selectedItem);
-      //  this.crudForm.patchValue(this.selectedItem);
+      //  console.log(this.selectedItem);
     });
   }
   createForm() {
@@ -104,11 +108,12 @@ export class SampleComponent implements OnInit {
   }
 
   update() {
-    // console.log(this.selectedItem);
+    //  console.log(this.selectedItem);
     this.service.update(this.selectedItem).subscribe(res => {
       this.initData();
       this.loadData();
-    });
+    }, err => console.log(err)
+    );
   }
 
   initData() {
@@ -117,6 +122,8 @@ export class SampleComponent implements OnInit {
   }
 
   delete() {
+    // console.log(this.selectedItem.id);
+
     this.service.delete(this.selectedItem.id).subscribe(res => {
       this.selectedItem = this.initItem;
       this.loadData();

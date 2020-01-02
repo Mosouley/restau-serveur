@@ -85,6 +85,7 @@ export class EntreeComponent implements OnInit {
 
   createForm() {
     this.approForm = this.fb.group({
+      id: '',
       dateAppro: ['', Validators.required],
       category: ['', Validators.required],
       produit: ['', Validators.required],
@@ -106,7 +107,6 @@ export class EntreeComponent implements OnInit {
   add() {
     const appro = new Appro();
     const p = this.approForm.value;
-    console.log(p);
 
     appro.approRef = (new Date()).getFullYear() + 'A' + Math.round((new Date()).getTime() / 1000);
     appro.dateAppro = p['dateAppro'];
@@ -135,5 +135,13 @@ export class EntreeComponent implements OnInit {
     this.entreeService.getAll().subscribe(data => {
       this.appros = data;
     });
+  }
+
+  remove() {
+
+  }
+
+  getValues() {
+
   }
 }

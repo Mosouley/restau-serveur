@@ -1,38 +1,24 @@
 <mat-card>
-<div class="row">
-  <div class="col-lg-8">
-      <!-- class="table table-hover table-striped table-sm" -->
-    <table  class="table table-hover table-striped table-sm" >
+<!-- <div class="row"> -->
 
-      <thead>
-        <tr>
-          <th *ngFor="let dataModel of dataModelList">{{dataModel.columnReference}}</th>
-          <th>
-            <button class="btn btn-outline-primary btn-sm" (click)="operation = 'add'; initData();">ADD</button>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of data">
+  <!-- <div class="col-lg-4">
 
-          <td *ngFor="let dataModel of dataModelList">
-                {{dataModel.dataType == 'Array' ? item[dataModel.columnName][arrayModelList[1].columnName]: item[dataModel.columnName]}}
-          </td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm" (click)="selectedItem = item; operation = 'edit';getValues()">Edit
-            </button>
+  </div> -->
+<!-- </div> -->
 
-            <button class="btn btn-outline-danger btn-sm" (click)="selectedItem = item;operation = 'remove' ">Remove</button>
-          </td>
-
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-lg-4">
-    <div class="card">
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Nouvel Enregistrement
+      </mat-panel-title>
+      <mat-panel-description>
+        Saisir les valeurs pour chaque élément
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="card d-flex justify-content-center col-5">
       <div class="card-header bg-info text-white">
-        {{ operation == 'add' ? 'Ajouter un Produit' : operation == 'edit' ? 'Modifier Produit' : operation == 'remove' ? 'Supprimer
+        {{ operation == 'add' ? 'Ajouter une Unité' : operation == 'edit' ? 'Modifier Produit' : operation == 'remove' ? 'Supprimer
         Produit' : '' }}
       </div>
       <div class="card-body">
@@ -40,8 +26,8 @@
         <div *ngIf="operation == 'add' || operation == 'edit'">
           <form [formGroup]="crudForm" (change)="onChange($event)">
 
-            <div *ngFor="let dataModel of dataModelList" [ngSwitch]="dataModel.dataType">
-              <div class="form-group" *ngIf="!dataModel.readonly">
+            <div class="d-flex justify-content-center" *ngFor="let dataModel of dataModelList" [ngSwitch]="dataModel.dataType">
+              <div class="form-group " *ngIf="!dataModel.readonly" >
                 <label>{{dataModel.columnReference}}:</label>
                 <!-- for string fields -->
                 <input *ngSwitchCase="'string'" type="text" formControlName="{{dataModel.columnName}}" class="form-control" />
@@ -86,6 +72,48 @@
       </div>
       <div class="card-footer bg-info"></div>
     </div>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Affichage de Liste
+      </mat-panel-title>
+      <mat-panel-description>
+        Details des elements
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>Voir la liste détaillée</p>
+    <div class="d-flex justify-content-center">
+      <!-- class="table table-hover table-striped table-sm" -->
+    <table  class="table table-hover table-striped " >
+
+      <thead>
+        <tr>
+          <th *ngFor="let dataModel of dataModelList">{{dataModel.columnReference}}</th>
+          <th>
+            <button class="btn btn-outline-primary btn-sm" (click)="operation = 'add'; initData();">ADD</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data" (click)="onChange($event)">
+
+          <td *ngFor="let dataModel of dataModelList">
+                {{dataModel.dataType == 'Array' ? item[dataModel.columnName][arrayModelList[1].columnName]: item[dataModel.columnName]}}
+          </td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm" (click)="selectedItem = item; operation = 'edit';getValues($event)">Edit
+            </button>
+
+            <button class="btn btn-outline-danger btn-sm" (click)="selectedItem = item;operation = 'remove' ">Remove</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>
+  </mat-expansion-panel>
+</mat-accordion>
 </mat-card>

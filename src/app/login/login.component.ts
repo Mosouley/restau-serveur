@@ -7,6 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { AuthLoginInfo } from '../auth/login-info';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { MatDialogRef } from '@angular/material';
+import { SignupModalService } from '../signup/signinup-modal.service';
 
 
 
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private tokenStorage: TokenStorageService,
+              private signupModalService: SignupModalService,
               public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit {
                 },
       error => {
 
-      this.errorMessage = error.error.message;
+      this.errorMessage = error;
       this.isLoginFailed = true;
     });
 
@@ -76,7 +78,7 @@ export class LoginComponent implements OnInit {
 
 register() {
   this.activeModal.dismiss('to state register');
-  this.router.navigate(['/register']);
+  this.signupModalService.open();
 }
 
 requestResetPassword() {

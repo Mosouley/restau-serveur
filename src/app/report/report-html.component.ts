@@ -70,7 +70,6 @@ export class ReportHtmlComponent implements OnInit, AfterViewInit {
 
       @ViewChild(MatSort) sort: MatSort;
       @ViewChild(MatPaginator) paginator: MatPaginator;
-
       @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(private route: ActivatedRoute) { }
@@ -105,8 +104,6 @@ public doSortAndPaginate(): void {
   }
   getReportType(event: any) {
     this.selectedType = event.target.value;
-    // console.log(this.selectedType[0]);
-
     this.enableReport();
 
   }

@@ -20,13 +20,14 @@
                     <input  type="text" formControlName="phoneCompany" class="form-control" />
                     <label>Code IFU</label>
                     <input  type="text" formControlName="codeIfuCompany" class="form-control" />
-                          <mat-card style="text-align: center">
+                          <mat-card style="text-align: center " class="col-4">
                               <label>Logo</label>
-                            <span *ngIf="getImageUrl()">
-
-                            <img  [src]="getImageUrl()" class="img-fluid img-thumbnail" style="height: 60px; width:60px;"  >
+                            <span *ngIf="theCompany" >
+                              <!-- *ngIf="getImageUrl() | async" -->
+                            <img  src={{theCompany.logoCompany}} class=" logo-img img-fluid img-thumbnail" style="height: 80px; width:80px;"  >
                           </span>
 
+                          <!-- <span>{{logoCompany}}</span> -->
                           </mat-card>
 
                     <mat-card>
@@ -41,7 +42,7 @@
                               </div>
 
                               <label class="btn btn-default">
-                                <input type="file" name="logoCompany" accept="image/png, image/jpeg" (change)="checkUpFile($event)">
+                                <input type="file" name="logoCompany" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event)">
                               </label>
                               <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Appliquer</button>
                             </div>

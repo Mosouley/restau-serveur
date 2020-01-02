@@ -1,3 +1,4 @@
+import { flatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { UploadFileService } from './../../shared/upload-file.service';
@@ -22,9 +23,9 @@ export class CompanyComponent implements OnInit {
   listFichiers: string [];
   progres: { percentage: number } = { percentage: 0};
 
-  @Input()
-  logoCompany: string ;
-
+  logoCompany: string;
+  nameFile: string;
+  getImage = false;
   currentFileUpload: File;
   private companyForm: FormGroup;
   private theCompany = new Company();
@@ -41,94 +42,123 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-   this.companyService.getAll().subscribe(
-     data => {
-      //  console.log(data);
-
-      if (!(data.length < 1) && !(data == null)) {
-       this.theCompany = data[0];
-        this.companyForm.patchValue(this.theCompany);
-        this.operation = 'edit';
-         } else {
-           this.operation = 'add';
-
-         }
-      });
-
-
+    this.retrieveCompany();
+    this.valueChange();
   }
 
   buildForm() {
 
     this.companyForm = this.fb.group({
+      id: '',
       nameCompany: ['', Validators.required],
       codeIfuCompany: ['', Validators.required],
-      phoneCompany: '',
-      adressCompany: '',
-      logoCompany: '/assets/yasn logo.jpeg'
+      phoneCompany: ['', Validators.required],
+      adressCompany: ['', Validators.required],
+      logoCompany: ''
     });
 }
 
   add() {
     const p = this.companyForm.value;
+    // console.log(p);
 
     this.companyService.create(p).subscribe(res => {
-      this.toast.show('Societe configuree avec success');
-      // this.snackBar.open('Societe parametree', 'Succes', {
-      //   duration: 1000
-      // });
-      this.companyForm.reset();
-      // console.log(this.loadData());
+      // console.log(res);
+
+      this.toast.show('Société configurée avec success');
+      // this.retrieveCompany();
+
     });
 
   }
 
   update() {
-    this.companyService.update(this.theCompany).subscribe(res => {
+    this.companyService.update(this.companyForm.value).subscribe(res => {
     });
   }
 
   checkUpFile(event) {
     const file = event.target.files.item(0);
     // console.log(file);
+    this.nameFile = file.name;
 
     if (file.type.match('image.*')) {
-    this.selectionFiles =  event.target.files;
+      this.selectionFiles =  event.target.files;
+      this.currentFileUpload = file;
+      // console.log(this.currentFileUpload);
+
     // this.companyForm.get('logoCompany').setValue(file);
     } else {
       this.toast.warning('invalid file format');
     }
-    // console.log(this.companyForm.value);
+
+
 
   }
 
   onSubmit() {
     this.progres.percentage = 0;
-    this.currentFileUpload = this.selectionFiles.item(0);
+    // this.currentFileUpload = this.selectionFiles.item(0);
     // this.currentFileUpload = this.companyForm.get('logoCompany').value;
-
     // this.logo = '/upload-dir/' + this.currentFileUpload['name'];
     this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe( event => {
-
-      this.companyForm.get('logoCompany').setValue(event['partialText']);
-      this.logoCompany = event['partialText'];
-      console.log(event['partialText']);
-
       // this.companyForm.get('logoCompany').setValue(this.currentFileUpload['name']);
       if (event.type === HttpEventType.UploadProgress) {
         this.progres.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event.type === 3) {
+          this.getImage = true;
+          this.companyForm.get('logoCompany').patchValue(event['partialText']);
+          // tslint:disable-next-line:no-unused-expression
+            // console.log(this.companyForm.get('logoCompany').value);
         } else if (event instanceof HttpResponse) {
           this.toast.success('Fichier chargé avec succès! ');
       }
     });
-    // this.logoCompany = this.companyForm.get('logoCompany').value;
-    console.log(this.logoCompany);
-    // this.selectionFiles = undefined;
-  }
-  getImageUrl(): Observable<string> {
-    this.uploadService.getFile(this.currentFileUpload['name']).subscribe(res => console.log(res));
 
-    return this.currentFileUpload ? this.companyForm.get('logoCompany').value : '/assets/yasn logo.jpeg';
+    if (this.getImage = true) {
+      this.logoCompany = this.companyForm.get('logoCompany').value;
+      console.log(this.companyForm.get('logoCompany').value);
+    }
+
+
+
+  }
+
+  valueChange() {
+
+    this.companyForm.valueChanges.subscribe(chges =>
+      this.theCompany.logoCompany = chges['logoCompany']);
+    if (this.companyForm.valid) {
+      this.theCompany = this.companyForm.value;
+      console.log(this.theCompany);
+      this.companyService.update(this.theCompany).subscribe();
+    }
+    // .pipe(
+    //   flatMap((res1) => this.companyService.update(res1))
+    // ).subscribe(res => this.theCompany.logoCompany = res['logoCompany']
+    // );
+
+  }
+  getImageUrl() {
+    if (this.currentFileUpload) {
+    return this.uploadService.getFile(this.nameFile);
+  }
+
+    // return this.currentFileUpload ? this.companyForm.get('logoCompany').value : '/assets/yasn logo.jpeg';
   }
   // this.uploadService.getFile(this.currentFileUpload['name'])
+
+  retrieveCompany() {
+    this.companyService.getAll().subscribe(
+      data => {
+       if (!(data.length < 1) && !(data == null)) {
+        this.theCompany = data[0];
+        console.log(this.theCompany.id);
+         this.companyForm.patchValue(this.theCompany);
+            this.operation = 'edit';
+          } else {
+            this.operation = 'add';
+          }
+       });
+  }
 }

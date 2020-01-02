@@ -106,22 +106,22 @@ export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
   ngOnInit() {
-    // const modes = Object.keys(this.payMode);
-    // console.log(modes);
-        this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
-        // Get the arrays of clients, products, and categories
+        // const modes = Object.keys(this.payMode);
+        // console.log(modes);
+            this.modes = Object.keys(this.payMode).filter(f => !isNaN(Number(f)));
+            // Get the arrays of clients, products, and categories
 
-        this.clients = this.aRoute.snapshot.data.clients;
-        this.categories = this.aRoute.snapshot.data.categories;
-        this.produits = this.aRoute.snapshot.data.produits;
-        // console.log( this.stockService.getAll());
-        this.dataTx = this.aRoute.snapshot.data.transax;
+            this.clients = this.aRoute.snapshot.data.clients;
+            this.categories = this.aRoute.snapshot.data.categories;
+            this.produits = this.aRoute.snapshot.data.produits;
+            // console.log( this.stockService.getAll());
+            this.dataTx = this.aRoute.snapshot.data.transax;
 
 
-      // obtenir les stocks disponibles
-      this.stockService.getAll().subscribe(res => this.dataTx = res);
-    // console.log( this.dataTx);
-    this.getTheStockByProduct();
+          // obtenir les stocks disponibles
+          this.stockService.getAll().subscribe(res => this.dataTx = res);
+        // console.log( this.dataTx);
+        this.getTheStockByProduct();
               // create the form
         this.initData();
         this.filteredProduits = new Array<Produit[]>();
@@ -486,6 +486,7 @@ export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
                 const maLigne = this.stockArray.find(r => r['produit'].codeProd === result.codeProd);
                   if (maLigne) {
                             if (result.quantite >= maLigne['solde']) {
+                              this.isValid = false;
                               this.toastr.error('Impossible de Facturer un total de ' + result.quantite +
                               ' Pour ' + maLigne['produit'].codeProd + ' Stock Restant ' +
                               maLigne['solde'] );

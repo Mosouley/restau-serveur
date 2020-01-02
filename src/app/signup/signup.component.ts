@@ -5,6 +5,7 @@ import { AuthLoginInfo } from '../auth/login-info';
 import { SignUpInfo } from '../auth/sigup-info';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -23,6 +24,7 @@ export class SignupComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
+              public toastr: ToastrService,
               public activeModal: NgbActiveModal) {
 this.roles.add('admin');
 this.roles.add('user');
@@ -34,7 +36,7 @@ this.roles.add('user');
   }
 
   signup(credentials) {
-    console.log(credentials);
+    // console.log(credentials);
 
     this.signupInfo = new SignUpInfo(
       credentials['name'], credentials['username'], credentials['email'], credentials['password'], credentials['role']);
@@ -42,14 +44,13 @@ this.roles.add('user');
     .subscribe(
       result => {
         if (result) {
-          console.log(result);
-
-        this.activeModal.dismiss('User created with success');
+          this.toastr.success('Utilisateur ' + `${this.signupInfo.username}` + ' Créé avec succès ', 'Restaurant App.');
                     }
                 },
       error => {
 
-      this.errorMessage = error.error.message;
+      this.errorMessage = error;
+      this.activeModal.dismiss('Error creating User');
 
     });
 

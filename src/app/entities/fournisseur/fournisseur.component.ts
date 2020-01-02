@@ -31,6 +31,7 @@ export class FournisseurComponent implements OnInit {
     this.fournisseurs = this.route.snapshot.data.fournisseurs;
 
     this.fournisseurForm = this.fb.group({
+      id: '',
       nameSupplier: ['', Validators.required],
       codeIfuSupplier: ['', Validators.required],
       phoneSupplier: ['', Validators.required]

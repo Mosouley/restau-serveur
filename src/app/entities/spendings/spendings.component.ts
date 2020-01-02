@@ -35,6 +35,7 @@ export class SpendingsComponent implements OnInit {
     this.spendings = this.route.snapshot.data.spendings;
     const numberPatern = '^[0-9.,]+$';
     this.spendingForm = this.fb.group({
+      id: '',
       dateSpending: ['', Validators.required],
       typeSpending: ['', Validators.required],
       valueSpending: ['', [Validators.required, Validators.pattern(numberPatern)]],

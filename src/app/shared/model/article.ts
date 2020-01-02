@@ -11,5 +11,4 @@ export class Article {
                 public prixUnitaire: number;
                 public coutUnitaire: number;
 
-
 }

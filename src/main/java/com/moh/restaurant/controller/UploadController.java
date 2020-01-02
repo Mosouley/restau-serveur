@@ -1,9 +1,6 @@
 package com.moh.restaurant.controller;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,7 +90,7 @@ public class UploadController{
     }
 
     @GetMapping("/files/{filename:.+}")
-   @ResponseBody
+  //  @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename){
 
         Resource file = storageService.loadFile(filename);

@@ -14,9 +14,11 @@ public class Company{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nameCompany;
     private String codeIfuCompany;
     private String adressCompany;
+    @Column(nullable = false)
     private String phoneCompany;
 
     @Size(max = 256)

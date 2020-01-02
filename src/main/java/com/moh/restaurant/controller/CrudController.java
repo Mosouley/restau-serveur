@@ -38,13 +38,16 @@ public class CrudController<T> {
 
 	@PostMapping
 	public ResponseEntity<T> add(@RequestBody @Valid T entity) {
-		 service.add(entity);
+    service.add(entity);
 		 return ResponseEntity.ok(entity);
 	}
 
 	@PutMapping
 	public ResponseEntity<T> update( @RequestBody @Valid T entity) throws ResourceNotFoundException {
-		service.update(entity);
+    // if (entity['id'] == null) {
+    //   return add(entity);
+    // }
+    service.update(entity);
 		return ResponseEntity.ok(entity);
 	}
 

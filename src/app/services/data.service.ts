@@ -41,10 +41,7 @@ export class DataService implements CrudService {
 
   }
   update(resource): Observable<any> {
-
     return this.http.put(this.url, resource, {headers: this.headers});
-
-
     // .pipe(catchError(this.handleError));
   }
 

@@ -88,7 +88,6 @@ public class StorageService{
         try {
             Path file = rootLocation.resolve(filename);
 
-            logger.info("fichier" + file);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;

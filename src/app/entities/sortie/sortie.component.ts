@@ -33,6 +33,7 @@ export class SortieComponent implements OnInit {
 
   ngOnInit() {
     this.sortieForm = this.fb.group({
+      id: '',
       produit: ['', Validators.required],
       quantite: ['', Validators.required],
       prixvente: '',

@@ -85,9 +85,9 @@ import { NotificationsComponent } from './shared/notifications/notifications.com
       AdminAuthGuard,
       ToastrService,
     // Store
-    {
-      provide: ErrorHandler, useClass: AppErrorHandler
-    },
+    // {
+    //   provide: ErrorHandler, useClass: AppErrorHandler
+    // },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     { provide: MAT_DIALOG_DATA, useValue: [] },
     {provide: MatDialogRef, useValue: []}
