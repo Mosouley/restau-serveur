@@ -1,3 +1,4 @@
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { InvoiceCreateComponent } from './invoice/invoice-create/invoice-create.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthGuard } from './services/auth-guard.service';
@@ -63,6 +64,7 @@ import { NotificationsComponent } from './shared/notifications/notifications.com
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
+    MDBBootstrapModule.forRoot(),
     // FlexLayoutModule,
     NgbModule,
     ToastrModule.forRoot({

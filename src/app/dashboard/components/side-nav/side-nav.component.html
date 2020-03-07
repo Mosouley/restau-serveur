@@ -8,12 +8,16 @@
             <mat-toolbar>
               <div class="sidebar-background" style="background-image: url('/assets/img/sidebar-3.jpg')">
                 <i class="material-icons">home</i>
-                <img src="/assets/yasn logo.jpeg" id="company_logo" style="height: 60px; width: 60px">
+
+                <img src="/assets/yasn logo.jpeg" id="company_logo" class="profile-image img-circle" >
               </div>
+
             </mat-toolbar>
 
-            <div *ngIf="authService.isLoggedIn()">
-                <mat-list >
+            <div *ngIf="authService.isLoggedIn()" class="app-sidenav-content">
+
+              <mat-list >
+
                   <mat-nav-list >
                         <a mat-list-item
                         [routerLink]= "['invoice-generate' ]"
@@ -36,26 +40,25 @@
                     </div>
                   </mat-nav-list>
                 </mat-list>
-                </div>
+            </div>
 
           </mat-sidenav>
           <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
           <!-- <router-outlet name="modal"></router-outlet> -->
-          <div fxLayout="column" fxFlexFill style="justify-content: center">
-            <div  *ngIf="authService.isLoggedIn()">
-              <mat-card>
+          <div fxLayout="column" fxFlexFill style="justify-content: center; background-color: rgb(216, 216, 218)">
+            <div  *ngIf="authService.isLoggedIn()" style="background-color: rgb(180, 178, 178)">
+              <!-- <mat-card> -->
                <router-outlet></router-outlet>
-               </mat-card>
+               <!-- </mat-card> -->
                <!-- <router-outlet name="invoice"></router-outlet> -->
 
 
             </div>
-            <div fxLayout="column" *ngIf="!authService.isLoggedIn()">
+            <div fxLayout="row" *ngIf="!authService.isLoggedIn()">
                 <div class="alert alert-danger alert-with-icon " role="alert" style="text-align: center; align-content: center">
                     Vous êtes deconnecté, essayez de vous connecter à nouveau!
                   </div>
-                  <div class="jumbotron jumbotron-fluid">
-
+                  <!-- <div class="jumbotron jumbotron-fluid">
                       <div fxLayout="column">
                         <div class="row">
                           <div class="col-md-10 offset-md-1">
@@ -75,17 +78,65 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
+                    <div fxLayout="row" fxFlexAlign="full">
+                        <div fxFlexAlign="center">
+                          <p>Welcome to Stock Management WebApp </p>
+                        </div>
 
+                        <p>Manage, Forecast and Deliver</p>
+                        <ngb-carousel
+                        [showNavigationArrows]="true"
+                        [showNavigationIndicators]="true"
+                        interval="2000"
+                        [keyboard]="true"
+                        [pauseOnHover]="true"
+                        [wrap]="true"
+
+                        >
+                        <!-- [activeId]="'secondSlide'" -->
+                            <ng-template ngbSlide>
+                              <div class="picsum-img-wrapper">
+                                <img src="/assets/img/sidebar-2.jpg" alt="Angular Carousel 1">
+                              </div>
+                              <div class="carousel-caption">
+                                <h3>Title Goes Here</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                              </div>
+                            </ng-template>
+                            <ng-template ngbSlide>
+                              <div class="picsum-img-wrapper">
+                                <img src="/assets/img/sidebar-1.jpg" alt="Angular Carousel 2">
+                              </div>
+                              <div class="carousel-caption">
+                                <h3>Title Goes Here</h3>
+                                <p>Consectetur tortor volutpat pretium.</p>
+                              </div>
+                            </ng-template>
+                            <ng-template ngbSlide
+
+                            >
+                                <div class="picsum-img-wrapper">
+                                  <img src="/assets/img/sidebar-3.jpg" alt="Angular Carousel 2">
+                                </div>
+                                <div class="carousel-caption">
+                                  <h3>Title Goes Here</h3>
+                                  <p>Consectetur tortor volutpat pretium.</p>
+                                </div>
+                              </ng-template>
+                              <ng-template ngbSlide>
+                                  <div class="picsum-img-wrapper">
+                                    <img src="/assets/yasn logo.jpeg" alt="Angular Carousel 2">
+                                  </div>
+                                  <div class="carousel-caption">
+                                    <h3>Title Goes Here</h3>
+                                    <p>Consectetur tortor volutpat pretium.</p>
+                                  </div>
+                                </ng-template>
+                        </ngb-carousel>
+                      </div>
             </div>
           </div>
-
-
-
-
-
-
-
 
 
 </mat-sidenav-container>

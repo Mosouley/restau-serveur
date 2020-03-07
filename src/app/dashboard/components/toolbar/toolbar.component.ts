@@ -7,6 +7,8 @@ import { AuthService } from '../../../auth/auth.service';
 import { TokenStorageService } from '../../../auth/token-storage.service';
 import { truncateSync } from 'fs';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Company } from '../../../shared/model/company';
+import { CompanyService } from '../../../services/company.service';
 
 
 @Component({
@@ -20,17 +22,19 @@ export class ToolbarComponent implements OnInit {
   @Output() toggleSidenav = new EventEmitter<void>();
   private roles: string[];
   private authority: string;
-
+  public theCompany = new Company();
   constructor(private loggingModalService: LoginModalService,
     private signupModalService: SignupModalService,
-  public authService: AuthService,
-  public invoiceModal: InvoiceModalService,
-  private dialog: MatDialog,
-  private tokenService: TokenStorageService) {
+    public authService: AuthService,
+    public invoiceModal: InvoiceModalService,
+    private dialog: MatDialog,
+    private tokenService: TokenStorageService,
+    private companyService: CompanyService) {
 
   }
 
   ngOnInit() {
+    this.retrieveCompany();
 }
 
 login() {
@@ -52,4 +56,13 @@ dialogOpen() {
   this.dialog.open(LoginComponent, dialogConfig);
 
 }
+
+retrieveCompany() {
+  this.companyService.getAll().subscribe(
+    data => {
+     if (!(data.length < 1) && !(data == null)) {
+      this.theCompany = data[0];
+  }
+    });
+  }
 }

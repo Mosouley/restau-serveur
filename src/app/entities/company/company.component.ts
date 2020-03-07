@@ -54,7 +54,7 @@ export class CompanyComponent implements OnInit {
       codeIfuCompany: ['', Validators.required],
       phoneCompany: ['', Validators.required],
       adressCompany: ['', Validators.required],
-      logoCompany: ''
+      logoCompany: this.theCompany.logoCompany
     });
 }
 
@@ -115,11 +115,11 @@ export class CompanyComponent implements OnInit {
       }
     });
 
-    if (this.getImage = true) {
-      this.logoCompany = this.companyForm.get('logoCompany').value;
-      console.log(this.companyForm.get('logoCompany').value);
-    }
-
+    // if (this.getImage = true) {
+    //   this.logoCompany = this.companyForm.get('logoCompany').value;
+      // console.log(this.companyForm.get('logoCompany').value);
+    // }
+    this.update();
 
 
   }
@@ -130,7 +130,6 @@ export class CompanyComponent implements OnInit {
       this.theCompany.logoCompany = chges['logoCompany']);
     if (this.companyForm.valid) {
       this.theCompany = this.companyForm.value;
-      console.log(this.theCompany);
       this.companyService.update(this.theCompany).subscribe();
     }
     // .pipe(
@@ -153,7 +152,6 @@ export class CompanyComponent implements OnInit {
       data => {
        if (!(data.length < 1) && !(data == null)) {
         this.theCompany = data[0];
-        console.log(this.theCompany.id);
          this.companyForm.patchValue(this.theCompany);
             this.operation = 'edit';
           } else {

@@ -1,3 +1,4 @@
+import { DashComponent } from './components/dash/dash.component';
 import { InvoiceItemComponent } from './../invoice/invoice-item/invoice-item.component';
 import { InvoiceGenerateComponent } from './../invoice/invoice-generate/invoice-generate.component';
 import { InvoiceCreateComponent } from './../invoice/invoice-create/invoice-create.component';
@@ -39,6 +40,8 @@ import { TransactionLineResolver } from '../shared/transactionLine.resolver';
 import { AuthGuard } from '../services/auth-guard.service';
 import { LoginComponent } from '../login/login.component';
 import { InvoiceListComponent } from '../invoice/invoice-list/invoice-list.component';
+import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
+
 
 
 
@@ -160,6 +163,18 @@ const routes: Routes = [
         resolve: {
             invoiceData: InvoiceResolver
                 }
+      },
+      {
+        path: 'dash',
+        component: DashComponent,
+        resolve: {
+
+          produits: ProduitResolver,
+          invoices: InvoiceResolver,
+          spendings: SpendingsResolver,
+          transax: TransactionLineResolver,
+          // cashBal: CashBalanceResolver
+        }
       },
       {
         path: '',

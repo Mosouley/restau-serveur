@@ -59,4 +59,10 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findById(id);
     }
 
+  @Override
+  public void saveAll(Iterable<Company> iterable) {
+    log.debug("Request to add an interable of the companies  : { companyRepository.findAll()}");
+    companyRepository.saveAll(iterable);
+  }
+
 }

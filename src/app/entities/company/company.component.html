@@ -25,9 +25,16 @@
                             <span *ngIf="theCompany" >
                               <!-- *ngIf="getImageUrl() | async" -->
                             <img  src={{theCompany.logoCompany}} class=" logo-img img-fluid img-thumbnail" style="height: 80px; width:80px;"  >
+                            <mat-icon class="mat-18">add</mat-icon>
+                            <input [hidden]="true" type="file" name="logoCompany2" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event)">
                           </span>
-
-                          <!-- <span>{{logoCompany}}</span> -->
+                          <button mat-mini-fab mdbBtn color="success">
+                            <mat-icon class="mat-18">add_a_photo</mat-icon>
+                          </button>
+                          <!-- <mat-form-field>
+                            <ngx-mat-file-input formControlName="logoCompany" placeholder="logoCompany" ></ngx-mat-file-input>
+                            <mat-icon matSuffix>add_a_photo</mat-icon>
+                          </mat-form-field> -->
                           </mat-card>
 
                     <mat-card>
@@ -42,7 +49,7 @@
                               </div>
 
                               <label class="btn btn-default">
-                                <input type="file" name="logoCompany" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event)">
+                                <input [hidden]="true" type="file" name="logoCompany" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event)">
                               </label>
                               <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Appliquer</button>
                             </div>

@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
        }else{
         log.debug("Request to delete can not be performed , this entity is not empty: { foundCategory.getProduits() }");
        }
-        
+
 
     }
 
@@ -76,6 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<Category> get(Long id) {
         return categoryRepository.findById(id);
     }
+
 
 
 }

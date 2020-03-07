@@ -18,6 +18,7 @@ import { LoginComponent } from '../login/login.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
+import { DashComponent } from './components/dash/dash.component';
 
 
 
@@ -25,7 +26,7 @@ import { JwtModule } from '@auth0/angular-jwt';
   declarations: [
     // DashboardComponent, MainContentComponent,
     // SideNavComponent, ToolbarComponent
-  ],
+  DashComponent],
   imports: [
     CommonModule,
     EntitiesModule,

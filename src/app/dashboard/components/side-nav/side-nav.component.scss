@@ -24,9 +24,13 @@
   display: flex;
   height: 100%;
   flex-direction: column;
-  background-image: url('/assets/img/sidebar-1.jpg') ;
-  background-size: auto;
-  background-repeat: initial;
+  // background-image: url('/assets/img/sidebar-1.jpg') ;
+  // background-size: contain;
+  // background-repeat: initial;
+  color: ghostwhite;
+  // background-color:rgba(6, 105, 170, 0.863);
+  // background-color:rgba(184, 215, 235, 0.863);
+  // background-image: url('/assets/img/sidebar-1.jpg') ;
 }
 .app-sidenav{
   width: 230px;
@@ -36,10 +40,10 @@
   // padding-right: 5px;
   // margin-bottom: 16px;
 }
-.mat-list {
-  background-image: url('/assets/img/sidebar-2.jpg') ;
-  background-size: auto;
-}
+// .mat-list {
+//   background-image: url('/assets/img/sidebar-2.jpg') ;
+//   background-size: auto;
+// }
 .mat-list-item{
 padding-right: 5px;
 justify-content: baseline;
@@ -64,4 +68,11 @@ a:hover, a:active {
   border-radius: 5px;
   background: lightblue;
   color: #039be5;
+}
+.profile-image {
+  margin: -10px 0px;
+  height: 40px;
+  width: 40px;
+  border-radius: 90%;
+  border-color: rgb(16, 15, 17);
 }

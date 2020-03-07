@@ -1,5 +1,6 @@
 package com.moh.restaurant.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import com.moh.restaurant.error.ResourceNotFoundException;
 import com.moh.restaurant.service.ICrudService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,9 +59,9 @@ public class CrudController<T> {
 		return ResponseEntity.ok().build();
 	}
 
-	// @PostMapping("/all")
-	// public ResponseEntity<List<T>> addAll(@Valid @RequestBody List<T> list) {
-	// 	service.saveAll(list);
-	// 	return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-	// }
+	@PostMapping("/all")
+	public ResponseEntity<List<T>> addAll(@Valid @RequestBody List<T> list) {
+		service.saveAll(list);
+		return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+	}
 }

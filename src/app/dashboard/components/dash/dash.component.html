@@ -1,0 +1,286 @@
+<mat-card style="background-color: rgb(226, 224, 224)">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card card-stats">
+          <div class="header card-header-warning card-header-icon">
+            <div class="card-icon-warning">
+              <mat-icon style="color: white; ">trending_up</mat-icon>
+            </div>
+            <p  style="color: grey; text-align: right; font-size: 12px;">Chiffre d'Affaire</p>
+            <h3  style="color: rgb(24, 3, 3); text-align: right; font-size: 14px;"> Sur l'Annee: {{caAn | number}} </h3>
+
+          </div>
+
+          <div class="card-footer">
+            <div class="column">
+
+                <h2 style="color:rgb(78, 80, 79); text-align: right; font-size: 12px;">
+                    <mat-icon style="color: rgb(78, 80, 79)">today</mat-icon>
+                    <span></span>
+                  7 derniers jours...: {{caJour | number}}</h2>
+                  <h2 style="color: rgb(36, 105, 209); text-align: right; font-size: 12px;">
+                  <mat-icon style="color: rgb(36, 105, 209)">today</mat-icon>
+                    <span></span>
+                  Sur le mois en cours...: {{caMois | number}}</h2>
+                  <h2 style="color: rgb(231, 23, 75); text-align: right; font-size: 12px;">
+                  <mat-icon style="color: rgb(231, 23, 75)">today</mat-icon>
+                    <span></span>
+                  Le trimestre...: {{caTrim | number}}</h2>
+
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="col-lg-3">
+          <div class="card card-stats">
+            <div class="header card-header-warning card-header-icon">
+              <div class="card-icon-danger">
+                <mat-icon  style="color: white; ">trending_down</mat-icon>
+              </div>
+              <p class="card-category" style="color: grey; text-align: right; font-size: 12px;">Total Dépenses</p>
+              <h3 class="card-title" style="color: rgb(24, 3, 3); text-align: right; font-size: 14px;">Sur l'Annee: {{spendAn | number}}
+              </h3>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="column">
+
+                    <h2 style="color:rgb(78, 80, 79); text-align: right; font-size: 12px;">
+                        <mat-icon style="color: rgb(78, 80, 79)">today</mat-icon>
+                        <span></span>
+                      7 derniers jours...: {{spendJour | number}}</h2>
+                      <h2 style="color: rgb(36, 105, 209); text-align: right; font-size: 12px;">
+                      <mat-icon style="color: rgb(36, 105, 209)">today</mat-icon>
+                        <span></span>
+                      Sur le mois en cours...: {{spendMois | number}}</h2>
+                      <h2 style="color: rgb(231, 23, 75); text-align: right; font-size: 12px;">
+                      <mat-icon style="color: rgb(231, 23, 75)">today</mat-icon>
+                        <span></span>
+                      Le trimestre...: {{spendTrim | number}}</h2>
+
+                </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-stats">
+              <div class="header card-header-success card-header-icon">
+                <div class="card-icon-success">
+                  <mat-icon  style="color: white; ">trending_down</mat-icon>
+                </div>
+                <p class="card-category" style="color: grey; text-align: right; font-size: 12px;">Total Dépenses</p>
+                <h3 class="card-title" style="color: rgb(24, 3, 3); text-align: right; font-size: 14px;">Sur l'Annee: {{spendAn | number}}
+                </h3>
+
+              </div>
+
+              <div class="card-footer">
+                  <div class="column">
+
+                      <h2 style="color:rgb(78, 80, 79); text-align: right; font-size: 12px;">
+                          <mat-icon style="color: rgb(78, 80, 79)">today</mat-icon>
+                          <span></span>
+                        7 derniers jours...: {{spendJour | number}}</h2>
+                        <h2 style="color: rgb(36, 105, 209); text-align: right; font-size: 12px;">
+                        <mat-icon style="color: rgb(36, 105, 209)">today</mat-icon>
+                          <span></span>
+                        Sur le mois en cours...: {{spendMois | number}}</h2>
+                        <h2 style="color: rgb(231, 23, 75); text-align: right; font-size: 12px;">
+                        <mat-icon style="color: rgb(231, 23, 75)">today</mat-icon>
+                          <span></span>
+                        Le trimestre...: {{spendTrim | number}}</h2>
+
+                  </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-3">
+              <div class="card card-stats">
+                <div class="header card-header-danger card-header-icon">
+                  <div class="card-icon-warning">
+                    <mat-icon  style="color: white; ">business</mat-icon>
+                  </div>
+                  <p class="card-category" style="color: grey; text-align: right; font-size: 12px;">Total Caisse</p>
+                  <h3 class="card-title" style="color: rgb(24, 3, 3); text-align: right; font-size: 14px;">Solde Actuel: {{caisAn| async | number}}
+                  </h3>
+
+                </div>
+
+                <div class="card-footer">
+                    <div class="column">
+
+                        <h2 style="color:rgb(78, 80, 79); text-align: right; font-size: 12px;">
+                            <mat-icon style="color: rgb(78, 80, 79)">today</mat-icon>
+                            <span></span>
+                          7 derniers jours...: {{caisJour | number}}</h2>
+                          <h2 style="color: rgb(36, 105, 209); text-align: right; font-size: 12px;">
+                          <mat-icon style="color: rgb(36, 105, 209)">today</mat-icon>
+                            <span></span>
+                          Sur le mois en cours...: {{caisMois | number}}</h2>
+                          <h2 style="color: rgb(231, 23, 75); text-align: right; font-size: 12px;">
+                          <mat-icon style="color: rgb(231, 23, 75)">today</mat-icon>
+                            <span></span>
+                          Le trimestre...: {{caisTrim | number}}</h2>
+
+                    </div>
+                </div>
+
+
+              </div>
+
+            </div>
+    </div>
+    <!-- <div class="row" ></div>
+    <div class="row">
+
+      <div class="col-lg-4 ">
+        <div class="card card-stats">
+          <div mdbWavesEffect class="card-header card-header-success card-icon ">
+
+            <p class="card-category">Used Space</p>
+            <h3 class="card-title">49/50
+              <small>GB</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger" style="color: white">warning</i>
+              <a>
+                <small>Get More Space...</small>
+              </a>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="col-lg-4 ">
+          <div class="card card-stats">
+            <div mdbWavesEffect class="header card-header-success card-icon ">
+
+              <p class="card-category">Used Space</p>
+              <h3 class="card-title">49/50
+                <small>GB</small>
+              </h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons text-danger" style="color: white">warning</i>
+                <a>
+                  <small>Get More Space...</small>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="col-lg-4 ">
+            <div class="card card-stats">
+              <div mdbWavesEffect class="card-header card-header-success card-icon ">
+
+                <p class="card-category">Used Space</p>
+                <h3 class="card-title">49/50
+                  <small>GB</small>
+                </h3>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons text-danger" style="color: white">warning</i>
+                  <a>
+                    <small>Get More Space...</small>
+                  </a>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+    </div>
+    <div class="row" ></div>
+    <div class="row">
+
+      <div class="col-lg-4 ">
+        <div class="card card-stats">
+          <div mdbWavesEffect class="card-header card-header-success card-icon ">
+
+            <p class="card-category">Used Space</p>
+            <h3 class="card-title">49/50
+              <small>GB</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger" style="color: white">warning</i>
+              <a>
+                <small>Get More Space...</small>
+              </a>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="col-lg-4 ">
+          <div class="card card-stats">
+            <div mdbWavesEffect class="header card-header-success card-icon ">
+
+              <p class="card-category">Used Space</p>
+              <h3 class="card-title">49/50
+                <small>GB</small>
+              </h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons text-danger" style="color: white">warning</i>
+                <a>
+                  <small>Get More Space...</small>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="col-lg-4 ">
+            <div class="card card-stats">
+              <div mdbWavesEffect class="card-header card-header-success card-icon ">
+
+                <p class="card-category">Used Space</p>
+                <h3 class="card-title">49/50
+                  <small>GB</small>
+                </h3>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons text-danger" style="color: white">warning</i>
+                  <a>
+                    <small>Get More Space...</small>
+                  </a>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+    </div> -->
+  </div>
+</mat-card>

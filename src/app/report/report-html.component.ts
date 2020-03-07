@@ -373,10 +373,7 @@ public doSortAndPaginate(): void {
         new DataModel('creditAmount', 'Sorties', 'number', false, []),
         new DataModel('solde', 'Stock Restant', 'number', false, [])
         ];
-        this.modelArrayEntity = [
-          new DataModel('codeProd', 'Code Produit', 'string', false, [])
-
-        ];
+        this.modelArrayEntity = [ new DataModel('codeProd', 'Code Produit', 'string', false, []) ];
 
         this.dataSource =  new MatTableDataSource<TransactionLine>();
         // console.log(this.dataEntity);

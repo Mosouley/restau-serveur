@@ -1,3 +1,5 @@
+
+import { FooterComponent } from './../dashboard/components/footer/footer.component';
 import { FormUploadComponent } from './../form-upload/form-upload.component';
 import { ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,7 +33,7 @@ import { InvoiceModule } from '../invoice/invoice.module';
 import { RouterModule } from '@angular/router';
 import { HistoricCashBalanceService } from '../services/HistoricCashBalance.service';
 import { HistoricProdBalanceService } from '../services/HistoricProdBalance.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavComponent } from '../dashboard/components/side-nav/side-nav.component';
 import { ToolbarComponent } from '../dashboard/components/toolbar/toolbar.component';
 import { LoginComponent } from '../login/login.component';
@@ -40,6 +42,7 @@ import { MainContentComponent } from '../dashboard/components/main-content/main-
 import { SignupComponent } from '../signup/signup.component';
 import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
 
 
 @NgModule({
@@ -54,7 +57,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     SignupComponent,
     MainContentComponent,
     NotificationsComponent,
-    FormUploadComponent
+    FormUploadComponent,
+    FooterComponent
 
 
   ],
@@ -66,6 +70,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     InvoiceModule,
     RouterModule,
     PrintModule,
+    NgbModule,
     MDBBootstrapModule.forRoot(),
   ],
   exports: [
@@ -84,7 +89,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     InvoiceModule,
     RouterModule,
     PrintModule,
-    FormUploadComponent
+    FormUploadComponent,
+    NgbModule
   ],
   providers:
   [
@@ -104,6 +110,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     // GeneralService,
     HistoricCashBalanceService,
     HistoricProdBalanceService,
+    CashBalanceResolver,
     SignupModalService,
     NgbActiveModal ]
 })

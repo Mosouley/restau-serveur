@@ -84,7 +84,7 @@ export class SideNavComponent implements OnInit {
       action: ''
     }, {
       name: 'Tableau de bord',
-      url: '',
+      url: 'dash',
       icon: 'dashboard',
       action: ''
     }
