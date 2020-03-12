@@ -43,6 +43,7 @@ import { SignupComponent } from '../signup/signup.component';
 import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
+import { ChartsComponent } from '../dashboard/components/charts/charts.component';
 
 
 @NgModule({
@@ -59,7 +60,6 @@ import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
     NotificationsComponent,
     FormUploadComponent,
     FooterComponent
-
 
   ],
   imports: [
@@ -90,7 +90,8 @@ import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
     RouterModule,
     PrintModule,
     FormUploadComponent,
-    NgbModule
+    NgbModule,
+
   ],
   providers:
   [

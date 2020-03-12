@@ -15,7 +15,7 @@ public class Appro {
     private String approRef;
 
     private LocalDate dateAppro;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "appro_id")
     @JsonManagedReference(value="appro-details")
     private Collection<TransactionLine> transactionLines;
@@ -57,7 +57,7 @@ public class Appro {
         this.id = id;
     }
 
-   
+
 
     public User getUser() {
         return user;
@@ -73,7 +73,7 @@ public class Appro {
     public Collection<TransactionLine> getTransactionLines() {
         return transactionLines;
     }
- 
+
     /**
      * @param transactionLines the transactionLines to set
      */

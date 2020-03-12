@@ -1,8 +1,8 @@
-/* @mixin .shadow-big-color{
+ @mixin shadow-big-color{
 
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, .14),
               0 7px 10px -5px rgba(#fff, 0.4)
-} */
+}
 .mat-card{
   border: 0;
   margin-bottom: 30px;
@@ -131,4 +131,8 @@
      margin-right: 15px;
      float: left;
    }
-
+.card-stats {
+  color: #0E3386;
+  font-size: 10px;
+  text-shadow: 2px 3px 5px grey;
+}

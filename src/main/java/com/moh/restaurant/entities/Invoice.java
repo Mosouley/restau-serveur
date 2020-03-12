@@ -39,7 +39,7 @@ public class Invoice {
     private Client client;
     private Double totalInvoice;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "invoice_id")
     @JsonManagedReference(value="invoice-details")
     private Collection<TransactionLine> transactionLines;
@@ -82,7 +82,7 @@ public String getInvoiceRef() {
  * @param invoiceRef the invoiceRef to set
  */
 public void setInvoiceRef(String invoiceRef) {
-    
+
      this.invoiceRef = invoiceRef;
 }
     public LocalDate getDateTrans() {
@@ -110,7 +110,7 @@ public void setInvoiceRef(String invoiceRef) {
     }
 
     public Invoice transactionLines(Collection< TransactionLine > transax){
-        
+
         this.transactionLines = transax;
         return this;
     }

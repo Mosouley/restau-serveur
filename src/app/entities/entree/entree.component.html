@@ -93,7 +93,7 @@
         </div>
         <div *ngIf="operation == 'remove'">
           <p class="card-title"> {{selectedItem.codeProd}}</p>
-          <p>Voulez-vous supprimer ce produit Référence: ?</p>
+          <p>Voulez-vous supprimer ce produit Référence: {{selectedItem.codeProd}} ?</p>
           <button class="btn btn-success" [disabled]="!selectedItem.id" (click)="delete();operation = 'add'; initData()">Confirmer</button>
         </div>
 

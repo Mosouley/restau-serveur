@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { DataModel } from '../../model/data.model';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -57,7 +58,9 @@ export class SampleComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    public toastr: ToastrService
+  ) {
     this.createForm();
 
   }
@@ -91,6 +94,7 @@ export class SampleComponent implements OnInit {
     });
   }
   createForm() {
+
     this.initForm ? this.crudForm = this.initForm : this.crudForm = this.fb.group({});
   }
 
@@ -102,7 +106,9 @@ export class SampleComponent implements OnInit {
 
   add() {
     const p = this.crudForm.value;
-    this.service.create(p).subscribe(res => {this.loadData();
+    this.service.create(p).subscribe(res => {
+      this.loadData();
+      this.toastr.success('Enregistrement effectue avec succes : Ref ' + p);
     });
     this.initData();
   }
@@ -112,7 +118,8 @@ export class SampleComponent implements OnInit {
     this.service.update(this.selectedItem).subscribe(res => {
       this.initData();
       this.loadData();
-    }, err => console.log(err)
+      this.toastr.success('Mise a jour effectuee avec succes : Ref ' + this.selectedItem);
+    }, err => this.toastr.error('Attention, mise a jour echouee ' + err )
     );
   }
 
@@ -126,6 +133,7 @@ export class SampleComponent implements OnInit {
 
     this.service.delete(this.selectedItem.id).subscribe(res => {
       this.selectedItem = this.initItem;
+      this.toastr.success('Suppression effectuee avec succes : Ref ' + this.selectedItem.id);
       this.loadData();
     });
   }

@@ -5,7 +5,9 @@ import { Component, OnInit } from '@angular/core';
   template: `
   <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
   <app-side-nav></app-side-nav>
-  <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
+  <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)">
+
+  </div>
 </div>
 
   `,
@@ -13,9 +15,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+ ngOnInit() {
 
-  ngOnInit() {
   }
 
-}
+  }
+
+
+

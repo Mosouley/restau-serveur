@@ -15,16 +15,16 @@ export class CrudComponent implements OnInit {
 
   crudType = 'sample';
 
-  @Input('data')
+  @Input()
   data: any;
 
-  @Input('arrayData')
+  @Input()
   arrayData: any;
 
-  @Input('service')
+  @Input()
   service: DataService;
 
-  @Input('title')
+  @Input()
   title: string;
 
   @Input()

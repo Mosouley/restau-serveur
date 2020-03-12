@@ -1,12 +1,16 @@
 package com.moh.restaurant;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.moh.restaurant.dao.RoleRepository;
+import com.moh.restaurant.dao.UserRepository;
 import com.moh.restaurant.entities.Role;
 import com.moh.restaurant.entities.RoleName;
+import com.moh.restaurant.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +86,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -91,6 +101,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         for (Role var : listRoles) {
             createRoleIfNotFound(var.getName());
         }
+        createAdminIfNotFound("ADMIN");
     }
 
     @Transactional
@@ -101,6 +112,26 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         if(role == null)
         roleRepository.save(new Role(name));
         return role;
+    }
+
+    @Transactional
+    private User createAdminIfNotFound(String name) {
+
+        Optional<User> optUser = userRepository.findByUsername(name);
+        User user = optUser.orElse(null);
+        Set<Role> listRoles = new HashSet<>();
+        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        listRoles.add(adminRole);
+      if (user == null)
+         user = new User();
+        user.setLastName(name);
+        user.setUsername(name);
+        user.setEmail("admin@gmail.com");
+        user.setPassword(encoder.encode("ADIM88888"));
+        user.setRoles(listRoles);
+        userRepository.save(user);
+        return user;
     }
 
   }

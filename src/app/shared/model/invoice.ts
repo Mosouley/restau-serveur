@@ -9,7 +9,8 @@ export const enum InvoiceStatus {
 export enum PaymentMode {
   CASH,
   BANK,
-  MOBILE
+  MOBILE,
+  CREDIT
 }
 export class Invoice {
 

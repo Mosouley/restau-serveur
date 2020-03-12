@@ -45,8 +45,70 @@
           </mat-sidenav>
           <app-toolbar (toggleSidenav)="sidenav.toggle()"></app-toolbar>
           <!-- <router-outlet name="modal"></router-outlet> -->
-          <div fxLayout="column" fxFlexFill style="justify-content: center; background-color: rgb(216, 216, 218)">
-            <div  *ngIf="authService.isLoggedIn()" style="background-color: rgb(180, 178, 178)">
+          <div fxFlexAlign="center" >
+            <div fxLayout="row" *ngIf="!authService.isLoggedIn()" fxLayout="full">
+              <div class="alert alert-danger alert-with-icon " role="alert" style="text-align: center; align-content: center; background-color: tomato; color: snow">
+                  Vous êtes deconnecté, essayez de vous connecter à nouveau!
+                </div>
+                 <div>
+                    <ngb-carousel
+                      [showNavigationArrows]="true"
+                      [showNavigationIndicators]="true"
+                      interval="2000"
+                      [keyboard]="true"
+                      [pauseOnHover]="true"
+                      [wrap]="true"
+
+                      >
+                      <!-- [activeId]="'secondSlide'" -->
+                          <ng-template ngbSlide>
+                            <div class="picsum-img-wrapper">
+                              <img src="/assets/img/sidebar-2.jpg" alt="Angular Carousel 1">
+                              <div class="carousel-caption">
+                                <h3>Title Goes Here</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                              </div>
+                            </div>
+
+                          </ng-template>
+                          <ng-template ngbSlide>
+                            <div class="picsum-img-wrapper">
+                              <img src="/assets/img/sidebar-1.jpg" alt="Angular Carousel 2">
+                              <div class="carousel-caption">
+                                <h3>La solution logicielle</h3>
+                                <p>Conservez vos donnees</p>
+                              </div>
+                            </div>
+
+                          </ng-template>
+                          <ng-template ngbSlide
+
+                          >
+                              <div class="picsum-img-wrapper">
+                                <img src="/assets/img/sidebar-3.jpg" alt="Angular Carousel 2">
+                                <div class="carousel-caption">
+                                  <h3>Goutez la difference</h3>
+                                  <p>Nous allons vous surprendre.</p>
+                                </div>
+                              </div>
+
+                            </ng-template>
+                            <ng-template ngbSlide>
+                                <div class="picsum-img-wrapper">
+                                  <img src="/assets/yasn logo.jpeg" alt="Angular Carousel 2">
+                                  <div class="carousel-caption">
+                                    <h3>Titre ici</h3>
+                                    <p>Planifiez vos journees</p>
+                                  </div>
+                                </div>
+
+                              </ng-template>
+                      </ngb-carousel>
+                 </div>
+
+
+          </div>
+            <div  *ngIf="authService.isLoggedIn()" style="background-color: rgb(230, 227, 227)">
               <!-- <mat-card> -->
                <router-outlet></router-outlet>
                <!-- </mat-card> -->
@@ -54,88 +116,7 @@
 
 
             </div>
-            <div fxLayout="row" *ngIf="!authService.isLoggedIn()">
-                <div class="alert alert-danger alert-with-icon " role="alert" style="text-align: center; align-content: center">
-                    Vous êtes deconnecté, essayez de vous connecter à nouveau!
-                  </div>
-                  <!-- <div class="jumbotron jumbotron-fluid">
-                      <div fxLayout="column">
-                        <div class="row">
-                          <div class="col-md-10 offset-md-1">
-                              <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                                  <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                      <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                      <img src="/assets/img/sidebar-2.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                  </div>
-                                </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
-                    <div fxLayout="row" fxFlexAlign="full">
-                        <div fxFlexAlign="center">
-                          <p>Welcome to Stock Management WebApp </p>
-                        </div>
 
-                        <p>Manage, Forecast and Deliver</p>
-                        <ngb-carousel
-                        [showNavigationArrows]="true"
-                        [showNavigationIndicators]="true"
-                        interval="2000"
-                        [keyboard]="true"
-                        [pauseOnHover]="true"
-                        [wrap]="true"
-
-                        >
-                        <!-- [activeId]="'secondSlide'" -->
-                            <ng-template ngbSlide>
-                              <div class="picsum-img-wrapper">
-                                <img src="/assets/img/sidebar-2.jpg" alt="Angular Carousel 1">
-                              </div>
-                              <div class="carousel-caption">
-                                <h3>Title Goes Here</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                              </div>
-                            </ng-template>
-                            <ng-template ngbSlide>
-                              <div class="picsum-img-wrapper">
-                                <img src="/assets/img/sidebar-1.jpg" alt="Angular Carousel 2">
-                              </div>
-                              <div class="carousel-caption">
-                                <h3>Title Goes Here</h3>
-                                <p>Consectetur tortor volutpat pretium.</p>
-                              </div>
-                            </ng-template>
-                            <ng-template ngbSlide
-
-                            >
-                                <div class="picsum-img-wrapper">
-                                  <img src="/assets/img/sidebar-3.jpg" alt="Angular Carousel 2">
-                                </div>
-                                <div class="carousel-caption">
-                                  <h3>Title Goes Here</h3>
-                                  <p>Consectetur tortor volutpat pretium.</p>
-                                </div>
-                              </ng-template>
-                              <ng-template ngbSlide>
-                                  <div class="picsum-img-wrapper">
-                                    <img src="/assets/yasn logo.jpeg" alt="Angular Carousel 2">
-                                  </div>
-                                  <div class="carousel-caption">
-                                    <h3>Title Goes Here</h3>
-                                    <p>Consectetur tortor volutpat pretium.</p>
-                                  </div>
-                                </ng-template>
-                        </ngb-carousel>
-                      </div>
-            </div>
           </div>
 
 

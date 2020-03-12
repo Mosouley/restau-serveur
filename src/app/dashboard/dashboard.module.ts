@@ -19,6 +19,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import { DashComponent } from './components/dash/dash.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 
 
@@ -26,7 +27,9 @@ import { DashComponent } from './components/dash/dash.component';
   declarations: [
     // DashboardComponent, MainContentComponent,
     // SideNavComponent, ToolbarComponent
-  DashComponent],
+  DashComponent,
+  ChartsComponent
+    ],
   imports: [
     CommonModule,
     EntitiesModule,
@@ -38,8 +41,9 @@ import { DashComponent } from './components/dash/dash.component';
     PrintModule,
     ReportModule,
     MDBBootstrapModule.forRoot()
-
-
+  ],
+  exports: [
+    // ChartsComponent
   ]
 })
 export class DashboardModule { }

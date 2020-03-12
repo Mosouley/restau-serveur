@@ -47,6 +47,7 @@ import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { SignupComponent } from './signup/signup.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
+import { ChartsComponent } from './dashboard/components/charts/charts.component';
 
 
 

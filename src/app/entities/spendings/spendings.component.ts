@@ -41,7 +41,7 @@ export class SpendingsComponent implements OnInit {
       valueSpending: ['', [Validators.required, Validators.pattern(numberPatern)]],
       commentSpending: ''
     });
-
   }
+
 
 }

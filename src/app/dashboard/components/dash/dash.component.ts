@@ -1,6 +1,7 @@
+import { isUndefined } from 'util';
 import { PaymentMode } from './../../../shared/model/invoice';
 import { async } from '@angular/core/testing';
-import { tap, reduce, groupBy, mergeMap, flatMap, switchMap, map, toArray } from 'rxjs/operators';
+import { tap, reduce, groupBy, mergeMap, flatMap, switchMap, map, toArray, filter, concatMap, concatAll } from 'rxjs/operators';
 import { CashBalance } from './../../../shared/model/cashBalance';
 import { HistoricCashBalanceService } from './../../../services/HistoricCashBalance.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +10,7 @@ import { Invoice } from '../../../shared/model/invoice';
 import { TransactionLine } from '../../../shared/model/transactionLine';
 import { Spending } from '../../../shared/model/spendings';
 import { from, Observable } from 'rxjs';
+import { resultMemoize } from '@ngrx/store';
 
 // const groupedBy = key => tableau =>
 //   tableau.reduce((objectsByKeyValue, obj) => {
@@ -22,7 +24,7 @@ const today = new Date();
 @Component({
   selector: 'app-dash',
   templateUrl: './dash.component.html',
-  styleUrls: ['./dash.component.css']
+  styleUrls: ['./dash.component.scss']
 })
 export class DashComponent implements OnInit {
 
@@ -49,10 +51,21 @@ export class DashComponent implements OnInit {
   ];
   caJour = 0; caMois = 0; caTrim = 0; caAn = 0;
   spendJour = 0; spendMois = 0; spendTrim = 0; spendAn = 0;
-  caisJour = 0; caisMois = 0; caisTrim = 0; caisAn = 0;
+  totalInflows = 0;
   comptes = [];
+  accountData = [];
+
+  // Charts info
+  // object contains the name,centures of the cricketers this is the data we will use to draw the chart
+
+  // meta Info object holds lot of properties describes the title and color and othe meta info for chart
+  cricketersInfo;
+
+// Metadata for the chart like width and height of the chart, Title for the chart, Title color etc..
+metaInfo ;
 
   constructor(private route: ActivatedRoute, public cashService: HistoricCashBalanceService
+
  ) { }
 
   ngOnInit() {
@@ -66,10 +79,31 @@ export class DashComponent implements OnInit {
     // console.log(this.dataTx);
     this.getChiffreAffaire();
     this.getSpendings();
-    this.getCashData();
+    this.accountBalances.subscribe( ex => this.accountData = ex);
+    this.getCashData(new Date('03/01/2020'), today);
 
+    this.cricketersInfo = [
+      {'name': 'Sachin T', 'centuries': 49},
+      {'name': 'Kohli  V', 'centuries': 43},
+      {'name': 'Rohit  S', 'centuries': 28},
+      {'name': ' Ganguly ', 'centuries': 22},
+      {'name': 'Dhawan', 'centuries': 17},
+    ];
 
-
+    this.metaInfo = {
+      'chartWidth': '300',
+      'chartHeight': '200',
+      'title': 'Evolution chiffres d Affaires',
+      'titleColor': 'white',
+      'titleFont': '20px sans-serif',
+      'columnTitleColor': 'white',
+      'columnFont': '8px sans-serif',
+      'footerTitle': 'Cricketer',
+      'footerColor': '#c1d0cd',
+      'footerFont': '12px sans-serif',
+      'leftaxisColor': '#c1d0cd',
+      'leftaxisFont': '10px sans-serif',
+      };
   }
 
   getChiffreAffaire() {
@@ -145,48 +179,34 @@ export class DashComponent implements OnInit {
   //   return data.map(t => t).reduce((acc, value) => acc + value, 0);
   // }
 
-  getCashData() {
-
-    this.accountBalances
-    .pipe(
-      switchMap( data => data as CashBalance[]),
-      groupBy((cb) => cb.payMode),
-      mergeMap(cashBal => cashBal.pipe(
-        reduce(
-          (acc, curr) => {
-            acc.payMode = acc.payMode || curr.payMode;
-            acc.balance = acc.balance + curr.balance;
-            console.log(acc);
-
-            return acc;
-          }, {
-            payMode: null, balance: 0
-          } )
-      ))
-    ).subscribe(result => {
-      this.comptes.push(result);
-      console.log(this.comptes);
-
-    });
-
-
-    this.accountBalances.subscribe( don => console.log(don)
-    );
-    const example = this.accountBalances
-    .pipe(
-      reduce((acc, curr, id) => {
-        acc[id].balance = acc[id].balance + curr[id].balance;
-        console.log(acc);
-        return acc;
-      })
-      );
+  getCashData(start, end) {
 
 
 
+        from(this.accountData).pipe(
+          groupBy(tx => tx.payMode),
+          // flatMap(group => group.pipe(toArray()))
+          mergeMap(transac =>
+          transac.pipe(
+            reduce(
+              (acc, curr) => {
+                acc.payMode = acc.payMode || curr.payMode;
+                acc.solde += curr.balance;
+                return acc;
+              },
+              {   payMode: null, solde: 0 }
+            )
+          )
+        )
+        ).subscribe( result => {
+          // console.log(result);
+          this.comptes.push(result);
+          this.totalInflows = this.comptes.filter(elm => elm !== undefined && elm.payMode !== 'CREDIT')
+          .reduce((a, b) => a + (b['solde'] || 0), 0);
 
+        }
+);
 
-
-    //  return  this.accountBalances;
   }
 }
 

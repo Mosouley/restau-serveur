@@ -1,7 +1,7 @@
 package com.moh.restaurant.util;
 
 public enum PaymentMode {
-    CASH("Cash"), BANK("Bank"), MOBILE("MoMo");
+    CASH("Cash"), BANK("Bank"), MOBILE("MoMo"), CREDIT("Credit");
 
     private String name;
 
