@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 
 import { UploadFileService } from './../../shared/upload-file.service';
 import { isUndefined } from 'util';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { CompanyService } from '../../services/company.service';
 import { Company } from '../../shared/model/company';
 import { MatSnackBar } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { FileValidator } from '../../shared/utils/file-input-validator.directive';
 
 @Component({
   selector: 'app-company',
@@ -35,7 +36,8 @@ export class CompanyComponent implements OnInit {
     private companyService: CompanyService,
     private fb: FormBuilder,
     private uploadService: UploadFileService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private _cdr: ChangeDetectorRef
   ) {
 
    }
@@ -54,7 +56,8 @@ export class CompanyComponent implements OnInit {
       codeIfuCompany: ['', Validators.required],
       phoneCompany: ['', Validators.required],
       adressCompany: ['', Validators.required],
-      logoCompany: this.theCompany.logoCompany
+      logoCompany: this.theCompany.logoCompany,
+      file: new FormControl('', [FileValidator.validate])
     });
 }
 
@@ -85,14 +88,12 @@ export class CompanyComponent implements OnInit {
     if (file.type.match('image.*')) {
       this.selectionFiles =  event.target.files;
       this.currentFileUpload = file;
-      // console.log(this.currentFileUpload);
-
+    //  console.log(this.currentFileUpload);
+      this.onSubmit();
     // this.companyForm.get('logoCompany').setValue(file);
     } else {
       this.toast.warning('invalid file format');
     }
-
-
 
   }
 
@@ -121,7 +122,6 @@ export class CompanyComponent implements OnInit {
     // }
     this.update();
 
-
   }
 
   valueChange() {
@@ -132,19 +132,15 @@ export class CompanyComponent implements OnInit {
       this.theCompany = this.companyForm.value;
       this.companyService.update(this.theCompany).subscribe();
     }
-    // .pipe(
-    //   flatMap((res1) => this.companyService.update(res1))
-    // ).subscribe(res => this.theCompany.logoCompany = res['logoCompany']
-    // );
 
   }
-  getImageUrl() {
-    if (this.currentFileUpload) {
-    return this.uploadService.getFile(this.nameFile);
-  }
+  // getImageUrl() {
+  //   if (this.currentFileUpload) {
+  //   return this.uploadService.getFile(this.nameFile);
+  // }
 
     // return this.currentFileUpload ? this.companyForm.get('logoCompany').value : '/assets/yasn logo.jpeg';
-  }
+  // }
   // this.uploadService.getFile(this.currentFileUpload['name'])
 
   retrieveCompany() {
@@ -159,4 +155,30 @@ export class CompanyComponent implements OnInit {
           }
        });
   }
+
+  onFileChange(event) {
+  const reader = new FileReader();
+
+  if (event.target.files && event.target.files.length) {
+    const [file] = event.target.files;
+    console.log(file);
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      this.companyForm.controls.file.patchValue({
+        file: reader.result
+      });
+
+      // need to run CD since file load runs outside of zone
+      this._cdr.markForCheck();
+    };
+  }
+}
+
+openInput() {
+  // your can use ElementRef for this later
+  // tslint:disable-next-line:no-unused-expression
+  document.getElementById('fileInput').click();
+}
 }

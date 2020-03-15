@@ -95,7 +95,7 @@ export class SampleComponent implements OnInit {
   }
   createForm() {
 
-    this.initForm ? this.crudForm = this.initForm : this.crudForm = this.fb.group({});
+    this.initForm ? this.crudForm = this.initForm : this.crudForm = this.fb.group({}) ;
   }
 
   loadData() {
@@ -114,12 +114,12 @@ export class SampleComponent implements OnInit {
   }
 
   update() {
-    //  console.log(this.selectedItem);
+      console.log(this.selectedItem);
     this.service.update(this.selectedItem).subscribe(res => {
       this.initData();
       this.loadData();
       this.toastr.success('Mise a jour effectuee avec succes : Ref ' + this.selectedItem);
-    }, err => this.toastr.error('Attention, mise a jour echouee ' + err )
+    }, err => this.toastr.error('Attention, mise a jour echouee ')
     );
   }
 

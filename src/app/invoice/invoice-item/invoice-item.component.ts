@@ -207,7 +207,7 @@ export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {
       this.today = this.invoiceForm.get('dateTrans').value;
       invoice.dateTrans = this.today;
       invoice.statut = InvoiceStatus.PAYE;
-      invoice.paymentMode = this.invoiceForm.get('payMode').value;
+      invoice.paymentMode = this.invoiceForm.controls.payMode.value;
       invoice.client = this.selectedClient;
 
       // Recuperer celui qui fait l'action

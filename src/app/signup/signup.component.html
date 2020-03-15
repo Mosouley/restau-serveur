@@ -1,6 +1,22 @@
 
 <div class="modal-header">
     <h4 class="modal-title" >Sign Up</h4>
+    <mat-card style="text-align: center; justify-content: center " class="col-4">
+    <span *ngIf="theCompany" >
+    <img  src={{theCompany.logoCompany}} class="logo-img img-fluid img-thumbnail" style="height: 80px; width:80px;"  >
+
+  </span>
+  <input mat-mini-fab id="fileInput"
+  mdbBtn type="file" [hidden]="true"  accept="image/png, image/jpeg, image/jpg"
+  (change)="checkUpFile($event)" />
+  <button mat-mini-fab
+  mdbBtn
+  (click)="openInput()"
+  >
+  <mat-icon>add_a_photo</mat-icon>
+  </button>
+
+  </mat-card>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button"
     (click)="activeModal.dismiss('closed')" [tabIndex]=-1><span aria-hidden="true">x</span>
     </button>

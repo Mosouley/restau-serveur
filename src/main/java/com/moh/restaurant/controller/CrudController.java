@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 public class CrudController<T> {
@@ -45,17 +46,22 @@ public class CrudController<T> {
 	}
 
 	@PutMapping
-	public ResponseEntity<T> update( @RequestBody @Valid T entity) throws ResourceNotFoundException {
-    // if (entity['id'] == null) {
-    //   return add(entity);
-    // }
-    service.update(entity);
+	public @ResponseBody ResponseEntity<@Valid T> update(@RequestBody @Valid T entity) throws ResourceNotFoundException {
+
+    // T t= service.get(ENTITY_NAME['id']).orElse(null);
+    //  if (t == null) {
+    //  return add(t);
+    //  } else {
+       service.update(entity);
+    //  }
+
 		return ResponseEntity.ok(entity);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) throws ResourceNotFoundException {
-		service.delete(id);
+
+    service.delete(id);
 		return ResponseEntity.ok().build();
 	}
 

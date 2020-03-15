@@ -78,7 +78,7 @@ export class SideNavComponent implements OnInit {
       action: ''
     },
     {
-      name: 'Parametres',
+      name: 'Configuration',
       url: 'company',
       icon: 'build',
       action: ''

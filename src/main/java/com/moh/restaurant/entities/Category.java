@@ -27,7 +27,7 @@ public class Category {
     @Column(nullable = false)
     private LocalDate createAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade =CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
     @JsonIgnore
     private Collection<Produit> produits;
 

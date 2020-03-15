@@ -1,5 +1,6 @@
 package com.moh.restaurant.security;
 
+import com.moh.restaurant.dao.UserRepository;
 import com.moh.restaurant.security.jwt.JwtAuthEntryPoint;
 import com.moh.restaurant.security.jwt.JwtAuthTokenFilter;
 import com.moh.restaurant.security.services.UserDetailsServiceImpl;
@@ -28,6 +29,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  @Autowired
+  UserRepository userRepository;
+
 	// inject the custom implementation of userdetails
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
@@ -43,7 +47,8 @@ public JwtAuthTokenFilter authenticationJwtTokenFilter() {
 
 @Override
 public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-	authenticationManagerBuilder
+  authenticationManagerBuilder
+
 			.userDetailsService(userDetailsService)
 			.passwordEncoder(passwordEncoder());
 }

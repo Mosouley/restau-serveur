@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { API_URLS } from './../config/app.url.config';
@@ -36,7 +37,7 @@ export class AuthService {
   }
   logout() {
   this.tokenService.signOut();
-
+  // location.reload();
   }
   isLoggedIn() {
     // create an instance of jwthelper

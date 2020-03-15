@@ -44,6 +44,8 @@ import { InvoiceCreateComponent } from '../invoice/invoice-create/invoice-create
 import { NotificationsComponent } from './notifications/notifications.component';
 import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
 import { ChartsComponent } from '../dashboard/components/charts/charts.component';
+import { FileValueAccessor } from './utils/file-control-value-accessor';
+import { FileValidator } from './utils/file-input-validator.directive';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { ChartsComponent } from '../dashboard/components/charts/charts.component
     MainContentComponent,
     NotificationsComponent,
     FormUploadComponent,
-    FooterComponent
+    FooterComponent,
+    FileValueAccessor,
+    FileValidator
 
   ],
   imports: [
@@ -91,6 +95,8 @@ import { ChartsComponent } from '../dashboard/components/charts/charts.component
     PrintModule,
     FormUploadComponent,
     NgbModule,
+    FileValueAccessor,
+    FileValidator
 
   ],
   providers:

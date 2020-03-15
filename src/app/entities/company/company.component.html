@@ -1,11 +1,11 @@
   <mat-card class="flex-row" style="justify-content: center">
     <div class="row">
-      <div class="flex flex-column">
+      <div class="flex flex-column col-4">
         <div class="card">
           <div class="card-header bg-info text-white">
             {{ operation == 'add' ? 'Parametrer une Societe' : operation == 'edit' ? 'Modifier Societe' : operation == 'remove'  }}
           </div>
-          <div class="card-body">
+          <div class="card-body justify-content-between">
 
             <div *ngIf="operation == 'add'|| operation =='edit'">
               <form [formGroup]="companyForm">
@@ -23,30 +23,20 @@
                           <mat-card style="text-align: center; justify-content: center " class="col-4">
                               <label>Logo</label>
                             <span *ngIf="theCompany" >
-                              <!-- *ngIf="getImageUrl() | async" -->
-                            <img  src={{theCompany.logoCompany}} class=" logo-img img-fluid img-thumbnail" style="height: 80px; width:80px;"  >
+                            <img  src={{theCompany.logoCompany}} class="logo-img img-fluid img-thumbnail" style="height: 80px; width:80px;"  >
 
                           </span>
-                          <input type="file" [hidden]="true" id="logoCompany" class="upload" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event); operation == 'edit'" />
+                          <input mat-mini-fab id="fileInput"
+                          mdbBtn type="file" [hidden]="true" formControlName="file"  accept="image/png, image/jpeg, image/jpg"
+                          (change)="checkUpFile($event); operation == 'edit'" />
+                          <button mat-mini-fab
+                          mdbBtn
+                          (click)="openInput()"
+                          >
+                          <mat-icon>add_a_photo</mat-icon>
+                          </button>
 
-                          <mat-icon class="mat-18">add_a_photo</mat-icon>
                           </mat-card>
-
-                    <!-- <mat-card> -->
-
-                      <!-- <app-form-upload></app-form-upload> -->
-                            <!-- <div class="card card-primary " >
-
-
-                              <label class="btn btn-default">
-                                <input [hidden]="true" type="file" name="logoCompany" accept="image/png, image/jpeg, image/jpg" (change)="checkUpFile($event); operation == 'edit'">
-                              </label>
-                              <button class="btn btn-success" [disabled]="!selectionFiles" (click)="onSubmit()">Appliquer</button>
-                            </div> -->
-
-                    <!-- </mat-card> -->
-
-                    <!-- <input  type="file" formControlName="logoCompany" class="form-control" /> -->
                   </div>
                 </div>
                 <div *ngIf="currentFileUpload" class="progress">
@@ -56,7 +46,7 @@
                   </div>
                 </div>
 
-                <button class="btn btn-success" [disabled]="companyForm.pristine || companyForm.invalid" (click)="operation == 'add' ? add() : update()">
+                <button class="btn btn-success" [disabled]=" !selectionFiles || companyForm.pristine || ! companyForm.valid" (click)="operation == 'add' ? add() : update()">
                   {{operation == 'add' ? 'Ajouter' : operation == 'edit' ? 'Modifier' : ''}}
                 </button>
               </form>

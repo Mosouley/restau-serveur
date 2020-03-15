@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let appro of appros; let i = index ">
+        <tr *ngFor="let appro of appros; let i = index " (click)="onChange(appro)">
           <td >
             {{appro.id}}
           </td>
@@ -36,9 +36,9 @@
             {{appro.transactionLines[0].unitValue}}
           </td>
           <td>
-            <button class="btn btn-outline-primary btn-sm" (click)="selectedItem = product; operation = 'edit'">Edit
+            <button class="btn btn-outline-primary btn-sm" (click)=" operation = 'edit';">Edit
             </button>
-            <button class="btn btn-outline-danger btn-sm" (click)="selectedItem = product;operation = 'remove' ">
+            <button class="btn btn-outline-danger btn-sm" (click)="selectedItem = appro;operation = 'remove' ">
               Remove
             </button>
           </td>

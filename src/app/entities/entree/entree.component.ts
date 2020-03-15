@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Category } from './../../shared/model/category';
 import { DataModel } from './../../shared/model/data.model';
 
@@ -11,6 +12,8 @@ import { Entree } from '../../shared/model/entree';
 import { Produit } from '../../shared/model/produit';
 import { Appro } from '../../shared/model/appro';
 import { TransactionLine } from '../../shared/model/transactionLine';
+import { TokenStorageService } from '../../auth/token-storage.service';
+import { User } from '../../shared/model/user';
 
 @Component({
   selector: 'app-entree',
@@ -19,6 +22,7 @@ import { TransactionLine } from '../../shared/model/transactionLine';
 })
 export class EntreeComponent implements OnInit {
 
+  activeUser: User;
   appros: Appro[];
   categories: Category[];
   approForm: FormGroup;
@@ -37,7 +41,10 @@ export class EntreeComponent implements OnInit {
   categoriesModel: DataModel[];
 
   constructor(public entreeService: EntreeService,
-              private fb: FormBuilder, private route: ActivatedRoute) {
+              private fb: FormBuilder,
+              private route: ActivatedRoute,
+            private logServ: UserService,
+          private tokenService: TokenStorageService) {
   }
 
   ngOnInit() {
@@ -119,6 +126,10 @@ export class EntreeComponent implements OnInit {
         transax.txDate = appro.dateAppro;
         appro.transactionLines.push(transax);
         // console.log(appro);
+        this.logServ.getAll().subscribe(liste => {
+          this.activeUser = liste.find(u => u.username === this.tokenService.getUsername());
+        });
+        this.appro.user = this.activeUser;
 
     this.entreeService.create(appro).subscribe(res => {
       this.loadData();
@@ -142,6 +153,21 @@ export class EntreeComponent implements OnInit {
   }
 
   getValues() {
+    this.approForm.valueChanges.subscribe( val => {
+      this.selectedItem = val;
+      console.log(this.selectedItem);
 
+    });
+  }
+
+  onChange(selectItem) {
+      // console.log(selectItem.transactionLines[0].produit);
+      // console.log(selectItem.transactionLines[0].produit.category.nameCategory);
+      // this.approForm.get('approRef').patchValue(selectItem.approRef);
+      this.approForm.get('dateAppro').patchValue(selectItem.dateAppro);
+      this.approForm.get('coutUnitaire').patchValue(selectItem.transactionLines[0].unitValue);
+      this.approForm.get('quantite').patchValue(selectItem.transactionLines[0].quantity);
+      // this.approForm.controls.category.patchValue(selectItem.transactionLines[0].produit.category.nameCategory);
+      // this.approForm.get('produit').patchValue(selectItem.transactionLines[0].produit.codeProd);
   }
 }
