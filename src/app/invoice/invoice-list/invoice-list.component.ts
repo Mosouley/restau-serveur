@@ -15,7 +15,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-invoice-list',
   templateUrl: './invoice-list.component.html',
-  styleUrls: ['./invoice-list.component.css']
+  styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent implements OnInit, AfterViewInit {
 

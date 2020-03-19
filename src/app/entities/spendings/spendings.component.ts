@@ -9,7 +9,7 @@ import { SpendingsService } from '../../services/spendings.service';
 @Component({
   selector: 'app-spendings',
   templateUrl: './spendings.component.html',
-  styleUrls: ['./spendings.component.css']
+  styleUrls: ['./spendings.component.scss']
 })
 export class SpendingsComponent implements OnInit {
 

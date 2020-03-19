@@ -24,7 +24,6 @@
             ],
             "styles": [
               "src/styles.css",
-
               {
                 "input": "./node_modules/bootstrap/dist/css/bootstrap.min.css"
               },
@@ -37,11 +36,11 @@
               {
                 "input": "./node_modules/ngx-toastr/toastr.css"
               }
-
-
             ],
-            "scripts": ["node_modules/chart.js/dist/Chart.js",
-  "node_modules/hammerjs/hammer.min.js"]
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/hammerjs/hammer.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -92,7 +91,7 @@
             ],
             "scripts": [
               "styles.css",
-             "../node_modules/font-awesome/css/font-awesome.css"
+              "../node_modules/font-awesome/css/font-awesome.css"
             ],
             "assets": [
               "src/favicon.ico",
@@ -138,5 +137,10 @@
       }
     }
   },
-  "defaultProject": "restau-client"
+  "defaultProject": "restau-client",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

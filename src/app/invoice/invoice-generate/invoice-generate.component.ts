@@ -13,7 +13,7 @@ import { groupBy, mergeMap, reduce } from 'rxjs/operators';
 @Component({
   selector: 'app-invoice-generate',
   templateUrl: './invoice-generate.component.html',
-  styleUrls: ['./invoice-generate.component.css']
+  styleUrls: ['./invoice-generate.component.scss']
 })
 export class InvoiceGenerateComponent implements OnInit, AfterViewInit {
 

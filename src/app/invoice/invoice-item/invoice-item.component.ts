@@ -39,7 +39,7 @@ import { from, Observable } from 'rxjs';
 @Component({
   selector: 'app-invoice-item',
   templateUrl: './invoice-item.component.html',
-  styleUrls: ['./invoice-item.component.css'],
+  styleUrls: ['./invoice-item.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoiceItemComponent implements OnInit, OnDestroy, AfterViewInit {

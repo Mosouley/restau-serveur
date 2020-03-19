@@ -59,9 +59,9 @@ var AppErrorHandler = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/app.component.css":
+/***/ "./src/app/app.component.scss":
 /*!***********************************!*\
-  !*** ./src/app/app.component.css ***!
+  !*** ./src/app/app.component.scss ***!
   \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -106,7 +106,7 @@ var AppComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
-            styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
+            styles: [__webpack_require__(/*! ./app.component.scss */ "./src/app/app.component.scss")]
         })
     ], AppComponent);
     return AppComponent;
@@ -875,9 +875,9 @@ var DashboardComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/access-denied/access-denied.component.css":
+/***/ "./src/app/entities/access-denied/access-denied.component.scss":
 /*!********************************************************************!*\
-  !*** ./src/app/entities/access-denied/access-denied.component.css ***!
+  !*** ./src/app/entities/access-denied/access-denied.component.scss ***!
   \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -930,7 +930,7 @@ var AccessDeniedComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-access-denied',
             template: __webpack_require__(/*! ./access-denied.component.html */ "./src/app/entities/access-denied/access-denied.component.html"),
-            styles: [__webpack_require__(/*! ./access-denied.component.css */ "./src/app/entities/access-denied/access-denied.component.css")]
+            styles: [__webpack_require__(/*! ./access-denied.component.scss */ "./src/app/entities/access-denied/access-denied.component.scss")]
         }),
         __metadata("design:paramtypes", [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"]])
     ], AccessDeniedComponent);
@@ -941,9 +941,9 @@ var AccessDeniedComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/category/category.component.css":
+/***/ "./src/app/entities/category/category.component.scss":
 /*!**********************************************************!*\
-  !*** ./src/app/entities/category/category.component.css ***!
+  !*** ./src/app/entities/category/category.component.scss ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1026,7 +1026,7 @@ var CategoryComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-category',
             template: __webpack_require__(/*! ./category.component.html */ "./src/app/entities/category/category.component.html"),
-            styles: [__webpack_require__(/*! ./category.component.css */ "./src/app/entities/category/category.component.css")]
+            styles: [__webpack_require__(/*! ./category.component.scss */ "./src/app/entities/category/category.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_category_service__WEBPACK_IMPORTED_MODULE_3__["CategoryService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
@@ -1038,9 +1038,9 @@ var CategoryComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/client/client.component.css":
+/***/ "./src/app/entities/client/client.component.scss":
 /*!******************************************************!*\
-  !*** ./src/app/entities/client/client.component.css ***!
+  !*** ./src/app/entities/client/client.component.scss ***!
   \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1121,7 +1121,7 @@ var ClientComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-client',
             template: __webpack_require__(/*! ./client.component.html */ "./src/app/entities/client/client.component.html"),
-            styles: [__webpack_require__(/*! ./client.component.css */ "./src/app/entities/client/client.component.css")]
+            styles: [__webpack_require__(/*! ./client.component.scss */ "./src/app/entities/client/client.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_client_service__WEBPACK_IMPORTED_MODULE_2__["ClientService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
@@ -1133,9 +1133,9 @@ var ClientComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/company/company.component.css":
+/***/ "./src/app/entities/company/company.component.scss":
 /*!********************************************************!*\
-  !*** ./src/app/entities/company/company.component.css ***!
+  !*** ./src/app/entities/company/company.component.scss ***!
   \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1236,7 +1236,7 @@ var CompanyComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-company',
             template: __webpack_require__(/*! ./company.component.html */ "./src/app/entities/company/company.component.html"),
-            styles: [__webpack_require__(/*! ./company.component.css */ "./src/app/entities/company/company.component.css")]
+            styles: [__webpack_require__(/*! ./company.component.scss */ "./src/app/entities/company/company.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_company_service__WEBPACK_IMPORTED_MODULE_2__["CompanyService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormBuilder"],
@@ -1326,9 +1326,9 @@ var EntitiesModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/entree/entree.component.css":
+/***/ "./src/app/entities/entree/entree.component.scss":
 /*!******************************************************!*\
-  !*** ./src/app/entities/entree/entree.component.css ***!
+  !*** ./src/app/entities/entree/entree.component.scss ***!
   \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1480,7 +1480,7 @@ var EntreeComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-entree',
             template: __webpack_require__(/*! ./entree.component.html */ "./src/app/entities/entree/entree.component.html"),
-            styles: [__webpack_require__(/*! ./entree.component.css */ "./src/app/entities/entree/entree.component.css")]
+            styles: [__webpack_require__(/*! ./entree.component.scss */ "./src/app/entities/entree/entree.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_entree_service__WEBPACK_IMPORTED_MODULE_3__["EntreeService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
@@ -1492,9 +1492,9 @@ var EntreeComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/fournisseur/fournisseur.component.css":
+/***/ "./src/app/entities/fournisseur/fournisseur.component.scss":
 /*!****************************************************************!*\
-  !*** ./src/app/entities/fournisseur/fournisseur.component.css ***!
+  !*** ./src/app/entities/fournisseur/fournisseur.component.scss ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1570,7 +1570,7 @@ var FournisseurComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-fournisseur',
             template: __webpack_require__(/*! ./fournisseur.component.html */ "./src/app/entities/fournisseur/fournisseur.component.html"),
-            styles: [__webpack_require__(/*! ./fournisseur.component.css */ "./src/app/entities/fournisseur/fournisseur.component.css")]
+            styles: [__webpack_require__(/*! ./fournisseur.component.scss */ "./src/app/entities/fournisseur/fournisseur.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_fournisseur_service__WEBPACK_IMPORTED_MODULE_2__["FournisseurService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
@@ -1582,9 +1582,9 @@ var FournisseurComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/produit/Produit.component.css":
+/***/ "./src/app/entities/produit/Produit.component.scss":
 /*!********************************************************!*\
-  !*** ./src/app/entities/produit/Produit.component.css ***!
+  !*** ./src/app/entities/produit/Produit.component.scss ***!
   \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1672,7 +1672,7 @@ var ProduitComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-produit',
             template: __webpack_require__(/*! ./Produit.component.html */ "./src/app/entities/produit/Produit.component.html"),
-            styles: [__webpack_require__(/*! ./Produit.component.css */ "./src/app/entities/produit/Produit.component.css")]
+            styles: [__webpack_require__(/*! ./Produit.component.scss */ "./src/app/entities/produit/Produit.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_produit_service__WEBPACK_IMPORTED_MODULE_3__["ProduitService"],
             _services_category_service__WEBPACK_IMPORTED_MODULE_4__["CategoryService"],
@@ -1685,9 +1685,9 @@ var ProduitComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/sortie/sortie.component.css":
+/***/ "./src/app/entities/sortie/sortie.component.scss":
 /*!******************************************************!*\
-  !*** ./src/app/entities/sortie/sortie.component.css ***!
+  !*** ./src/app/entities/sortie/sortie.component.scss ***!
   \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1769,7 +1769,7 @@ var SortieComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-sortie',
             template: __webpack_require__(/*! ./sortie.component.html */ "./src/app/entities/sortie/sortie.component.html"),
-            styles: [__webpack_require__(/*! ./sortie.component.css */ "./src/app/entities/sortie/sortie.component.css")]
+            styles: [__webpack_require__(/*! ./sortie.component.scss */ "./src/app/entities/sortie/sortie.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_sortie_service__WEBPACK_IMPORTED_MODULE_2__["SortieService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
@@ -1782,9 +1782,9 @@ var SortieComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/entities/spendings/spendings.component.css":
+/***/ "./src/app/entities/spendings/spendings.component.scss":
 /*!************************************************************!*\
-  !*** ./src/app/entities/spendings/spendings.component.css ***!
+  !*** ./src/app/entities/spendings/spendings.component.scss ***!
   \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -1864,7 +1864,7 @@ var SpendingsComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
             selector: 'app-spendings',
             template: __webpack_require__(/*! ./spendings.component.html */ "./src/app/entities/spendings/spendings.component.html"),
-            styles: [__webpack_require__(/*! ./spendings.component.css */ "./src/app/entities/spendings/spendings.component.css")]
+            styles: [__webpack_require__(/*! ./spendings.component.scss */ "./src/app/entities/spendings/spendings.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_spendings_service__WEBPACK_IMPORTED_MODULE_5__["SpendingsService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
@@ -1953,9 +1953,9 @@ var UserComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/invoice/invoice-create/invoice-create.component.css":
+/***/ "./src/app/invoice/invoice-create/invoice-create.component.scss":
 /*!*********************************************************************!*\
-  !*** ./src/app/invoice/invoice-create/invoice-create.component.css ***!
+  !*** ./src/app/invoice/invoice-create/invoice-create.component.scss ***!
   \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -2255,7 +2255,7 @@ var InvoiceCreateComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_6__["Component"])({
             selector: 'app-invoice-create',
             template: __webpack_require__(/*! ./invoice-create.component.html */ "./src/app/invoice/invoice-create/invoice-create.component.html"),
-            styles: [__webpack_require__(/*! ./invoice-create.component.css */ "./src/app/invoice/invoice-create/invoice-create.component.css")]
+            styles: [__webpack_require__(/*! ./invoice-create.component.scss */ "./src/app/invoice/invoice-create/invoice-create.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_client_service__WEBPACK_IMPORTED_MODULE_5__["ClientService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
@@ -2429,9 +2429,9 @@ var LoginModalService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/login/login.component.css":
+/***/ "./src/app/login/login.component.scss":
 /*!*******************************************!*\
-  !*** ./src/app/login/login.component.css ***!
+  !*** ./src/app/login/login.component.scss ***!
   \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -2544,7 +2544,7 @@ var LoginComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-login',
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
-            styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
+            styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/login/login.component.scss")]
         }),
         __metadata("design:paramtypes", [_auth_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
@@ -3599,9 +3599,9 @@ var AppRoutingModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/crud/crud.component.css":
+/***/ "./src/app/shared/crud/crud.component.scss":
 /*!************************************************!*\
-  !*** ./src/app/shared/crud/crud.component.css ***!
+  !*** ./src/app/shared/crud/crud.component.scss ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -3699,7 +3699,7 @@ var CrudComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-crud',
             template: __webpack_require__(/*! ./crud.component.html */ "./src/app/shared/crud/crud.component.html"),
-            styles: [__webpack_require__(/*! ./crud.component.css */ "./src/app/shared/crud/crud.component.css")]
+            styles: [__webpack_require__(/*! ./crud.component.scss */ "./src/app/shared/crud/crud.component.scss")]
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
     ], CrudComponent);
@@ -3710,9 +3710,9 @@ var CrudComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/crud/sample/sample.component.css":
+/***/ "./src/app/shared/crud/sample/sample.component.scss":
 /*!*********************************************************!*\
-  !*** ./src/app/shared/crud/sample/sample.component.css ***!
+  !*** ./src/app/shared/crud/sample/sample.component.scss ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -3868,7 +3868,7 @@ var SampleComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-sample',
             template: __webpack_require__(/*! ./sample.component.html */ "./src/app/shared/crud/sample/sample.component.html"),
-            styles: [__webpack_require__(/*! ./sample.component.css */ "./src/app/shared/crud/sample/sample.component.css")]
+            styles: [__webpack_require__(/*! ./sample.component.scss */ "./src/app/shared/crud/sample/sample.component.scss")]
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
     ], SampleComponent);
@@ -3879,9 +3879,9 @@ var SampleComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/crud/upload/upload.component.css":
+/***/ "./src/app/shared/crud/upload/upload.component.scss":
 /*!*********************************************************!*\
-  !*** ./src/app/shared/crud/upload/upload.component.css ***!
+  !*** ./src/app/shared/crud/upload/upload.component.scss ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -3959,7 +3959,7 @@ var UploadComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-upload',
             template: __webpack_require__(/*! ./upload.component.html */ "./src/app/shared/crud/upload/upload.component.html"),
-            styles: [__webpack_require__(/*! ./upload.component.css */ "./src/app/shared/crud/upload/upload.component.css")]
+            styles: [__webpack_require__(/*! ./upload.component.scss */ "./src/app/shared/crud/upload/upload.component.scss")]
         }),
         __metadata("design:paramtypes", [])
     ], UploadComponent);
@@ -4189,9 +4189,9 @@ var Notification = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/messaging/notifier.component.css":
+/***/ "./src/app/shared/messaging/notifier.component.scss":
 /*!*********************************************************!*\
-  !*** ./src/app/shared/messaging/notifier.component.css ***!
+  !*** ./src/app/shared/messaging/notifier.component.scss ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -4252,7 +4252,7 @@ var NotifierComponent = /** @class */ (function () {
             selector: 'app-notifier',
             template: __webpack_require__(/*! ./notifier.component.html */ "./src/app/shared/messaging/notifier.component.html"),
             animations: [_animation__WEBPACK_IMPORTED_MODULE_2__["notifyAnimation"]],
-            styles: [__webpack_require__(/*! ./notifier.component.css */ "./src/app/shared/messaging/notifier.component.css")]
+            styles: [__webpack_require__(/*! ./notifier.component.scss */ "./src/app/shared/messaging/notifier.component.scss")]
         }),
         __metadata("design:paramtypes", [_notifer_service__WEBPACK_IMPORTED_MODULE_1__["NotiferService"]])
     ], NotifierComponent);
@@ -4574,9 +4574,9 @@ var TransactionLine = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/print/invoice-html/invoice-html.component.css":
+/***/ "./src/app/shared/print/invoice-html/invoice-html.component.scss":
 /*!**********************************************************************!*\
-  !*** ./src/app/shared/print/invoice-html/invoice-html.component.css ***!
+  !*** ./src/app/shared/print/invoice-html/invoice-html.component.scss ***!
   \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -4659,7 +4659,7 @@ var InvoiceHtmlComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-invoice-html',
             template: __webpack_require__(/*! ./invoice-html.component.html */ "./src/app/shared/print/invoice-html/invoice-html.component.html"),
-            styles: [__webpack_require__(/*! ./invoice-html.component.css */ "./src/app/shared/print/invoice-html/invoice-html.component.css")]
+            styles: [__webpack_require__(/*! ./invoice-html.component.scss */ "./src/app/shared/print/invoice-html/invoice-html.component.scss")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
@@ -4673,9 +4673,9 @@ var InvoiceHtmlComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/print/print-layout/print-layout.component.css":
+/***/ "./src/app/shared/print/print-layout/print-layout.component.scss":
 /*!**********************************************************************!*\
-  !*** ./src/app/shared/print/print-layout/print-layout.component.css ***!
+  !*** ./src/app/shared/print/print-layout/print-layout.component.scss ***!
   \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -4725,7 +4725,7 @@ var PrintLayoutComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-print-layout',
             template: __webpack_require__(/*! ./print-layout.component.html */ "./src/app/shared/print/print-layout/print-layout.component.html"),
-            styles: [__webpack_require__(/*! ./print-layout.component.css */ "./src/app/shared/print/print-layout/print-layout.component.css")]
+            styles: [__webpack_require__(/*! ./print-layout.component.scss */ "./src/app/shared/print/print-layout/print-layout.component.scss")]
         }),
         __metadata("design:paramtypes", [])
     ], PrintLayoutComponent);
@@ -5001,9 +5001,9 @@ var SharedModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/toast-messages/toast-messages.component.css":
+/***/ "./src/app/shared/toast-messages/toast-messages.component.scss":
 /*!********************************************************************!*\
-  !*** ./src/app/shared/toast-messages/toast-messages.component.css ***!
+  !*** ./src/app/shared/toast-messages/toast-messages.component.scss ***!
   \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -5057,7 +5057,7 @@ var ToastMessagesComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-toast-messages',
             template: __webpack_require__(/*! ./toast-messages.component.html */ "./src/app/shared/toast-messages/toast-messages.component.html"),
-            styles: [__webpack_require__(/*! ./toast-messages.component.css */ "./src/app/shared/toast-messages/toast-messages.component.css")]
+            styles: [__webpack_require__(/*! ./toast-messages.component.scss */ "./src/app/shared/toast-messages/toast-messages.component.scss")]
         }),
         __metadata("design:paramtypes", [_services_toast_service__WEBPACK_IMPORTED_MODULE_1__["ToastService"]])
     ], ToastMessagesComponent);
@@ -5123,9 +5123,9 @@ var SignupModalService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/signup/signup.component.css":
+/***/ "./src/app/signup/signup.component.scss":
 /*!*********************************************!*\
-  !*** ./src/app/signup/signup.component.css ***!
+  !*** ./src/app/signup/signup.component.scss ***!
   \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -5213,7 +5213,7 @@ var SignupComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-signup',
             template: __webpack_require__(/*! ./signup.component.html */ "./src/app/signup/signup.component.html"),
-            styles: [__webpack_require__(/*! ./signup.component.css */ "./src/app/signup/signup.component.css")]
+            styles: [__webpack_require__(/*! ./signup.component.scss */ "./src/app/signup/signup.component.scss")]
         }),
         __metadata("design:paramtypes", [_auth_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],

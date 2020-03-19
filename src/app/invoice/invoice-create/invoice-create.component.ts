@@ -30,7 +30,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-invoice-create',
   templateUrl: './invoice-create.component.html',
-  styleUrls: ['./invoice-create.component.css'],
+  styleUrls: ['./invoice-create.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoiceCreateComponent implements OnInit, OnDestroy {

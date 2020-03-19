@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnChanges, AfterViewInit } from '@angular/cor
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
-  styleUrls: ['./charts.component.css']
+  styleUrls: ['./charts.component.scss']
 })
 export class ChartsComponent implements OnInit {
 

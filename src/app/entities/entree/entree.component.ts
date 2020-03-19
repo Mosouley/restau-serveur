@@ -18,7 +18,7 @@ import { User } from '../../shared/model/user';
 @Component({
   selector: 'app-entree',
   templateUrl: './entree.component.html',
-  styleUrls: ['./entree.component.css']
+  styleUrls: ['./entree.component.scss']
 })
 export class EntreeComponent implements OnInit {
 

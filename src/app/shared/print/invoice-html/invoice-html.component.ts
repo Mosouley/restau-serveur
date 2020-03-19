@@ -15,7 +15,7 @@ declare let html2canvas;
 @Component({
   selector: 'app-invoice-html',
   templateUrl: './invoice-html.component.html',
-  styleUrls: ['./invoice-html.component.css']
+  styleUrls: ['./invoice-html.component.scss']
 })
 export class InvoiceHtmlComponent implements OnInit {
 

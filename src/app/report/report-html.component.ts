@@ -19,7 +19,7 @@ import { MatTableDataSource, MatSort, MatPaginator, MatTable } from '@angular/ma
 @Component({
   selector: 'app-report-html',
   templateUrl: './report-html.component.html',
-  styleUrls: ['./report-html.component.css']
+  styleUrls: ['./report-html.component.scss']
 })
 export class ReportHtmlComponent implements OnInit, AfterViewInit {
 

@@ -12,7 +12,7 @@ import { DataModel } from '../../shared/model/data.model';
 @Component({
   selector: 'app-sortie',
   templateUrl: './sortie.component.html',
-  styleUrls: ['./sortie.component.css']
+  styleUrls: ['./sortie.component.scss']
 })
 export class SortieComponent implements OnInit {
 

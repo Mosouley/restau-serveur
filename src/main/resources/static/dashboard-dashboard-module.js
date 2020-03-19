@@ -652,9 +652,9 @@ var InvoiceResolver = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/report/report-html.component.css":
+/***/ "./src/app/report/report-html.component.scss":
 /*!**************************************************!*\
-  !*** ./src/app/report/report-html.component.css ***!
+  !*** ./src/app/report/report-html.component.scss ***!
   \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
@@ -940,7 +940,7 @@ var ReportHtmlComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-report-html',
             template: __webpack_require__(/*! ./report-html.component.html */ "./src/app/report/report-html.component.html"),
-            styles: [__webpack_require__(/*! ./report-html.component.css */ "./src/app/report/report-html.component.css")]
+            styles: [__webpack_require__(/*! ./report-html.component.scss */ "./src/app/report/report-html.component.scss")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
     ], ReportHtmlComponent);
