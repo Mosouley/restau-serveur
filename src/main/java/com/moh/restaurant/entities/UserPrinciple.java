@@ -1,4 +1,4 @@
-package com.moh.restaurant.security.services;
+package com.moh.restaurant.entities;
 
 import java.util.Collection;
 import java.util.List;

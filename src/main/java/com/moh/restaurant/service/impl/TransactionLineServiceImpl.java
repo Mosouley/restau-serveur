@@ -1,29 +1,27 @@
 package com.moh.restaurant.service.impl;
 
-import com.moh.restaurant.dao.CategoryRepository;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import com.moh.restaurant.dao.TransactionLineRepository;
-import com.moh.restaurant.entities.Category;
 import com.moh.restaurant.entities.TransactionLine;
-import com.moh.restaurant.service.CategoryService;
 import com.moh.restaurant.service.TransactionLineService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class TransactionLineServiceImpl implements TransactionLineService {
 
-    private final Logger log = LoggerFactory.getLogger(TransactionLineService.class);
+  private final Logger log = LoggerFactory.getLogger(TransactionLineService.class);
 
+  private TransactionLineRepository transactionLineRepository;
 
-    private TransactionLineRepository transactionLineRepository;
-
-    public TransactionLineServiceImpl(TransactionLineRepository transactionLineRepository){
+  public TransactionLineServiceImpl(TransactionLineRepository transactionLineRepository) {
         this.transactionLineRepository = transactionLineRepository;
 
     }

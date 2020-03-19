@@ -3,13 +3,13 @@ package com.moh.restaurant.security;
 import com.moh.restaurant.dao.UserRepository;
 import com.moh.restaurant.security.jwt.JwtAuthEntryPoint;
 import com.moh.restaurant.security.jwt.JwtAuthTokenFilter;
-import com.moh.restaurant.security.services.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,23 +18,27 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-@EnableWebSecurity
+
+
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  UserRepository userRepository;
+  // @Autowired
+  // UserRepository userRepository;
 
 	// inject the custom implementation of userdetails
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	UserDetailsService userDetailsService;
 	// inject the custom implementation of jwtAuth
 	@Autowired
 	private JwtAuthEntryPoint unauthorizedHandler;

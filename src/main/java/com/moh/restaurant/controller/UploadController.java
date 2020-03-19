@@ -35,8 +35,6 @@ public class UploadController{
 
     @Autowired
     StorageService storageService;
-    @Autowired
-    private CompanyService companyService ;
 
     // @Autowired ServletContext context;
 

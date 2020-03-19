@@ -2,6 +2,10 @@ package com.moh.restaurant.security.jwt;
 
 
 
+import java.util.Date;
+
+import com.moh.restaurant.entities.UserPrinciple;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,25 +18,22 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import java.util.Date;
-
-import com.moh.restaurant.security.services.UserPrinciple;
 
 @Component
 public class JwtProvider {
- 
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
- 
-    @Value("${moh.app.jwtSecret}")
-    private String jwtSecret;
- 
-    @Value("${moh.app.jwtExpiration}")
-    private int jwtExpiration;
- 
+
+  private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
+  @Value("${moh.app.jwtSecret}")
+  private String jwtSecret;
+
+  @Value("${moh.app.jwtExpiration}")
+  private int jwtExpiration;
+
     public String generateJwtToken(Authentication authentication) {
- 
+
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
- 
+
         return Jwts.builder()
                     .setSubject((userPrincipal.getUsername()))
                     .setIssuedAt(new Date())
@@ -40,14 +41,14 @@ public class JwtProvider {
                     .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
     }
- 
+
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
                       .setSigningKey(jwtSecret)
                       .parseClaimsJws(token)
                       .getBody().getSubject();
     }
- 
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
@@ -63,7 +64,7 @@ public class JwtProvider {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty -> Message: {}", e);
         }
-        
+
         return false;
     }
 }
