@@ -16,8 +16,8 @@ import { DataModel } from '../../shared/model/data.model';
 
 @Component({
   selector: 'app-produit',
-  templateUrl: './Produit.component.html',
-  styleUrls: ['./Produit.component.css']
+  templateUrl: './produit.component.html',
+  styleUrls: ['./produit.component.css']
 })
 export class ProduitComponent implements OnInit {
 
