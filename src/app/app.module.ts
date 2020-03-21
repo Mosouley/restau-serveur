@@ -17,7 +17,7 @@ import { AppErrorHandler } from './app-errors/app-error-handler';
 
 import { AppRoutingModule } from './shared/app.routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, NO_ERRORS_SCHEMA } from '@angular/core';
 // import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
@@ -78,6 +78,7 @@ import { ChartsComponent } from './dashboard/components/charts/charts.component'
     // StoreModule.forRoot({principal: principalReducer}),
     LayoutModule
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [
     { provide: HTTP_INTERCEPTORS,
        useClass:  AuthInterceptor,
