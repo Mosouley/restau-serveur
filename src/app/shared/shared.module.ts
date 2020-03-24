@@ -46,6 +46,7 @@ import { CashBalanceResolver } from '../reducers/cashBalance.resolver';
 import { ChartsComponent } from '../dashboard/components/charts/charts.component';
 import { FileValueAccessor } from './utils/file-control-value-accessor';
 import { FileValidator } from './utils/file-input-validator.directive';
+import { CustomInputComponent } from './custom-input/custom-input.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { FileValidator } from './utils/file-input-validator.directive';
     FormUploadComponent,
     FooterComponent,
     FileValueAccessor,
-    FileValidator
+    FileValidator,
+    CustomInputComponent
 
   ],
   imports: [

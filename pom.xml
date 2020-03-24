@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<!-- <scope>runtime</scope> -->
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -168,28 +168,6 @@
                         </executions>
                       </plugin>
 
-
-                <!-- debut de creation du script dintegration angul -->
-                <!-- <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                      <id>install frontend-app</id>
-                      <phase>validate</phase>
-                        <goals>
-                          <goal>exec</goal>
-                        </goals>
-                      </execution>
-                    </executions>
-                      <configuration>
-                      <executable>ng</executable>
-                      <workingDirectory>src/restau-client/</workingDirectory>
-                        <arguments>
-                        <argument>build</argument>
-                        </arguments>
-                      </configuration>
-                  </plugin> -->
 		</plugins>
 	</build>
 
