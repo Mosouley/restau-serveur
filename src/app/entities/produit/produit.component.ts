@@ -24,9 +24,10 @@ export class ProduitComponent implements OnInit {
   produits: Produit[];
   produitForm: FormGroup;
   categories: Category[];
-  produit: Produit;
+  produit: Produit = new Produit();
   produitsModel: DataModel[];
   categoriesModel: DataModel[];
+
 
   constructor(public produitService: ProduitService,
     public categorieService: CategoryService,

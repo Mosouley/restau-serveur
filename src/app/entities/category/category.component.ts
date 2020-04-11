@@ -20,7 +20,7 @@ export class CategoryComponent implements OnInit {
 
   categoryForm: FormGroup;
 
-    category: Category = new Category();
+  category: Category = new Category();
 
   categoriesModel: DataModel[];
 
@@ -29,18 +29,7 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.categories = this.categoryService.getAll().subscribe(cat => cat)
-    //   ;      //._embedded.produits;
-    // this.categoryService.getAll().subscribe(
-    //   response => {
-    //     this.categories = response as Category[];
-    //     // console.log(this.categories);
-    //   }
-
-    // );
     this.categories = this.route.snapshot.data.categories;
-    // console.log(this.categories);
-
 
     this.categoryForm = this.fb.group({
       id: '',

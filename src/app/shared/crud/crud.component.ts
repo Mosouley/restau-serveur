@@ -19,6 +19,9 @@ export class CrudComponent implements OnInit {
   data: any;
 
   @Input()
+  dataToLoad: any;
+
+  @Input()
   arrayData: any;
 
   @Input()

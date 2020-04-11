@@ -108,7 +108,7 @@ export class SampleComponent implements OnInit {
     const p = this.crudForm.value;
     this.service.create(p).subscribe(res => {
       this.loadData();
-      this.toastr.success('Enregistrement effectue avec succes : Ref ' + p);
+      this.toastr.success('Enregistrement effectue avec succes : Ref ' + p[0]);
     });
     this.initData();
   }
@@ -129,8 +129,6 @@ export class SampleComponent implements OnInit {
   }
 
   delete() {
-    // console.log(this.selectedItem.id);
-
     this.service.delete(this.selectedItem.id).subscribe(res => {
       this.selectedItem = this.initItem;
       this.toastr.success('Suppression effectuee avec succes : Ref ' + this.selectedItem.id);

@@ -38,7 +38,6 @@ export class DataService implements CrudService {
     return  this.http.post(this.url, resource, {headers: this.headers});
     // .pipe(catchError(this.handleError));
 
-
   }
   update(resource): Observable<any> {
     return this.http.put(this.url, resource, {headers: this.headers});
@@ -50,9 +49,10 @@ export class DataService implements CrudService {
     // .pipe(catchError(this.handleError));
   }
 
-  // addAll(resource): Observable<any> {
-  //   return this.http.post(this.url, JSON.stringify(resource));
-  // }
+  addAll(resource): Observable<any> {
+  // loading an array of resource
+    return this.http.post(this.url + '/all', JSON.stringify(resource), {headers: this.headers});
+  }
 
   // private handleError(error: Response) {
   //   if (error.status === 400) {

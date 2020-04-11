@@ -1,5 +1,6 @@
 package com.moh.restaurant.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import com.moh.restaurant.error.ResourceNotFoundException;
 import com.moh.restaurant.service.ICrudService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,7 @@ public class CrudController<T> {
 
 	 @Autowired
 	private ICrudService<T> service;
-
+  private static final Logger logger = LoggerFactory.getLogger(CrudController.class);
 	private static final String ENTITY_NAME = "entity";
 
 	@GetMapping
@@ -67,7 +70,8 @@ public class CrudController<T> {
 
 	@PostMapping("/all")
 	public ResponseEntity<List<T>> addAll(@Valid @RequestBody List<T> list) {
-		service.saveAll(list);
+    // List<T>  maListe = Arrays.asList(list);
+    logger.error("Unauthorized error. Message - {}");
 		return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
 	}
 }

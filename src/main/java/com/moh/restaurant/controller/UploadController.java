@@ -35,9 +35,6 @@ public class UploadController{
 
     @Autowired
     StorageService storageService;
-
-    // @Autowired ServletContext context;
-
     List<String> files = new ArrayList<String>();
 
     @PostMapping("/upload")
@@ -47,13 +44,7 @@ public class UploadController{
         String message = "";
         try {
          String name = storageService.upload(file);
-            // files.add( file.getOriginalFilename());
-          // company.setLogoCompany(file.getOriginalFilename());
-          // System.out.println(company);
-          // companyService.update(company);
-            // message = "You successfully uploaded " +file.getOriginalFilename() + "!";
-            // return ResponseEntity.status(HttpStatus.OK).body(message);
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path("/uploads/")
             .path(name)
             .build().toString();

@@ -15,4 +15,5 @@ export class CategoryService extends DataService {
   findProduits(nameCategory): Observable<any> {
     return   this._http.get(API_URLS.CATEGORY_URL + `/${nameCategory}`);
   }
+
 }

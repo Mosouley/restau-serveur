@@ -38,7 +38,11 @@
       </div>
 
       <div *ngIf="crudType == 'upload'">
-        <app-upload *ngIf="crudType == 'upload'"></app-upload>
+        <app-upload *ngIf="crudType == 'upload'"
+          [initItem]="initItem"
+          [service]="service"
+          [dataModelList]="dataModelList">
+        </app-upload>
       </div>
     </div>
   </ng-container>

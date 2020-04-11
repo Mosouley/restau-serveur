@@ -57,7 +57,7 @@ export class CompanyComponent implements OnInit {
       phoneCompany: ['', Validators.required],
       adressCompany: ['', Validators.required],
       logoCompany: this.theCompany.logoCompany,
-      file: new FormControl('', [FileValidator.validate])
+      // file: new FormControl('', [FileValidator.validate])
     });
 }
 
@@ -134,15 +134,6 @@ export class CompanyComponent implements OnInit {
     }
 
   }
-  // getImageUrl() {
-  //   if (this.currentFileUpload) {
-  //   return this.uploadService.getFile(this.nameFile);
-  // }
-
-    // return this.currentFileUpload ? this.companyForm.get('logoCompany').value : '/assets/yasn logo.jpeg';
-  // }
-  // this.uploadService.getFile(this.currentFileUpload['name'])
-
   retrieveCompany() {
     this.companyService.getAll().subscribe(
       data => {
@@ -161,8 +152,6 @@ export class CompanyComponent implements OnInit {
 
   if (event.target.files && event.target.files.length) {
     const [file] = event.target.files;
-    console.log(file);
-
     reader.readAsDataURL(file);
 
     reader.onload = () => {
