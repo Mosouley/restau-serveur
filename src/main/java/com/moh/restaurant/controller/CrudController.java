@@ -69,9 +69,10 @@ public class CrudController<T> {
 	}
 
 	@PostMapping("/all")
-	public ResponseEntity<List<T>> addAll(@Valid @RequestBody List<T> list) {
+	public @ResponseBody ResponseEntity<List<T>> addAll(@Valid @RequestBody List<T> list) {
     // List<T>  maListe = Arrays.asList(list);
-    logger.error("Unauthorized error. Message - {}");
+    logger.error("Unauthorized error. Message - {}" + list);
+    service.saveAll(list);
 		return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
 	}
 }

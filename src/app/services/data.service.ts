@@ -51,7 +51,9 @@ export class DataService implements CrudService {
 
   addAll(resource): Observable<any> {
   // loading an array of resource
-    return this.http.post(this.url + '/all', JSON.stringify(resource), {headers: this.headers});
+  console.log(resource);
+
+    return this.http.post(this.url + '/all', resource, {headers: this.headers});
   }
 
   // private handleError(error: Response) {

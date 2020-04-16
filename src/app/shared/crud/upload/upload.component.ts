@@ -1,3 +1,5 @@
+import { Produit } from './../../model/produit';
+import { Category } from './../../model/category';
 import { element } from 'protractor';
 import { DataModel } from './../../model/data.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -42,12 +44,15 @@ export class UploadComponent implements OnInit {
     const files = $event.srcElement.files;
 
     this.dataModelList.forEach(col => {
+      console.log(col);
+
       if (col.readonly = true) {
         this.lstColumnNames.push(col.columnName);
       }
 
     });
     if (this.isValidCSVFile(files[0])) {
+      console.log(this.initItem);
 
       const input = $event.target;
       const reader = new FileReader();
@@ -57,7 +62,7 @@ export class UploadComponent implements OnInit {
         const csvData = reader.result;
         const csvRecordsArray = (csvData as string).split(/\r\n|\n/);
         const headersRow = this.getHeaderArray(csvRecordsArray);
-        this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, this.initItem);
+        this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, this.dataModelList);
       };
 
     } else {
@@ -66,20 +71,39 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  getDataRecordsArrayFromCSVFile(csvRecordsArray: any, model: any) {
+  getDataRecordsArrayFromCSVFile(csvRecordsArray: any, model: DataModel []) {
     const csvArr = [];
-    console.log(model);
 
     for (let i = 1; i < csvRecordsArray.length; i++) {
       const currentRecord = (<string>csvRecordsArray[i]).split(';');
 
-      if (currentRecord.length === this.lstColumnNames.length) {
-        const csvRecord = new Object();
-        for (let index = 0; index < this.lstColumnNames.length; index++) {
-          const j = this.lstColumnNames[index];
-          csvRecord[j] = currentRecord[index].trim();
-        }
-        csvArr.push(csvRecord);
+      if (currentRecord.length === model.length) { // permet de verifier le file importe
+
+          const csvRecordC = new Object();
+          model.forEach( (mdel, ind) => {
+            switch (mdel.dataType ) {
+              case 'string':
+                // la propriete est de type string
+                csvRecordC[mdel.columnName] = String(currentRecord[ind]);
+                break;
+                case 'number':
+                // la propriete est de type NUMBER
+                csvRecordC[mdel.columnName] = Number(currentRecord[ind]);
+                break;
+                case 'date':
+                // la propriete est de type NUMBER
+                csvRecordC[mdel.columnName] = new Date(currentRecord[ind]);
+                break;
+              default:
+              this.importError = true;
+                break;
+            }
+          });
+          console.log(csvRecordC);
+
+          csvArr.push(csvRecordC);
+
+
         this.importError = false;
       } else {
         this.importError = true;

@@ -57,7 +57,7 @@ export class CompanyComponent implements OnInit {
       phoneCompany: ['', Validators.required],
       adressCompany: ['', Validators.required],
       logoCompany: this.theCompany.logoCompany,
-      // file: new FormControl('', [FileValidator.validate])
+      file: new FormControl('', [FileValidator.validate])
     });
 }
 
