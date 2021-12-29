@@ -48,7 +48,7 @@ public class RestaurantApplication implements ErrorController {
     return "forward:/index.html";
   }
 
-  @Override
+  // @Override
   public String getErrorPath() {
     return PATH;
   }
